@@ -228,4 +228,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\glm.0.9.7.1\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.7.1\build\native\glm.targets'))" />
   </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="LaboratoryWork01.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
