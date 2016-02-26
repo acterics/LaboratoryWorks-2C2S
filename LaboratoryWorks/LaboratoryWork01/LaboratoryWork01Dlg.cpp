@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
 	ON_WM_SIZE()
+	ON_COMMAND(ID_HELP_ABOUT, &CLaboratoryWork01Dlg::OnHelpAbout)
 END_MESSAGE_MAP()
 
 
@@ -136,3 +137,15 @@ void CLaboratoryWork01Dlg::OnSize(UINT nType, int cx, int cy)
 	}
 	}
 }
+
+
+void CLaboratoryWork01Dlg::OnHelpAbout()
+{
+	CDialog dlgAbout(IDD_ABOUT);
+	dlgAbout.DoModal();
+	//dlgAbout.
+
+}
+
+
+

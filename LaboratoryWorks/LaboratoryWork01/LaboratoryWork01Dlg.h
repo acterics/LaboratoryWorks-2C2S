@@ -18,7 +18,7 @@ public:
 
 	// Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_LAB01TRAINING03_DIALOG };
+	enum { IDD = IDD_LABORATORYWORK01_DIALOG};
 #endif
 
 protected:
@@ -41,4 +41,5 @@ public:
 private:
 	bool _isFill;
 public:
+	afx_msg void OnHelpAbout();
 };
