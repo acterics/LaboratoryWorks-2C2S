@@ -33,7 +33,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_WM_SIZE()
 	ON_COMMAND(ID_HELP_ABOUT, &CLaboratoryWork01Dlg::OnHelpAbout)
-	ON_BN_CLICKED(IDC_ADD_FIGURE_BUTTON, &CLaboratoryWork01Dlg::OnClickedAddFigureButton)
+	ON_BN_CLICKED(IDC_ADD_FRUSTUM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton)
 END_MESSAGE_MAP()
 
 
@@ -152,8 +152,12 @@ void CLaboratoryWork01Dlg::OnHelpAbout()
 
 
 
-void CLaboratoryWork01Dlg::OnClickedAddFigureButton()
+
+
+
+void CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton()
 {
-	CDialog dlgAbout(IDD_ADD_FIGURE_DIALOG);
-	dlgAbout.DoModal();
+	FrustumAddingDialog dlg;
+	dlg.DoModal();
+	//dlgAbout.DoModal();
 }

@@ -36,7 +36,7 @@
     <ClInclude Include="OGLControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FigureAddingDialog.h">
+    <ClInclude Include="FrustumAddingDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClCompile Include="OGLControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FigureAddingDialog.cpp">
+    <ClCompile Include="FrustumAddingDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

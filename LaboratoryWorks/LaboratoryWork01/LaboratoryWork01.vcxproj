@@ -190,7 +190,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FigureAddingDialog.h" />
+    <ClInclude Include="FrustumAddingDialog.h" />
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="LaboratoryWork01Dlg.h" />
     <ClInclude Include="OGLControl.h" />
@@ -199,7 +199,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FigureAddingDialog.cpp" />
+    <ClCompile Include="FrustumAddingDialog.cpp" />
     <ClCompile Include="LaboratoryWork01.cpp" />
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />
     <ClCompile Include="OGLControl.cpp" />
