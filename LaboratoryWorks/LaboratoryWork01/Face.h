@@ -11,6 +11,7 @@ namespace GraphicElements
 
 		glm::mat3x3 xRotationMatrix();
 		glm::mat3x3 yRotationMatrix();
+		void drawPoint(glm::vec3 point, glm::vec3 figurePos);
 
 	public:
 		Face();
