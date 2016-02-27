@@ -18,8 +18,9 @@ OGLControl::OGLControl()
 	_fRotX =0.0f;
 	_fRotY = -0.0f;
 
-	c = Circle(glm::vec3(0, 0, 0), COLOR_RED, 3);
-	d = Disc(glm::vec3(1, 0, 0), COLOR_BLUE, glm::vec3(0, PI / 2, 0), 2, 18);
+	c = Circle(glm::vec3(0, 0, -3), COLOR_RED, glm::vec3(0, 0, 0), 1);
+	d = Disc(glm::vec3(0, 0, 3), COLOR_BLUE, glm::vec3(0, 0, 0), 3, 36);
+	sf = SideFace(glm::vec3(0, 0, 0), COLOR_GREEN, glm::vec3(0, 0, 0), 6, new Disc(d), new Circle(c));
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -79,8 +80,9 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
-	c.draw(glm::vec3(0, 0, 0));
 	d.draw(glm::vec3(0, 0, 0));
+	c.draw(glm::vec3(0, 0, 0));
+	sf.draw(glm::vec3(0, 0, 0));
 	//glColor3f(1, 1, 1);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//glBegin(GL_LINES);
@@ -186,7 +188,7 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 	glLoadIdentity();
 
 	// Set our current view perspective
-	gluPerspective(45.0f, (float)cx / (float)cy, 1.0f, 2000.0f);
+	gluPerspective(60.0f, (float)cx / (float)cy, 0.01f, 2000.0f);
 
 	// Model view
 	glMatrixMode(GL_MODELVIEW);

@@ -20,6 +20,7 @@ namespace GraphicElements
 		Face(glm::vec3 pos);
 		virtual void draw(glm::vec3 figurePos);
 		void rotate(glm::vec3 r);
+		std::vector<glm::vec3> points();
 		~Face();
 	};
 }

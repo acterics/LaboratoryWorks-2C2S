@@ -1,7 +1,7 @@
 #pragma once
 #include "afxwin.h"
-#include "Circle.h"
 #include "Disc.h"
+#include "SideFace.h"
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
@@ -20,6 +20,7 @@ public:
 
 	Circle c;
 	Disc d;
+	SideFace sf;
 
 
 private:

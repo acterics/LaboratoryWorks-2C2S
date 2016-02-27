@@ -63,6 +63,11 @@ void GraphicElements::Face::rotate(glm::vec3 r)
 	_rotation += r;
 }
 
+std::vector<glm::vec3> GraphicElements::Face::points()
+{
+	return _points;
+}
+
 
 Face::~Face()
 {

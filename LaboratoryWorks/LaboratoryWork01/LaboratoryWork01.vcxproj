@@ -191,24 +191,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
-    <ClInclude Include="Disk.h" />
+    <ClInclude Include="Disc.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="GraphicElement.h" />
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="LaboratoryWork01Dlg.h" />
     <ClInclude Include="OGLControl.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SideFace.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
-    <ClCompile Include="Disk.cpp" />
+    <ClCompile Include="Disc.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="GraphicElement.cpp" />
     <ClCompile Include="LaboratoryWork01.cpp" />
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />
     <ClCompile Include="OGLControl.cpp" />
+    <ClCompile Include="SideFace.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -220,6 +222,8 @@
     <ResourceCompile Include="LaboratoryWork01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="circles\circle_smooth18.bin" />
+    <None Include="circles\circle_smooth36.bin" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>
