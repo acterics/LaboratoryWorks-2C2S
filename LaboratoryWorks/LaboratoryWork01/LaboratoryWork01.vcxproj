@@ -195,6 +195,7 @@
     <ClInclude Include="Face.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="FrustumAddingDialog.h" />
     <ClInclude Include="GraphicElement.h" />
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="LaboratoryWork01Dlg.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="FrustumAddingDialog.cpp" />
     <ClCompile Include="GraphicElement.cpp" />
     <ClCompile Include="LaboratoryWork01.cpp" />
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />

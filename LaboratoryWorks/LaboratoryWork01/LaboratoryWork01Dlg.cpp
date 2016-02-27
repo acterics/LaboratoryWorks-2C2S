@@ -32,6 +32,8 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
 	ON_WM_SIZE()
+	ON_COMMAND(ID_HELP_ABOUT, &CLaboratoryWork01Dlg::OnHelpAbout)
+	ON_BN_CLICKED(IDC_ADD_FRUSTUM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton)
 END_MESSAGE_MAP()
 
 
@@ -135,4 +137,27 @@ void CLaboratoryWork01Dlg::OnSize(UINT nType, int cx, int cy)
 		break;
 	}
 	}
+}
+
+
+void CLaboratoryWork01Dlg::OnHelpAbout()
+{
+	CDialog dlgAbout(IDD_ABOUT);
+	dlgAbout.DoModal();
+	//dlgAbout.
+
+}
+
+
+
+
+
+
+
+
+void CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton()
+{
+	FrustumAddingDialog dlg;
+	dlg.DoModal();
+	//dlgAbout.DoModal();
 }
