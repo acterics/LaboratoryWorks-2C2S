@@ -37,9 +37,8 @@ protected:
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	CButton _fillRadioButton;
 private:
-	bool _isFill;
 public:
 	afx_msg void OnHelpAbout();
+	afx_msg void OnClickedAddFigureButton();
 };
