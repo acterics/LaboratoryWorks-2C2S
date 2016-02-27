@@ -1,6 +1,7 @@
 #pragma once
 #include "afxwin.h"
 #include "Frustum.h"
+#include "QuadrangulaPrism.h"
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
@@ -18,6 +19,7 @@ public:
 	float _fRotY;
 
 	Frustum f;
+	QuadrangulaPrism q;
 
 
 private:

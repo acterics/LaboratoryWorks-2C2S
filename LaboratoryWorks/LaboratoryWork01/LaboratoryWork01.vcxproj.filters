@@ -16,6 +16,12 @@
     <Filter Include="GraphicElements">
       <UniqueIdentifier>{59e17042-7120-4136-9bfa-a11c10434a58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicElements\Faces">
+      <UniqueIdentifier>{ffc74ef3-4c48-4415-8752-7be3765a310a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicElements\Figures">
+      <UniqueIdentifier>{6500a7cd-a8b6-46ae-bce7-342a8bfd92b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -39,25 +45,31 @@
     <ClInclude Include="OGLControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Face.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Circle.h">
-      <Filter>Header Files</Filter>
+      <Filter>GraphicElements\Faces</Filter>
     </ClInclude>
     <ClInclude Include="Disc.h">
-      <Filter>Header Files</Filter>
+      <Filter>GraphicElements\Faces</Filter>
     </ClInclude>
-    <ClInclude Include="SideFace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Figure.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Face.h">
+      <Filter>GraphicElements\Faces</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h">
+      <Filter>GraphicElements\Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="Figure.h">
+      <Filter>GraphicElements\Figures</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicElement.h">
+      <Filter>GraphicElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadrangle.h">
+      <Filter>GraphicElements\Faces</Filter>
+    </ClInclude>
+    <ClInclude Include="SideFace.h">
+      <Filter>GraphicElements\Faces</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadrangulaPrism.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,25 +86,31 @@
     <ClCompile Include="OGLControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Face.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Circle.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GraphicElements\Faces</Filter>
     </ClCompile>
     <ClCompile Include="Disc.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GraphicElements\Faces</Filter>
     </ClCompile>
-    <ClCompile Include="SideFace.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Face.cpp">
+      <Filter>GraphicElements\Faces</Filter>
     </ClCompile>
     <ClCompile Include="Figure.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GraphicElements\Figures</Filter>
     </ClCompile>
     <ClCompile Include="Frustum.cpp">
+      <Filter>GraphicElements\Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicElement.cpp">
+      <Filter>GraphicElements</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadrangle.cpp">
+      <Filter>GraphicElements\Faces</Filter>
+    </ClCompile>
+    <ClCompile Include="SideFace.cpp">
+      <Filter>GraphicElements\Faces</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadrangulaPrism.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,6 +130,7 @@
     <None Include="circles\circle_smooth36.bin">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\LaboratoryWork01.ico">

@@ -199,6 +199,8 @@
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="LaboratoryWork01Dlg.h" />
     <ClInclude Include="OGLControl.h" />
+    <ClInclude Include="Quadrangle.h" />
+    <ClInclude Include="QuadrangulaPrism.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SideFace.h" />
     <ClInclude Include="stdafx.h" />
@@ -214,6 +216,8 @@
     <ClCompile Include="LaboratoryWork01.cpp" />
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />
     <ClCompile Include="OGLControl.cpp" />
+    <ClCompile Include="Quadrangle.cpp" />
+    <ClCompile Include="QuadrangulaPrism.cpp" />
     <ClCompile Include="SideFace.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -228,6 +232,7 @@
   <ItemGroup>
     <None Include="circles\circle_smooth18.bin" />
     <None Include="circles\circle_smooth36.bin" />
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>

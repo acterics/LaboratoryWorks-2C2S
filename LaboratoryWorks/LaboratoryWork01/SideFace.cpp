@@ -18,8 +18,13 @@ GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, float h, Face 
 {
 }
 
+GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, Face * face) :
+	SideFace(pos, col, rot, h, face, face)
+{
+}
+
 GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, float h, Face * face) :
-	SideFace(pos, col, glm::vec3(0, 0, 0), h, face, face)
+	SideFace(pos, col, glm::vec3(0, 0, 0), h, face)
 {
 }
 

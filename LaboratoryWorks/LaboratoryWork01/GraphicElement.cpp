@@ -12,7 +12,8 @@ GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color) :
 	_position(pos), _color(color)
 {
 	_polygonMode = GL_FILL;
-	_drawingMode = GL_QUAD_STRIP;
+	_drawingMode = GL_LINE_LOOP;
+	
 }
 
 GraphicElement::GraphicElement(glm::vec3 pos) :
@@ -28,6 +29,16 @@ void GraphicElements::GraphicElement::setPolygonMode(UINT p)
 void GraphicElements::GraphicElement::setDrawingMode(UINT d)
 {
 	_drawingMode = d;
+}
+
+void GraphicElements::GraphicElement::setColor(glm::vec3 color)
+{
+	_color = color;
+}
+
+void GraphicElements::GraphicElement::translate(glm::vec3 translation)
+{
+	_position += translation;
 }
 
 

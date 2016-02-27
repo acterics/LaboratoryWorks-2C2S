@@ -33,6 +33,8 @@ namespace GraphicElements
 
 		void setPolygonMode(UINT p);
 		void setDrawingMode(UINT d);
+		void setColor(glm::vec3 color);
+		void translate(glm::vec3 translation);
 		~GraphicElement();
 
 	};
