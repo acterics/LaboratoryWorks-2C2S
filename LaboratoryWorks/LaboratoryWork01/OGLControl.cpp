@@ -19,7 +19,7 @@ OGLControl::OGLControl()
 	_fRotY = -0.0f;
 
 	f = Frustum(glm::vec3(-3, 0, 0), COLOR_RED, 6, 0.25, 3);
-	q = QuadrangulaPrism(glm::vec3(2, 0, 0), COLOR_BLUE, 6, new Parallelogram(glm::vec3(0, 0, 0), COLOR_RED, glm::vec3(0, 0, 0), 3, 5, 2));
+	q = QuadrangulaPrism(glm::vec3(2, 0, 0), COLOR_BLUE, 6, new GraphicElements::Rectangle(2, 5));
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -27,7 +27,6 @@ void OGLControl::oglCreate(CRect rect, CWnd * parent)
 	CString className = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_OWNDC, NULL, (HBRUSH)GetStockObject(BLACK_BRUSH), NULL);
 
 	CreateEx(0, className, _T("OpenGL"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, rect, parent, 0);
-	// Set initial variables' values
 	_oldWindow = rect;
 	_originalRect = rect;
 

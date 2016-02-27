@@ -130,7 +130,6 @@
     <None Include="circles\circle_smooth36.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\LaboratoryWork01.ico">

@@ -27,4 +27,11 @@ namespace GraphicElements
 	public:
 		Parallelogram(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float edge, float tETr);
 	};
+
+	class Rectangle : public Parallelogram
+	{
+	public:
+		Rectangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float w);
+		Rectangle(float w, float h);
+	};
 }

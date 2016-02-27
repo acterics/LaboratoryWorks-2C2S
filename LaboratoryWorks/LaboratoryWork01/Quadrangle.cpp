@@ -34,3 +34,13 @@ GraphicElements::Parallelogram::Parallelogram(glm::vec3 pos, glm::vec3 col, glm:
 	Trapeze(pos, col, rot, h, edge, edge, tETr)
 {
 }
+
+GraphicElements::Rectangle::Rectangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float w) :
+	Parallelogram(pos, col, rot, h, w, 0)
+{
+}
+
+GraphicElements::Rectangle::Rectangle(float h, float w) :
+	Rectangle(glm::vec3(0, 0, 0), COLOR_WHITE, glm::vec3(0, 0, 0), h, w)
+{
+}
