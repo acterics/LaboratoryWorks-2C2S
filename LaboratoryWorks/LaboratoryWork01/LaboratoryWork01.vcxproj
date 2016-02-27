@@ -234,6 +234,7 @@
   <ItemGroup>
     <None Include="circles\circle_smooth18.bin" />
     <None Include="circles\circle_smooth36.bin" />
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>
@@ -250,4 +251,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\glm.0.9.7.1\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.7.1\build\native\glm.targets'))" />
   </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="LaboratoryWork01.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

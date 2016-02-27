@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_HELP_ABOUT, &CLaboratoryWork01Dlg::OnHelpAbout)
 	ON_BN_CLICKED(IDC_ADD_FRUSTUM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton)
+	ON_BN_CLICKED(IDC_CLEAR_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedClearButton)
 END_MESSAGE_MAP()
 
 
@@ -157,7 +158,13 @@ void CLaboratoryWork01Dlg::OnHelpAbout()
 
 void CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton()
 {
-	FrustumAddingDialog dlg;
+	FrustumAddingDialog dlg(&_oglWindow);
 	dlg.DoModal();
 	//dlgAbout.DoModal();
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedClearButton()
+{
+	_oglWindow.clearScene();
 }

@@ -2,6 +2,7 @@
 #include "afxwin.h"
 #include "Frustum.h"
 #include "QuadrangulaPrism.h"
+
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
@@ -18,8 +19,7 @@ public:
 	float _fRotX;
 	float _fRotY;
 
-	Frustum f;
-	QuadrangulaPrism q;
+	
 
 
 private:
@@ -28,6 +28,8 @@ private:
 	//Frustum fr;
 
 	//std::vector<Figure *> _figures;
+	std::vector<Figure *> _figures;
+
 
 	CRect _rect;
 	CRect _originalRect;
@@ -45,6 +47,9 @@ public:
 	void oglCreate(CRect rect, CWnd * parrent);
 	void oglInitialize(void);
 	void oglDrawScene(void);
+
+	void addFigure(Figure * f);
+	void clearScene();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

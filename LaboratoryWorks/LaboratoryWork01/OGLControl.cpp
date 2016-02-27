@@ -18,8 +18,6 @@ OGLControl::OGLControl()
 	_fRotX =0.0f;
 	_fRotY = -0.0f;
 
-	f = Frustum(glm::vec3(-3, 0, 0), COLOR_RED, 6, 0.25, 3);
-	q = QuadrangulaPrism(glm::vec3(2, 0, 0), COLOR_BLUE, 6, new GraphicElements::Rectangle(2, 5));
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -78,8 +76,8 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
-	f.draw();
-	q.draw();
+	for (auto figure : _figures)
+		figure->draw();
 	//glColor3f(1, 1, 1);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//glBegin(GL_LINES);
@@ -93,6 +91,16 @@ void OGLControl::oglDrawScene()
 	//glVertex3f(0, 0, 1);
 	//glEnd();
 
+}
+
+void OGLControl::addFigure(Figure * f)
+{
+	_figures.push_back(f);
+}
+
+void OGLControl::clearScene()
+{
+	_figures.clear();
 }
 
 OGLControl::~OGLControl()

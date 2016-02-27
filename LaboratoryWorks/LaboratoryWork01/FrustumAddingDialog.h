@@ -1,6 +1,8 @@
 #pragma once
 #include "afxcmn.h"
 #include "afxwin.h"
+#include <sstream>
+#include "OGLControl.h"
 
 
 // FrustumAddingDialog dialog
@@ -10,7 +12,7 @@ class FrustumAddingDialog : public CDialogEx
 	DECLARE_DYNAMIC(FrustumAddingDialog)
 
 public:
-	FrustumAddingDialog(CWnd* pParent = NULL); 
+	FrustumAddingDialog(OGLControl *o, CWnd* pParent = NULL); 
 	virtual ~FrustumAddingDialog();
 
 // Dialog Data
@@ -21,6 +23,11 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	BOOL OnInitDialog();
+
+	OGLControl *_oglControl;
+
+	float getValue(CString var);
+	glm::vec3 getColor(CString var);
 
 	DECLARE_MESSAGE_MAP()
 public:
@@ -34,4 +41,7 @@ public:
 	CEdit _xCoordinate;
 	CEdit _yCoordinate;
 	CEdit _zCoordinate;
+	afx_msg void OnBnClickedOk();
+	CListBox _colorList;
+	CEdit _smooth;
 };

@@ -42,4 +42,5 @@ private:
 public:
 	afx_msg void OnHelpAbout();
 	afx_msg void OnBnClickedAddFrustumButton();
+	afx_msg void OnBnClickedClearButton();
 };
