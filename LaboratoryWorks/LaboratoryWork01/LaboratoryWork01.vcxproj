@@ -193,6 +193,8 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Disc.h" />
     <ClInclude Include="Face.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GraphicElement.h" />
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="LaboratoryWork01Dlg.h" />
@@ -206,6 +208,8 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Disc.cpp" />
     <ClCompile Include="Face.cpp" />
+    <ClCompile Include="Figure.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GraphicElement.cpp" />
     <ClCompile Include="LaboratoryWork01.cpp" />
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />

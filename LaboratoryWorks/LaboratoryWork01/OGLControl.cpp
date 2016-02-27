@@ -18,9 +18,7 @@ OGLControl::OGLControl()
 	_fRotX =0.0f;
 	_fRotY = -0.0f;
 
-	c = Circle(glm::vec3(0, 0, -3), COLOR_RED, glm::vec3(0, 0, 0), 1);
-	d = Disc(glm::vec3(0, 0, 3), COLOR_BLUE, glm::vec3(0, 0, 0), 3, 36);
-	sf = SideFace(glm::vec3(0, 0, 0), COLOR_GREEN, glm::vec3(0, 0, 0), 6, new Disc(d), new Circle(c));
+	f = Frustum(glm::vec3(0, 0, 0), COLOR_RED, 6, 0.25, 3);
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -80,9 +78,7 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
-	d.draw(glm::vec3(0, 0, 0));
-	c.draw(glm::vec3(0, 0, 0));
-	sf.draw(glm::vec3(0, 0, 0));
+	f.draw();
 	//glColor3f(1, 1, 1);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//glBegin(GL_LINES);
