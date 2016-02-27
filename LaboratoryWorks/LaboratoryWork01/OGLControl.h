@@ -51,6 +51,9 @@ public:
 	void addFigure(Figure * f);
 	void clearScene();
 
+	float getValue(CString var);
+	glm::vec3 getColor(CString var);
+
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_LAB01TRAINING01_DIALOG };

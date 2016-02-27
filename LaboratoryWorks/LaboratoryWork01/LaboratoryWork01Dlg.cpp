@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_COMMAND(ID_HELP_ABOUT, &CLaboratoryWork01Dlg::OnHelpAbout)
 	ON_BN_CLICKED(IDC_ADD_FRUSTUM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedClearButton)
+	ON_BN_CLICKED(IDC_ADD_PRISM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddPrismButton)
 END_MESSAGE_MAP()
 
 
@@ -167,4 +168,12 @@ void CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton()
 void CLaboratoryWork01Dlg::OnBnClickedClearButton()
 {
 	_oglWindow.clearScene();
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedAddPrismButton()
+{
+	PrismAddingDialog dlg(&_oglWindow);
+	dlg.DoModal();
+	// TODO: Add your control notification handler code here
 }

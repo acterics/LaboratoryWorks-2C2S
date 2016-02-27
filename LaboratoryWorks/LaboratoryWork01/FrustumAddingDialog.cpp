@@ -74,34 +74,7 @@ BOOL FrustumAddingDialog::OnInitDialog()
 	return TRUE;
 }
 
-float FrustumAddingDialog::getValue(CString var)
-{
-	int resultNumber;
-	std::string input;
-	for (unsigned int i = 0; i < var.GetLength(); i++)
-		input.push_back(var[i]);
-	std::istringstream convertingStream(input);
-	convertingStream >> resultNumber;
-	return resultNumber;
-}
 
-glm::vec3 FrustumAddingDialog::getColor(CString var)
-{
-	if (var == "Red")
-		return COLOR_RED;
-	if (var == "Blue")
-		return COLOR_BLUE;
-	if (var == "Green")
-		return COLOR_GREEN;
-	if (var == "White")
-		return COLOR_WHITE;
-	if (var == "Black")
-		return COLOR_BLACK;
-	else
-		return COLOR_RED;
-
-	
-}
 
 
 BEGIN_MESSAGE_MAP(FrustumAddingDialog, CDialogEx)
@@ -149,10 +122,13 @@ void FrustumAddingDialog::OnBnClickedOk()
 	CString color;
 	_colorList.GetText(_colorList.GetCurSel(), color);
 	_oglControl->addFigure(new Frustum(
-		glm::vec3(getValue(x), getValue(y), getValue(z)),
-		getColor(color), getValue(_height) / 10,
-		getValue(_topRadius) / 10,
-		getValue(_bottomRadius) / 10,
-		getValue(smooth)));
+		glm::vec3(_oglControl->getValue(x),
+			_oglControl->getValue(y),
+			_oglControl->getValue(z)),
+		_oglControl->getColor(color),
+		_oglControl->getValue(_height) / 10,
+		_oglControl->getValue(_topRadius) / 10,
+		_oglControl->getValue(_bottomRadius) / 10,
+		_oglControl->getValue(smooth)));
 	CDialogEx::OnOK();
 }

@@ -5,6 +5,7 @@
 #pragma once
 #include "OGLControl.h"
 #include "FrustumAddingDialog.h"
+#include "PrismAddingDialog.h"
 #include "afxwin.h"
 //#include 
 
@@ -43,4 +44,5 @@ public:
 	afx_msg void OnHelpAbout();
 	afx_msg void OnBnClickedAddFrustumButton();
 	afx_msg void OnBnClickedClearButton();
+	afx_msg void OnBnClickedAddPrismButton();
 };

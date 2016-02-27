@@ -103,6 +103,33 @@ void OGLControl::clearScene()
 	_figures.clear();
 }
 
+float OGLControl::getValue(CString var)
+{
+	int resultNumber;
+	std::string input;
+	for (unsigned int i = 0; i < var.GetLength(); i++)
+		input.push_back(var[i]);
+	std::istringstream convertingStream(input);
+	convertingStream >> resultNumber;
+	return resultNumber;
+}
+
+glm::vec3 OGLControl::getColor(CString var)
+{
+	if (var == "Red")
+		return COLOR_RED;
+	if (var == "Blue")
+		return COLOR_BLUE;
+	if (var == "Green")
+		return COLOR_GREEN;
+	if (var == "White")
+		return COLOR_WHITE;
+	if (var == "Black")
+		return COLOR_BLACK;
+	else
+		return COLOR_RED;
+}
+
 OGLControl::~OGLControl()
 {
 }

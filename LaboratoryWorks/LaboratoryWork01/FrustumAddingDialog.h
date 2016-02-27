@@ -33,7 +33,6 @@ protected:
 public:
 	CString _height;
 	CSliderCtrl _heightSlider;
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);;
 	CString _topRadius;
 	CSliderCtrl _topRadiusSlider;
 	CString _bottomRadius;
@@ -41,6 +40,7 @@ public:
 	CEdit _xCoordinate;
 	CEdit _yCoordinate;
 	CEdit _zCoordinate;
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnBnClickedOk();
 	CListBox _colorList;
 	CEdit _smooth;

@@ -2,10 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="LaboratoryWork01.cpp" />
-    <ClCompile Include="LaboratoryWork01Dlg.cpp" />
     <ClCompile Include="OGLControl.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="FrustumAddingDialog.cpp" />
     <ClCompile Include="Circle.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -33,15 +31,22 @@
     <ClCompile Include="Quadrangle.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="FrustumAddingDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="LaboratoryWork01Dlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="PrismAddingDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LaboratoryWork01.h" />
-    <ClInclude Include="LaboratoryWork01Dlg.h" />
     <ClInclude Include="OGLControl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="FrustumAddingDialog.h" />
     <ClInclude Include="Circle.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -69,6 +74,15 @@
     <ClInclude Include="Quadrangle.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="FrustumAddingDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="LaboratoryWork01Dlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="PrismAddingDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LaboratoryWork01.rc" />
@@ -81,7 +95,6 @@
     <None Include="circles\circle_smooth36.bin" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -89,6 +102,9 @@
   <ItemGroup>
     <Filter Include="Graphics">
       <UniqueIdentifier>{6e40ef16-b882-4f3f-9246-2fd5318e0591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{3e156630-4a4e-41ba-8357-f9a37a13b18e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
