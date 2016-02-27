@@ -190,6 +190,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="GraphicElement.h" />
     <ClInclude Include="LaboratoryWork01.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="GraphicElement.cpp" />
     <ClCompile Include="LaboratoryWork01.cpp" />

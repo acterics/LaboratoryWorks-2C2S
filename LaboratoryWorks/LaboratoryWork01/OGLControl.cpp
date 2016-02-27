@@ -17,6 +17,8 @@ OGLControl::OGLControl()
 	_fPosY = 0.0f;
 	_fRotX =0.0f;
 	_fRotY = -0.0f;
+
+	c = Circle(glm::vec3(0, 0, 0), COLOR_RED, 3);
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -76,6 +78,7 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
+	c.draw(glm::vec3(0, 0, 0));
 	glColor3f(1, 1, 1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);

@@ -1,12 +1,11 @@
 #pragma once
 #include "afxwin.h"
-#include <gl/gl.h>
-#include <gl/glu.h>
-#include <glm/glm.hpp>
+#include "Circle.h"
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
 //using namespace GraphicElements;
+using namespace GraphicElements;
 class OGLControl : public CWnd
 {
 public:
@@ -17,6 +16,9 @@ public:
 	float _fPosY;
 	float _fRotX;
 	float _fRotY;
+
+	Circle c;
+
 
 private:
 

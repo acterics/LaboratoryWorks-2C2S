@@ -14,9 +14,11 @@ namespace GraphicElements
 
 	public:
 		Face();
-		Face(glm::vec3 pos, glm::vec3 rot);
+		Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot);
+		Face(glm::vec3 pos, glm::vec3 col);
 		Face(glm::vec3 pos);
 		void draw(glm::vec3 figurePos);
+		void rotate(glm::vec3 r);
 		~Face();
 	};
 }
