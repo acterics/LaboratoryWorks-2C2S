@@ -79,18 +79,18 @@ void OGLControl::oglInitialize()
 void OGLControl::oglDrawScene()
 {
 	c.draw(glm::vec3(0, 0, 0));
-	glColor3f(1, 1, 1);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0);
-	glVertex3f(1, 0, 0);
+	//glColor3f(1, 1, 1);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glBegin(GL_LINES);
+	//glVertex3f(0, 0, 0);
+	//glVertex3f(1, 0, 0);
 
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 1, 0);
+	//glVertex3f(0, 0, 0);
+	//glVertex3f(0, 1, 0);
 
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 0, 1);
-	glEnd();
+	//glVertex3f(0, 0, 0);
+	//glVertex3f(0, 0, 1);
+	//glEnd();
 
 }
 
