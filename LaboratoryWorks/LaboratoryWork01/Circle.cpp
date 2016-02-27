@@ -3,7 +3,7 @@
 using namespace GraphicElements;
 
 Circle::Circle() :
-	Face(), _radius(DEFAULT_RADIUS)
+	Circle(glm::vec3(0, 0, 0), COLOR_WHITE, DEFAULT_RADIUS)
 {
 }
 
@@ -23,7 +23,7 @@ GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, float r, unsigned 
 }
 
 GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r, unsigned int smooth) :
-	Face(pos, col, rot), _radius(r)
+	Face(pos, col, rot), _radius(r), _smooth(smooth)
 {
 	_polygonMode = GL_LINE;
 	_drawingMode = GL_LINE_LOOP;
@@ -43,7 +43,6 @@ void GraphicElements::Circle::init(unsigned int smooth)
 		return;
 	}
 
-	//fin.read(reinterpret_cast<char *>(&size), sizeof(unsigned int));
 	glm::vec2 point;
 	while (!fin.eof())
 	{
@@ -61,16 +60,13 @@ Circle::~Circle()
 void GraphicElements::Circle::generate(unsigned int smooth)
 {
 	std::ofstream fout(getFileName(smooth), std::ios::out, std::ios::binary);
-	glm::vec2 * points = new glm::vec2[smooth];
-	//points[0] = glm::vec2(0, 1);
-	for (unsigned int i = 0; i < smooth; i++)
+	glm::vec2 * points = new glm::vec2[smooth + 1];
+	for (unsigned int i = 0; i <= smooth; i++)
 	{
 		points[i] = glm::vec2(sin(i * PI * 2 / (float)smooth), cos(i * PI * 2 / (float)smooth));
-		//points[i * 3 - 2] = glm::vec2(0, 0);
-		//points[i * 3 - 1] = points[i * 3] = glm::vec2(sin(i * PI * 2 / (float)smooth), cos(i * PI * 2 / (float)smooth));
 	}
 
-	fout.write(reinterpret_cast<char*>(points), sizeof(glm::vec2) * smooth);
+	fout.write(reinterpret_cast<char*>(points), sizeof(glm::vec2) * smooth + 1);
 	fout.close();
 }
 
