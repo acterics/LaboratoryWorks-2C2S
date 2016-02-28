@@ -1,70 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="LaboratoryWork01.cpp" />
+    <ClCompile Include="OGLControl.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Circle.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Disc.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Face.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Figure.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicElement.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SideFace.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadrangulaPrism.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadrangle.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FrustumAddingDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="LaboratoryWork01Dlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="PrismAddingDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LaboratoryWork01.h" />
+    <ClInclude Include="OGLControl.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Circle.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Disc.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Face.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Figure.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicElement.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SideFace.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadrangulaPrism.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadrangle.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FrustumAddingDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="LaboratoryWork01Dlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="PrismAddingDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LaboratoryWork01.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\LaboratoryWork01.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="circles\circle_smooth18.bin" />
+    <None Include="circles\circle_smooth36.bin" />
+    <None Include="packages.config" />
+    <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LaboratoryWork01.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LaboratoryWork01Dlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OGLControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="LaboratoryWork01.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LaboratoryWork01Dlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OGLControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="LaboratoryWork01.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\LaboratoryWork01.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\LaboratoryWork01.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{6e40ef16-b882-4f3f-9246-2fd5318e0591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{3e156630-4a4e-41ba-8357-f9a37a13b18e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ OGLControl::OGLControl()
 	_fPosY = 0.0f;
 	_fRotX =0.0f;
 	_fRotY = -0.0f;
+
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -24,7 +25,6 @@ void OGLControl::oglCreate(CRect rect, CWnd * parent)
 	CString className = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_OWNDC, NULL, (HBRUSH)GetStockObject(BLACK_BRUSH), NULL);
 
 	CreateEx(0, className, _T("OpenGL"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, rect, parent, 0);
-	// Set initial variables' values
 	_oldWindow = rect;
 	_originalRect = rect;
 
@@ -76,19 +76,58 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
-	glColor3f(1, 1, 1);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0);
-	glVertex3f(1, 0, 0);
+	for (auto figure : _figures)
+		figure->draw();
+	//glColor3f(1, 1, 1);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glBegin(GL_LINES);
+	//glVertex3f(0, 0, 0);
+	//glVertex3f(1, 0, 0);
 
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 1, 0);
+	//glVertex3f(0, 0, 0);
+	//glVertex3f(0, 1, 0);
 
-	glVertex3f(0, 0, 0);
-	glVertex3f(0, 0, 1);
-	glEnd();
+	//glVertex3f(0, 0, 0);
+	//glVertex3f(0, 0, 1);
+	//glEnd();
 
+}
+
+void OGLControl::addFigure(Figure * f)
+{
+	_figures.push_back(f);
+}
+
+void OGLControl::clearScene()
+{
+	_figures.clear();
+}
+
+float OGLControl::getValue(CString var)
+{
+	int resultNumber;
+	std::string input;
+	for (unsigned int i = 0; i < var.GetLength(); i++)
+		input.push_back(var[i]);
+	std::istringstream convertingStream(input);
+	convertingStream >> resultNumber;
+	return resultNumber;
+}
+
+glm::vec3 OGLControl::getColor(CString var)
+{
+	if (var == "Red")
+		return COLOR_RED;
+	if (var == "Blue")
+		return COLOR_BLUE;
+	if (var == "Green")
+		return COLOR_GREEN;
+	if (var == "White")
+		return COLOR_WHITE;
+	if (var == "Black")
+		return COLOR_BLACK;
+	else
+		return COLOR_RED;
 }
 
 OGLControl::~OGLControl()
@@ -181,7 +220,7 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 	glLoadIdentity();
 
 	// Set our current view perspective
-	gluPerspective(45.0f, (float)cx / (float)cy, 1.0f, 2000.0f);
+	gluPerspective(60.0f, (float)cx / (float)cy, 0.01f, 2000.0f);
 
 	// Model view
 	glMatrixMode(GL_MODELVIEW);

@@ -1,12 +1,13 @@
 #pragma once
 #include "afxwin.h"
-#include <gl/gl.h>
-#include <gl/glu.h>
-#include <glm/glm.hpp>
+#include "Frustum.h"
+#include "QuadrangulaPrism.h"
+
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
 //using namespace GraphicElements;
+using namespace GraphicElements;
 class OGLControl : public CWnd
 {
 public:
@@ -18,12 +19,17 @@ public:
 	float _fRotX;
 	float _fRotY;
 
+	
+
+
 private:
 
 
 	//Frustum fr;
 
 	//std::vector<Figure *> _figures;
+	std::vector<Figure *> _figures;
+
 
 	CRect _rect;
 	CRect _originalRect;
@@ -41,6 +47,12 @@ public:
 	void oglCreate(CRect rect, CWnd * parrent);
 	void oglInitialize(void);
 	void oglDrawScene(void);
+
+	void addFigure(Figure * f);
+	void clearScene();
+
+	float getValue(CString var);
+	glm::vec3 getColor(CString var);
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

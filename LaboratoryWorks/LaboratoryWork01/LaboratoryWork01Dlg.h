@@ -4,6 +4,8 @@
 
 #pragma once
 #include "OGLControl.h"
+#include "FrustumAddingDialog.h"
+#include "PrismAddingDialog.h"
 #include "afxwin.h"
 //#include 
 
@@ -18,7 +20,7 @@ public:
 
 	// Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_LAB01TRAINING03_DIALOG };
+	enum { IDD = IDD_LABORATORYWORK01_DIALOG};
 #endif
 
 protected:
@@ -37,8 +39,10 @@ protected:
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	CButton _fillRadioButton;
 private:
-	bool _isFill;
 public:
+	afx_msg void OnHelpAbout();
+	afx_msg void OnBnClickedAddFrustumButton();
+	afx_msg void OnBnClickedClearButton();
+	afx_msg void OnBnClickedAddPrismButton();
 };

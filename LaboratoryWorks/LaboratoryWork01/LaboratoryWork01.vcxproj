@@ -190,17 +190,39 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PrismAddingDialog.h" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="Disc.h" />
+    <ClInclude Include="Face.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="FrustumAddingDialog.h" />
+    <ClInclude Include="GraphicElement.h" />
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="LaboratoryWork01Dlg.h" />
     <ClInclude Include="OGLControl.h" />
+    <ClInclude Include="Quadrangle.h" />
+    <ClInclude Include="QuadrangulaPrism.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SideFace.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PrismAddingDialog.cpp" />
+    <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Disc.cpp" />
+    <ClCompile Include="Face.cpp" />
+    <ClCompile Include="Figure.cpp" />
+    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="FrustumAddingDialog.cpp" />
+    <ClCompile Include="GraphicElement.cpp" />
     <ClCompile Include="LaboratoryWork01.cpp" />
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />
     <ClCompile Include="OGLControl.cpp" />
+    <ClCompile Include="Quadrangle.cpp" />
+    <ClCompile Include="QuadrangulaPrism.cpp" />
+    <ClCompile Include="SideFace.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -212,6 +234,8 @@
     <ResourceCompile Include="LaboratoryWork01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="circles\circle_smooth18.bin" />
+    <None Include="circles\circle_smooth36.bin" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>
@@ -228,4 +252,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\glm.0.9.7.1\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.7.1\build\native\glm.targets'))" />
   </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="LaboratoryWork01.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
