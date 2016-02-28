@@ -43,8 +43,6 @@ public:
 	CEdit _topEdgeTranslation;
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnLbnSelchangeQuadrangleList();
-	CString _topEdgeTranslationEcho;
-	CString _bottomEdgeLengthEcho;
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnEnChangeTopEdgeLength();
 };

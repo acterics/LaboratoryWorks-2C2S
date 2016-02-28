@@ -202,7 +202,7 @@
     <ClInclude Include="LaboratoryWork01Dlg.h" />
     <ClInclude Include="OGLControl.h" />
     <ClInclude Include="Quadrangle.h" />
-    <ClInclude Include="QuadrangulaPrism.h" />
+    <ClInclude Include="QuadrangularPrism.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SideFace.h" />
     <ClInclude Include="stdafx.h" />
@@ -221,7 +221,7 @@
     <ClCompile Include="LaboratoryWork01Dlg.cpp" />
     <ClCompile Include="OGLControl.cpp" />
     <ClCompile Include="Quadrangle.cpp" />
-    <ClCompile Include="QuadrangulaPrism.cpp" />
+    <ClCompile Include="QuadrangularPrism.cpp" />
     <ClCompile Include="SideFace.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -12,7 +12,7 @@ GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot,
 }
 
 GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 topFaceTrans, float h, Face * topFace, Face * bottomFace) :
-	Face(pos, col, rot), _height(h)
+	Face(pos, col, rot), _height(h), _topFaceTranslation(topFaceTrans)
 {
 	_drawingMode = GL_QUAD_STRIP;
 	init(topFace, bottomFace, topFaceTrans);
@@ -60,6 +60,7 @@ void GraphicElements::SideFace::init(Face * topFace, Face * bottomFace, glm::vec
 	_points.push_back(currentPoint);
 
 }
+
 
 
 SideFace::~SideFace()

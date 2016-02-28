@@ -1,7 +1,7 @@
 #pragma once
 #include "afxwin.h"
 #include "Frustum.h"
-#include "QuadrangulaPrism.h"
+#include "QuadrangularPrism.h"
 
 //#include "Frustum.h"
 //using namespace GraphicElements;
@@ -21,7 +21,8 @@ public:
 
 	
 
-
+	void setXRotationSpeed(float a) { _xRotationSpeed = a; }
+	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
 private:
 
 
@@ -30,6 +31,8 @@ private:
 	//std::vector<Figure *> _figures;
 	std::vector<Figure *> _figures;
 
+	float _xRotationSpeed;
+	float _yRotationSpeed;
 
 	CRect _rect;
 	CRect _originalRect;

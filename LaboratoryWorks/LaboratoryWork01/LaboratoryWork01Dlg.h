@@ -7,6 +7,7 @@
 #include "FrustumAddingDialog.h"
 #include "PrismAddingDialog.h"
 #include "afxwin.h"
+#include "afxcmn.h"
 //#include 
 
 // CLab01Training02Dlg dialog
@@ -45,4 +46,12 @@ public:
 	afx_msg void OnBnClickedAddFrustumButton();
 	afx_msg void OnBnClickedClearButton();
 	afx_msg void OnBnClickedAddPrismButton();
+private:
+	CSliderCtrl _xRotationSlider;
+	CString _xRotationEcho;
+public:
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+private:
+	CSliderCtrl _yRotationSlider;
+	CString _yRotationEcho;
 };

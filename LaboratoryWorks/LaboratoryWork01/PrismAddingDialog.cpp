@@ -15,8 +15,6 @@ PrismAddingDialog::PrismAddingDialog(OGLControl *o, CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_ADD_PRISM_DIALOG, pParent)
 	, _height(_T(""))
 	, _oglControl(o)
-	, _topEdgeTranslationEcho(_T(""))
-	, _bottomEdgeLengthEcho(_T(""))
 	, _isInited(FALSE)
 {
 
@@ -43,29 +41,31 @@ void PrismAddingDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TOP_EDGE_LENGTH, _topEdgeEdit);
 	DDX_Control(pDX, IDC_BOTTOM_EDGE_LENGTH, _bottomEdgeEdit);
 	DDX_Control(pDX, IDC_TOP_EDGE_TRANSLATION, _topEdgeTranslation);
-	DDX_Text(pDX, IDC_TOP_EDGE_TRANSLATION, _topEdgeTranslationEcho);
-	DDX_Text(pDX, IDC_BOTTOM_EDGE_LENGTH, _bottomEdgeLengthEcho);
 }
 
 BOOL PrismAddingDialog::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+	UpdateData(TRUE);
 	_heightSlider.SetRange(0, 100, TRUE);
-	_heightSlider.SetPos(1);
-	_height.Format(_T("1"));
+	_heightSlider.SetPos(30);
+	_height.Format(_T("30"));
 
-	_xCoordinateEdit.ReplaceSel(_T("0"));
-	_yCoordinateEdit.ReplaceSel(_T("0"));
-	_zCoordinateEdit.ReplaceSel(_T("0"));
+	_xCoordinateEdit.SetWindowTextW(_T("0"));
+	_yCoordinateEdit.SetWindowTextW(_T("0"));
+	_zCoordinateEdit.SetWindowTextW(_T("0"));
 
-	_xFaceTranslation.ReplaceSel(_T("0"));
-	_yFaceTranslation.ReplaceSel(_T("0"));
-	_zFaceTranslation.ReplaceSel(_T("0"));
+	_xFaceTranslation.SetWindowTextW(_T("0"));
+	_yFaceTranslation.SetWindowTextW(_T("0"));
+	_zFaceTranslation.SetWindowTextW(_T("0"));
 
-	_quadHeightEdit.ReplaceSel(_T("0"));
-	_topEdgeEdit.ReplaceSel(_T("0"));
-	_topEdgeTranslationEcho = "0";
-	_bottomEdgeLengthEcho = "0";
+	_yFaceTranslation.EnableWindow(FALSE);
+	_zFaceTranslation.EnableWindow(FALSE);
+
+	_quadHeightEdit.SetWindowTextW(_T("0"));
+	_topEdgeEdit.SetWindowTextW(_T("0"));
+	_topEdgeTranslation.SetWindowTextW(_T("0"));
+	_bottomEdgeEdit.SetWindowTextW(_T("0"));
 
 	_quadList.AddString(_T("Trapeze"));
 	_quadList.AddString(_T("Parallelogram"));
@@ -79,6 +79,8 @@ BOOL PrismAddingDialog::OnInitDialog()
 	_colorList.AddString(_T("Green"));
 	_colorList.AddString(_T("White"));
 	_colorList.AddString(_T("Black"));
+
+	
 
 	_colorList.SetCurSel(0);
 
@@ -116,26 +118,27 @@ void PrismAddingDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBa
 void PrismAddingDialog::OnLbnSelchangeQuadrangleList()
 {
 	UpdateData(TRUE);
-	CString type;
+	CString type, tmp;
 	_quadList.GetText(_quadList.GetCurSel(), type);
 	if (type == "Rectangle")
 	{
-		_topEdgeTranslationEcho = "0";
-		_topEdgeEdit.GetWindowTextW(_bottomEdgeLengthEcho);
+		_topEdgeTranslation.SetWindowTextW(_T("0"));
+
+		_topEdgeEdit.GetWindowTextW(tmp);
+		_bottomEdgeEdit.SetWindowTextW(tmp);
+
 		_topEdgeTranslation.EnableWindow(FALSE);
 		_bottomEdgeEdit.EnableWindow(FALSE);
 	}
 	if (type == "Trapeze")
 	{
-		_bottomEdgeEdit.GetWindowTextW(_bottomEdgeLengthEcho);
-		_topEdgeTranslation.GetWindowTextW(_topEdgeTranslationEcho);
 		_topEdgeTranslation.EnableWindow(TRUE);
 		_bottomEdgeEdit.EnableWindow(TRUE);
 	}
 	if (type == "Parallelogram")
 	{
-		_topEdgeEdit.GetWindowTextW(_bottomEdgeLengthEcho);
-		_topEdgeTranslation.GetWindowTextW(_topEdgeTranslationEcho);
+		_topEdgeEdit.GetWindowTextW(tmp);
+		_bottomEdgeEdit.SetWindowTextW(tmp);
 		_topEdgeTranslation.EnableWindow(TRUE);
 		_bottomEdgeEdit.EnableWindow(FALSE);
 	}
@@ -149,7 +152,7 @@ void PrismAddingDialog::OnBnClickedOk()
 	UpdateData(TRUE);
 	CString x, y, z,
 		xT, yT, zT,
-		qHeight, qTopLength;
+		qHeight, qTopLength, qBottomLenth, qTrans;
 	_xCoordinateEdit.GetWindowTextW(x);
 	_yCoordinateEdit.GetWindowTextW(y);
 	_zCoordinateEdit.GetWindowTextW(z);
@@ -160,11 +163,13 @@ void PrismAddingDialog::OnBnClickedOk()
 
 	_quadHeightEdit.GetWindowTextW(qHeight);
 	_topEdgeEdit.GetWindowTextW(qTopLength);
+	_bottomEdgeEdit.GetWindowTextW(qBottomLenth);
+	_topEdgeTranslation.GetWindowTextW(qTrans);
 
 	CString color;
 	_colorList.GetText(_colorList.GetCurSel(), color);
 
-	_oglControl->addFigure(new QuadrangulaPrism(glm::vec3(
+	_oglControl->addFigure(new QuadrangularPrism(glm::vec3(
 			_oglControl->getValue(x),
 			_oglControl->getValue(x),
 			_oglControl->getValue(x)),
@@ -179,8 +184,8 @@ void PrismAddingDialog::OnBnClickedOk()
 			glm::vec3(0, 0, 0),
 			_oglControl->getValue(qHeight),
 			_oglControl->getValue(qTopLength),
-			_oglControl->getValue(_bottomEdgeLengthEcho),
-			_oglControl->getValue(_topEdgeTranslationEcho)))
+			_oglControl->getValue(qBottomLenth),
+			_oglControl->getValue(qTrans)))
 		);
 	UpdateData(FALSE);
 	CDialogEx::OnOK();

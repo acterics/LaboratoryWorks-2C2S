@@ -18,6 +18,8 @@
 
 CLaboratoryWork01Dlg::CLaboratoryWork01Dlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_LABORATORYWORK01_DIALOG, pParent)
+	, _xRotationEcho(_T(""))
+	, _yRotationEcho(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -25,6 +27,10 @@ CLaboratoryWork01Dlg::CLaboratoryWork01Dlg(CWnd* pParent /*=NULL*/)
 void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_X_ROTATION_SPEED_SLIDER, _xRotationSlider);
+	DDX_Text(pDX, IDC_X_ROTATION_SPEED_ECHO, _xRotationEcho);
+	DDX_Control(pDX, IDC_Y_ROTATION_SPEED_SLIDER, _yRotationSlider);
+	DDX_Text(pDX, IDC_Y_ROTATION_SPEED_ECHO, _yRotationEcho);
 }
 
 BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
@@ -36,6 +42,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_ADD_FRUSTUM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedClearButton)
 	ON_BN_CLICKED(IDC_ADD_PRISM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddPrismButton)
+	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -44,7 +51,7 @@ END_MESSAGE_MAP()
 BOOL CLaboratoryWork01Dlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
+	UpdateData(TRUE);
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -61,9 +68,17 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 
 	// Create OpenGL Control window
 	_oglWindow.oglCreate(rect, this);
+	_xRotationSlider.SetRange(0, 100, TRUE);
+	_xRotationSlider.SetPos(0);
+	_xRotationEcho.Format(_T("0"));
+
+	_yRotationSlider.SetRange(0, 100, TRUE);
+	_yRotationSlider.SetPos(0);
+	_yRotationEcho.Format(_T("0"));
 
 	// Setup the OpenGL Window's timer to render
 	_oglWindow._unpTimer = _oglWindow.SetTimer(1, 1, 0);
+	UpdateData(FALSE);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -176,4 +191,25 @@ void CLaboratoryWork01Dlg::OnBnClickedAddPrismButton()
 	PrismAddingDialog dlg(&_oglWindow);
 	dlg.DoModal();
 	// TODO: Add your control notification handler code here
+}
+
+
+void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	if (pScrollBar == (CScrollBar *)&_xRotationSlider)
+	{
+		int value = _xRotationSlider.GetPos();
+		_xRotationEcho.Format(_T("%d"), value);
+		_oglWindow.setXRotationSpeed((float)value / 10);
+		UpdateData(FALSE);
+	}
+	if (pScrollBar == (CScrollBar *)&_yRotationSlider)
+	{
+		int value = _yRotationSlider.GetPos();
+		_yRotationEcho.Format(_T("%d"), value);
+		_oglWindow.setYRotationSpeed((float)value / 10);
+		UpdateData(FALSE);
+	}
+	else
+		CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
 }

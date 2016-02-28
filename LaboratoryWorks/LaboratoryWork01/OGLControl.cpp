@@ -61,6 +61,21 @@ void OGLControl::oglInitialize()
 	// Set color to use when clearing the background.
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
+	//float ambient[4] = { 1, 1, 1, 0 };
+	//float pos[4] = { 3, 6, -3, 0.5 };
+	//float dir[3] = { -1, -1, -1 };
+	//GLfloat mat_specular[] = { 0, 1, 1, 1 };
+	//glLightfv(GL_LIGHT0, GL_POSITION, pos);
+	//glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
+
+	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	//glMaterialf(GL_FRONT, GL_SHININESS, 128.0);
+
+
+	//glLighti(GL_LIGHT0, GL_SPOT_EXPONENT, 0);
+	//glLighti(GL_LIGHT0, GL_SPOT_CUTOFF, 90);
 
 	// Turn on backface culling
 	glFrontFace(GL_CCW);
@@ -101,6 +116,11 @@ void OGLControl::addFigure(Figure * f)
 void OGLControl::clearScene()
 {
 	_figures.clear();
+	_fZoom = 10.0f;
+	_fPosX = 0.0f;
+	_fPosY = 0.0f;
+	_fRotX = 0.0f;
+	_fRotY = -0.0f;
 }
 
 float OGLControl::getValue(CString var)
@@ -169,7 +189,8 @@ void OGLControl::OnTimer(UINT_PTR nIDEvent)
 		break;
 	}
 	//fr.components()[0]->rotate(0, 0, PI / 300);
-	_fRotX += 0.5;
+	_fRotX += _xRotationSpeed;
+	_fRotY += _yRotationSpeed;
 	OnDraw(NULL);
 	CWnd::OnTimer(nIDEvent);
 }

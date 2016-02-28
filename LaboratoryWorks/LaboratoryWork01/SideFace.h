@@ -7,6 +7,7 @@ namespace GraphicElements
 	{
 	protected:
 		float _height;
+		glm::vec3 _topFaceTranslation;
 	public:
 		SideFace();
 		SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 topFaceTrans, float h, Face * topFace, Face * bottomFace);
@@ -17,6 +18,7 @@ namespace GraphicElements
 		SideFace(glm::vec3 pos, glm::vec3 col, float h, Face * face);
 
 		void init(Face * topFace, Face * bottomFace, glm::vec3 topFaceTrans);
+
 		~SideFace();
 	};
 }

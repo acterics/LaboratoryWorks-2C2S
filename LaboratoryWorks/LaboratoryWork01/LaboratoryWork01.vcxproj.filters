@@ -25,9 +25,6 @@
     <ClCompile Include="SideFace.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="QuadrangulaPrism.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Quadrangle.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -39,6 +36,9 @@
     </ClCompile>
     <ClCompile Include="PrismAddingDialog.cpp">
       <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadrangularPrism.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +68,6 @@
     <ClInclude Include="SideFace.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="QuadrangulaPrism.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Quadrangle.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -82,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="PrismAddingDialog.h">
       <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadrangularPrism.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
