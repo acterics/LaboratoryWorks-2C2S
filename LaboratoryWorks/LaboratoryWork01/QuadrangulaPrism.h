@@ -12,6 +12,7 @@ namespace GraphicElements
 	public:
 		QuadrangulaPrism();
 		QuadrangulaPrism(glm::vec3 pos, glm::vec3 col, float h, Quadrangle * face);
+		QuadrangulaPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 topFaceTrans, float h, Quadrangle * face);
 		~QuadrangulaPrism();
 	};
 }

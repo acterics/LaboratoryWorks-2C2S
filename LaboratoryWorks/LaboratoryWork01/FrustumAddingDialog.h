@@ -26,8 +26,6 @@ protected:
 
 	OGLControl *_oglControl;
 
-	float getValue(CString var);
-	glm::vec3 getColor(CString var);
 
 	DECLARE_MESSAGE_MAP()
 public:

@@ -20,8 +20,11 @@ public:
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);  
+	BOOL OnInitDialog();
 	OGLControl * _oglControl;
+
+	BOOL _isInited;
 	DECLARE_MESSAGE_MAP()
 public:
 	CEdit _xCoordinateEdit;
@@ -38,4 +41,10 @@ public:
 	CEdit _topEdgeEdit;
 	CEdit _bottomEdgeEdit;
 	CEdit _topEdgeTranslation;
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnLbnSelchangeQuadrangleList();
+	CString _topEdgeTranslationEcho;
+	CString _bottomEdgeLengthEcho;
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnEnChangeTopEdgeLength();
 };
