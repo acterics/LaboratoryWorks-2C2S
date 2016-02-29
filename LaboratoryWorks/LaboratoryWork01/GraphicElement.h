@@ -21,13 +21,16 @@ namespace GraphicElements
 	protected:
 		glm::vec3 _position;
 		glm::vec3 _color;
+		glm::vec3 _rotation;
 		UINT _polygonMode;
 		UINT _drawingMode;
+		
 
 		void applyColor();
 
 	public:
 		GraphicElement();
+		GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot);
 		GraphicElement(glm::vec3 pos, glm::vec3 color);
 		GraphicElement(glm::vec3 pos);
 
@@ -35,6 +38,7 @@ namespace GraphicElements
 		void setDrawingMode(UINT d);
 		void setColor(glm::vec3 color);
 		void translate(glm::vec3 translation);
+		void rotate(glm::vec3 r);
 		~GraphicElement();
 
 	};

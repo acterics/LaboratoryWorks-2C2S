@@ -171,8 +171,8 @@ void PrismAddingDialog::OnBnClickedOk()
 
 	_oglControl->addFigure(new QuadrangularPrism(glm::vec3(
 			_oglControl->getValue(x),
-			_oglControl->getValue(x),
-			_oglControl->getValue(x)),
+			_oglControl->getValue(y),
+			_oglControl->getValue(z)),
 		_oglControl->getColor(color),
 		glm::vec3(
 			_oglControl->getValue(xT),

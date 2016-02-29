@@ -19,7 +19,7 @@ Figure::~Figure()
 void GraphicElements::Figure::draw()
 {
 	for (auto face : _faces)
-		face->draw(_position);
+		face->draw(_position, _rotation);
 }
 
 void GraphicElements::Figure::addFace(Face * face)

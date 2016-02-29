@@ -15,8 +15,8 @@ OGLControl::OGLControl()
 	_fZoom = 10.0f;
 	_fPosX = 0.0f;
 	_fPosY = 0.0f;
-	_fRotX =0.0f;
-	_fRotY = -0.0f;
+	_fRotX =2.0f;
+	_fRotY = -1.0f;
 
 }
 
@@ -93,18 +93,18 @@ void OGLControl::oglDrawScene()
 {
 	for (auto figure : _figures)
 		figure->draw();
-	//glColor3f(1, 1, 1);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//glBegin(GL_LINES);
-	//glVertex3f(0, 0, 0);
-	//glVertex3f(1, 0, 0);
+	glColor3f(1, 1, 1);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0);
+	glVertex3f(10, 0, 0);
 
-	//glVertex3f(0, 0, 0);
-	//glVertex3f(0, 1, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 10, 0);
 
-	//glVertex3f(0, 0, 0);
-	//glVertex3f(0, 0, 1);
-	//glEnd();
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 0, 10);
+	glEnd();
 
 }
 
@@ -121,6 +121,22 @@ void OGLControl::clearScene()
 	_fPosY = 0.0f;
 	_fRotX = 0.0f;
 	_fRotY = -0.0f;
+}
+
+void OGLControl::rotateX(float a)
+{
+	for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
+	{
+		(*figure)->rotate(glm::vec3(a, 0, 0));
+	}
+}
+
+void OGLControl::rotateY(float a)
+{
+	for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
+	{
+		(*figure)->rotate(glm::vec3(0, a, 0));
+	}
 }
 
 float OGLControl::getValue(CString var)
@@ -189,8 +205,8 @@ void OGLControl::OnTimer(UINT_PTR nIDEvent)
 		break;
 	}
 	//fr.components()[0]->rotate(0, 0, PI / 300);
-	_fRotX += _xRotationSpeed;
-	_fRotY += _yRotationSpeed;
+	rotateX(_xRotationSpeed / 100);
+	rotateY(_yRotationSpeed / 100);
 	OnDraw(NULL);
 	CWnd::OnTimer(nIDEvent);
 }
@@ -241,7 +257,7 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 	glLoadIdentity();
 
 	// Set our current view perspective
-	gluPerspective(60.0f, (float)cx / (float)cy, 0.01f, 2000.0f);
+	gluPerspective(45.0f, (float)cx / (float)cy, 0.1f, 2000.0f);
 
 	// Model view
 	glMatrixMode(GL_MODELVIEW);

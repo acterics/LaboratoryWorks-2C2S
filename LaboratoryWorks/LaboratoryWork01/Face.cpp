@@ -2,32 +2,43 @@
 #include "Face.h"
 using namespace GraphicElements;
 
-glm::mat3x3 GraphicElements::Face::xRotationMatrix()
+glm::mat3x3 GraphicElements::Face::xRotationMatrix(float angle)
 {
 	return glm::mat3x3(1, 0, 0,
-		0, cos(_rotation.x), sin(_rotation.x),
-		0, -sin(_rotation.x), cos(_rotation.x));
+		0, cos(angle), sin(angle),
+		0, -sin(angle), cos(angle));
 }
 
-glm::mat3x3 GraphicElements::Face::yRotationMatrix()
+glm::mat3x3 GraphicElements::Face::yRotationMatrix(float angle)
 {
-	return glm::mat3x3(cos(_rotation.y), 0, sin(_rotation.y),
+	return glm::mat3x3(cos(angle), 0, sin(angle),
 		0, 1, 0,
-		-sin(_rotation.y), 0, cos(_rotation.y));
+		-sin(angle), 0, cos(angle));
 }
 
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos)
 {
-	glm::vec3 drawingPosition = xRotationMatrix() * yRotationMatrix() * point;
-	glVertex3f(drawingPosition.x + _position.x + figurePos.x,
-		drawingPosition.y + _position.y + figurePos.y,
-		drawingPosition.z + _position.z + figurePos.z);
+	drawPoint(point, figurePos, glm::vec3(0, 0, 0));
+}
+
+void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot)
+{
+	point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * point;
+	point += _position;
+	
+	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * point;
+	point += figurePos;
+
+	glVertex3f(point.x,
+		point.y,
+		point.z);
+
 }
 
 
 
 Face::Face() :
-	GraphicElement(), _rotation(glm::vec3(0, 0, 0))
+	GraphicElement()
 {
 }
 
@@ -37,7 +48,7 @@ GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col) :
 }
 
 GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot) :
-	GraphicElement(pos, col), _rotation(rot)
+	GraphicElement(pos, col, rot)
 {
 }
 
@@ -49,18 +60,17 @@ GraphicElements::Face::Face(glm::vec3 pos) :
 
 void Face::draw(glm::vec3 figurePos)
 {
+	draw(figurePos, glm::vec3(0, 0, 0));
+}
+
+void GraphicElements::Face::draw(glm::vec3 figurePos, glm::vec3 figureRot)
+{
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 	applyColor();
 	glBegin(_drawingMode);
 	for (auto point : _points)
-		drawPoint(point, figurePos);
+		drawPoint(point, figurePos, figureRot);
 	glEnd();
-	
-}
-
-void GraphicElements::Face::rotate(glm::vec3 r)
-{
-	_rotation += r;
 }
 
 std::vector<glm::vec3> GraphicElements::Face::points()

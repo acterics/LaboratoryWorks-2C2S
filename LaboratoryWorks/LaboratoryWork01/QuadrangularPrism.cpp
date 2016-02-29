@@ -12,7 +12,8 @@ GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 c
 
 }
 
-GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 topFaceTrans, float h, Quadrangle * face)
+GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 topFaceTrans, float h, Quadrangle * face) :
+	Figure(pos, col)
 {
 	Quadrangle * top = new Quadrangle(*face);
 	top->translate(glm::vec3(topFaceTrans.x, h / 2 + topFaceTrans.y, topFaceTrans.z));

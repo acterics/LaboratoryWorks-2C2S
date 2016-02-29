@@ -53,6 +53,8 @@ public:
 
 	void addFigure(Figure * f);
 	void clearScene();
+	void rotateX(float a);
+	void rotateY(float a);
 
 	float getValue(CString var);
 	glm::vec3 getColor(CString var);

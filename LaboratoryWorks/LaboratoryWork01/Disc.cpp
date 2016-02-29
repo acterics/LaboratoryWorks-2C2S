@@ -32,18 +32,23 @@ Disc::~Disc()
 
 void GraphicElements::Disc::draw(glm::vec3 figurePos)
 {
+	draw(figurePos, glm::vec3(0, 0, 0));
+}
+
+void GraphicElements::Disc::draw(glm::vec3 figurePos, glm::vec3 figureRot)
+{
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 	applyColor();
 	glBegin(_drawingMode);
-	for (unsigned int i = 1; i < _points.size() ; i++)
+	for (unsigned int i = 1; i < _points.size(); i++)
 	{
-		drawPoint(_points[i - 1], figurePos);
-		drawPoint(glm::vec3(0, 0, 0), figurePos);
-		drawPoint(_points[i], figurePos);
+		drawPoint(_points[i - 1], figurePos, figureRot);
+		drawPoint(glm::vec3(0, 0, 0), figurePos, figureRot);
+		drawPoint(_points[i], figurePos, figureRot);
 
 	}
-	drawPoint(_points.back(), figurePos);
-	drawPoint(glm::vec3(0, 0, 0), figurePos);
-	drawPoint(_points.front(), figurePos);
+	drawPoint(_points.back(), figurePos, figureRot);
+	drawPoint(glm::vec3(0, 0, 0), figurePos, figureRot);
+	drawPoint(_points.front(), figurePos, figureRot);
 	glEnd();
 }

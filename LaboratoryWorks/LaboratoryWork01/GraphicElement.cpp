@@ -8,11 +8,17 @@ GraphicElement::GraphicElement() :
 {
 }
 
-GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color) :
-	_position(pos), _color(color)
+GraphicElements::GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot) :
+	_position(pos), _color(color), _rotation(rot)
 {
 	_polygonMode = GL_FILL;
 	_drawingMode = GL_LINE_LOOP;
+}
+
+GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color) :
+	GraphicElement(pos, color, glm::vec3(0, 0, 0))
+{
+	
 	
 }
 
@@ -49,4 +55,9 @@ GraphicElement::~GraphicElement()
 void GraphicElements::GraphicElement::applyColor()
 {
 	glColor3f(_color.x, _color.y, _color.z);
+}
+
+void GraphicElements::GraphicElement::rotate(glm::vec3 r)
+{
+	_rotation += r;
 }
