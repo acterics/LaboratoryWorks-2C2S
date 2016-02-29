@@ -13,16 +13,21 @@ class OGLControl : public CWnd
 public:
 	UINT_PTR _unpTimer;
 	bool _isMaximized;
+	float	 _fLastX;
+	float	 _fLastY;
 	float _fZoom;
 	float _fPosX;
 	float _fPosY;
 	float _fRotX;
 	float _fRotY;
 
+	BOOL _lightOn;
+
 	
 
 	void setXRotationSpeed(float a) { _xRotationSpeed = a; }
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
+	void lightSwitch();
 private:
 
 
@@ -73,4 +78,5 @@ public:
 	afx_msg	void OnDraw(CDC *pDC);
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };

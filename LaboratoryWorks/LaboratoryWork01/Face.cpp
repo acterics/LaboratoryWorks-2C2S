@@ -65,6 +65,7 @@ void Face::draw(glm::vec3 figurePos)
 
 void GraphicElements::Face::draw(glm::vec3 figurePos, glm::vec3 figureRot)
 {
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 	applyColor();
 	glBegin(_drawingMode);

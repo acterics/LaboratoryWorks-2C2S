@@ -190,6 +190,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="PrismAddingDialog.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Disc.h" />
@@ -209,6 +211,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="PrismAddingDialog.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Disc.cpp" />
@@ -235,7 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="circles\circle_smooth18.bin" />
-    <None Include="circles\circle_smooth36.bin" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>

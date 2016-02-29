@@ -40,11 +40,14 @@
     <ClCompile Include="QuadrangularPrism.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LaboratoryWork01.h" />
     <ClInclude Include="OGLControl.h" />
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Circle.h">
@@ -83,18 +86,24 @@
     <ClInclude Include="QuadrangularPrism.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Res</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="LaboratoryWork01.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\LaboratoryWork01.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="circles\circle_smooth18.bin" />
-    <None Include="circles\circle_smooth36.bin" />
-    <None Include="packages.config" />
-    <None Include="res\LaboratoryWork01.rc2" />
+    <None Include="res\LaboratoryWork01.rc2">
+      <Filter>Res</Filter>
+    </None>
+    <None Include="circles\circle_smooth18.bin">
+      <Filter>Res</Filter>
+    </None>
+    <None Include="packages.config">
+      <Filter>Res</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -106,5 +115,18 @@
     <Filter Include="Dialogs">
       <UniqueIdentifier>{3e156630-4a4e-41ba-8357-f9a37a13b18e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Res">
+      <UniqueIdentifier>{64796d6a-d86a-4ba9-b5ab-e48ddff2a66b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LaboratoryWork01.rc">
+      <Filter>Res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\LaboratoryWork01.ico">
+      <Filter>Res</Filter>
+    </Image>
   </ItemGroup>
 </Project>

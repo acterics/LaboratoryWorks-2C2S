@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedClearButton)
 	ON_BN_CLICKED(IDC_ADD_PRISM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddPrismButton)
 	ON_WM_HSCROLL()
+	ON_COMMAND(ID_TOOLS_LIGHT, &CLaboratoryWork01Dlg::OnToolsLight)
 END_MESSAGE_MAP()
 
 
@@ -212,4 +213,13 @@ void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 	}
 	else
 		CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+
+
+
+void CLaboratoryWork01Dlg::OnToolsLight()
+{
+	_oglWindow.lightSwitch();
 }

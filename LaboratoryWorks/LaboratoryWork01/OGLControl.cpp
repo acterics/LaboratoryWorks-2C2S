@@ -9,6 +9,20 @@
 
 //IMPLEMENT_DYNAMIC(OGLControl, CDialog)
 
+void OGLControl::lightSwitch()
+{
+	if (_lightOn)
+	{
+		//glDisable(GL_LIGHT0);
+		_lightOn = false;
+	}
+	else
+	{
+		//glEnable(GL_LIGHT0);
+		_lightOn = true;
+	}
+}
+
 OGLControl::OGLControl()
 {
 	_isMaximized = false;
@@ -16,7 +30,8 @@ OGLControl::OGLControl()
 	_fPosX = 0.0f;
 	_fPosY = 0.0f;
 	_fRotX =2.0f;
-	_fRotY = -1.0f;
+	_fRotY = -20.0f;
+
 
 }
 
@@ -61,25 +76,22 @@ void OGLControl::oglInitialize()
 	// Set color to use when clearing the background.
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
+
+	glEnable(GL_COLOR_MATERIAL);
+
 	glEnable(GL_LIGHTING);
-	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-	//float ambient[4] = { 1, 1, 1, 0 };
-	//float pos[4] = { 3, 6, -3, 0.5 };
-	//float dir[3] = { -1, -1, -1 };
-	//GLfloat mat_specular[] = { 0, 1, 1, 1 };
-	//glLightfv(GL_LIGHT0, GL_POSITION, pos);
-	//glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
+	GLfloat light5_diffuse[] = { 1.0, 1.0, 1.0 };
+	GLfloat light5_position[] = { 100, 100, 100, 1.0 };
 
-	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	//glMaterialf(GL_FRONT, GL_SHININESS, 128.0);
-
-
-	//glLighti(GL_LIGHT0, GL_SPOT_EXPONENT, 0);
-	//glLighti(GL_LIGHT0, GL_SPOT_CUTOFF, 90);
-
+	glEnable(GL_LIGHT5);
+	glLightfv(GL_LIGHT5, GL_DIFFUSE, light5_diffuse);
+	glLightfv(GL_LIGHT5, GL_POSITION, light5_position);
+	//glLightf(GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.0);
+	//glLightf(GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.001);
+	//glLightf(GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.002);
+	_lightOn = true;
 	// Turn on backface culling
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
@@ -95,20 +107,7 @@ void OGLControl::oglInitialize()
 void OGLControl::oglDrawScene()
 {
 
-	GLfloat material_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
 
-	GLfloat light4_diffuse[] = { 0.4, 0.7, 0.2 };
-	GLfloat light4_position[] = { 0.0, 0.0, 3.0, 1.0 };
-	GLfloat light4_spot_direction[] = { 0.0, 0.0, -1.0 };
-	glEnable(GL_LIGHT4);
-	glLightfv(GL_LIGHT4, GL_DIFFUSE, light4_diffuse);
-	glLightfv(GL_LIGHT4, GL_POSITION, light4_position);
-	glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, 30);
-	glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, light4_spot_direction);
-	glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, 15.0);
-	
-	
 	glColor3f(1, 1, 1);
 
 
@@ -123,10 +122,11 @@ void OGLControl::oglDrawScene()
 	glVertex3f(0, 0, 0);
 	glVertex3f(0, 0, 10);
 	glEnd();
+
+
 	for (auto figure : _figures)
 		figure->draw();
 
-	glDisable(GL_LIGHT4);
 }
 
 void OGLControl::addFigure(Figure * f)
@@ -198,6 +198,7 @@ BEGIN_MESSAGE_MAP(OGLControl, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_SIZE()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 
@@ -269,20 +270,27 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 
 	if (0 >= cx || 0 >= cy || nType == SIZE_MINIMIZED) return;
 
-	// Map the OpenGL coordinates.
-	glViewport(0, 0, cx , cy );
+	//// Map the OpenGL coordinates.
+	//glViewport(0, 0, cx , cy);
 
-	// Projection view
+	glViewport(0, 0, cx, cy);
+	//// Projection view
+	//glMatrixMode(GL_PROJECTION);
+
+	//glLoadIdentity();
+
+	//// Set our current view perspective
+	//gluPerspective(45.0f, (float)cx / (float)cy, 0.1f, 2000.0f);
+
+	//// Model view  (float)cx / (float)cy
+	//glMatrixMode(GL_MODELVIEW);
 	glMatrixMode(GL_PROJECTION);
-
 	glLoadIdentity();
-
-	// Set our current view perspective
-	gluPerspective(45.0f, (float)cx / (float)cy, 0.1f, 2000.0f);
-
-	// Model view
+	gluPerspective(80, 1, 0.1, 2000);
 	glMatrixMode(GL_MODELVIEW);
-
+	glLoadIdentity();
+	//_____________NEW _________
+	gluLookAt(350, 350, 300, 150, 150, 0, 0, 1, 0);
 	switch (nType)
 	{
 		// If window resize token is "maximize"
@@ -325,4 +333,48 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 		break;
 	}
 	}
+}
+
+
+void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
+{
+	int diffX = (int)(point.x - _fLastX);
+	int diffY = (int)(point.y - _fLastY);
+	_fLastX = (float)point.x;
+	_fLastY = (float)point.y;
+
+	// Left mouse button
+	if (nFlags & MK_LBUTTON)
+	{
+		_fRotX += (float)0.5f * diffY;
+
+		if ((_fRotX > 360.0f) || (_fRotX < -360.0f))
+		{
+			_fRotX = 0.0f;
+		}
+
+		_fRotY += (float)0.5f * diffX;
+
+		if ((_fRotY > 360.0f) || (_fRotY < -360.0f))
+		{
+			_fRotY = 0.0f;
+		}
+	}
+
+	// Right mouse button
+	else if (nFlags & MK_RBUTTON)
+	{
+		_fZoom -= (float)0.1f * diffY;
+	}
+
+	// Middle mouse button
+	else if (nFlags & MK_MBUTTON)
+	{
+		_fPosX += (float)0.05f * diffX;
+		_fPosY -= (float)0.05f * diffY;
+	}
+
+	OnDraw(NULL);
+
+	CWnd::OnMouseMove(nFlags, point);
 }
