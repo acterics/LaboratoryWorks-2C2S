@@ -61,6 +61,9 @@ void OGLControl::oglInitialize()
 	// Set color to use when clearing the background.
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
+	glEnable(GL_LIGHTING);
+	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);
 	//float ambient[4] = { 1, 1, 1, 0 };
@@ -91,9 +94,24 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
-	for (auto figure : _figures)
-		figure->draw();
+
+	GLfloat material_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
+
+	GLfloat light4_diffuse[] = { 0.4, 0.7, 0.2 };
+	GLfloat light4_position[] = { 0.0, 0.0, 3.0, 1.0 };
+	GLfloat light4_spot_direction[] = { 0.0, 0.0, -1.0 };
+	glEnable(GL_LIGHT4);
+	glLightfv(GL_LIGHT4, GL_DIFFUSE, light4_diffuse);
+	glLightfv(GL_LIGHT4, GL_POSITION, light4_position);
+	glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, 30);
+	glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, light4_spot_direction);
+	glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, 15.0);
+	
+	
 	glColor3f(1, 1, 1);
+
+
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);
 	glVertex3f(0, 0, 0);
@@ -105,7 +123,10 @@ void OGLControl::oglDrawScene()
 	glVertex3f(0, 0, 0);
 	glVertex3f(0, 0, 10);
 	glEnd();
+	for (auto figure : _figures)
+		figure->draw();
 
+	glDisable(GL_LIGHT4);
 }
 
 void OGLControl::addFigure(Figure * f)

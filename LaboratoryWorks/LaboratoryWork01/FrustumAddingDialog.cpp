@@ -46,16 +46,16 @@ BOOL FrustumAddingDialog::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	_heightSlider.SetRange(0, 100, TRUE);
-	_heightSlider.SetPos(1);
-	_height.Format(_T("%d"), 1);
+	_heightSlider.SetPos(30);
+	_height.Format(_T("%d"), 30);
 
 	_topRadiusSlider.SetRange(0, 100, TRUE);
-	_topRadiusSlider.SetPos(1);
-	_topRadius.Format(_T("%d"), 1);
+	_topRadiusSlider.SetPos(10);
+	_topRadius.Format(_T("%d"), 10);
 
 	_bottomRadiusSlider.SetRange(0, 100, TRUE);
-	_bottomRadiusSlider.SetPos(1);
-	_bottomRadius.Format(_T("%d"), 1);
+	_bottomRadiusSlider.SetPos(10);
+	_bottomRadius.Format(_T("%d"), 10);
 	
 
 	_xCoordinate.ReplaceSel(_T("0"));
@@ -69,6 +69,8 @@ BOOL FrustumAddingDialog::OnInitDialog()
 	_colorList.AddString(_T("Green"));
 	_colorList.AddString(_T("White"));
 	_colorList.AddString(_T("Black"));
+
+	_colorList.SetCurSel(0);
 
 	UpdateData(FALSE);
 	return TRUE;
