@@ -66,11 +66,11 @@ void GraphicElements::SideFace::saveProperties(CProperties & propertyRS, long fi
 	Face::saveProperties(propertyRS, figureID, faceID);
 	propertyRS.addRecord(_T("Type"), TYPE_SIDE_FACE, figureID, faceID);
 	propertyRS.addRecord(_T("Height"), _height, figureID, faceID);
-	propertyRS.addRecord(_T("_TopFaceTranslationX"), _topFaceTranslation.x, figureID, faceID);
-	propertyRS.addRecord(_T("_TopFaceTranslationY"), _topFaceTranslation.y, figureID, faceID);
-	propertyRS.addRecord(_T("_TopFaceTranslationZ"), _topFaceTranslation.z, figureID, faceID);
-	_topFacePointer->saveProperties(propertyRS, -1, faceID);
-	_bottomFacePointer->saveProperties(propertyRS, -1, faceID);
+	//propertyRS.addRecord(_T("_TopFaceTranslationX"), _topFaceTranslation.x, figureID, faceID);
+	//propertyRS.addRecord(_T("_TopFaceTranslationY"), _topFaceTranslation.y, figureID, faceID);
+	//propertyRS.addRecord(_T("_TopFaceTranslationZ"), _topFaceTranslation.z, figureID, faceID);
+	//_topFacePointer->saveProperties(propertyRS, -1, faceID);
+	//_bottomFacePointer->saveProperties(propertyRS, -1, faceID);
 	
 }
 

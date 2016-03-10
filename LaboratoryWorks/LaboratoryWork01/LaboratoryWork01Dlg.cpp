@@ -23,10 +23,7 @@ CLaboratoryWork01Dlg::CLaboratoryWork01Dlg(CWnd* pParent /*=NULL*/)
 	, _xGLPositionEcho(_T(""))
 	, _yGLPositionEcho(_T(""))
 {
-	_figuresRS.Open();
-	_facesRS.Open();
-	_sessionsRS.Open();
-	_propertiesRS.Open();
+
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	//_facesRS = CFaces();
 	//_sessionsRS = CSessions();
@@ -41,8 +38,6 @@ void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X_ROTATION_SPEED_ECHO, _xRotationEcho);
 	DDX_Control(pDX, IDC_Y_ROTATION_SPEED_SLIDER, _yRotationSlider);
 	DDX_Text(pDX, IDC_Y_ROTATION_SPEED_ECHO, _yRotationEcho);
-	DDX_Text(pDX, IDC_OGL_X_POSITION, _xGLPositionEcho);
-	DDX_Text(pDX, IDC_OGL_Y_POSITION, _yGLPositionEcho);
 }
 
 BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
@@ -59,6 +54,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_MOUSEMOVE()
 	ON_STN_CLICKED(IDC_OGL_CONTROL, &CLaboratoryWork01Dlg::OnStnClickedOglControl)
 	ON_COMMAND(ID_SESSION_SAVE, &CLaboratoryWork01Dlg::OnSessionSave)
+	ON_COMMAND(ID_SESSION_RESTORE, &CLaboratoryWork01Dlg::OnSessionRestore)
 END_MESSAGE_MAP()
 
 
@@ -261,16 +257,51 @@ void CLaboratoryWork01Dlg::OnStnClickedOglControl()
 
 void CLaboratoryWork01Dlg::OnSessionSave()
 {
+	_figuresRS.Open();
+	_facesRS.Open();
+	_sessionsRS.Open();
+	_propertiesRS.Open();
+	if (_oglWindow.figures().empty())
+		return;
 	int sID, figID, faceID;
 	sID = _sessionsRS.addRecord();
 	for (auto figure : _oglWindow.figures())
 	{
 		figID = _figuresRS.addRecord(sID);
 		figure->saveProperties(_propertiesRS, figID);
-		for (unsigned int i = 0; i < figure->faces().size(); i++)
-		{
-			faceID = _facesRS.addRecord(figID);
-			figure->faces()[i]->saveProperties(_propertiesRS, figID, faceID);
-		}
+		//for (unsigned int i = 0; i < figure->faces().size(); i++)
+		//{
+		//	faceID = _facesRS.addRecord(figID);
+		//	figure->faces()[i]->saveProperties(_propertiesRS, figID, faceID);
+		//}
 	}
+	_figuresRS.Close();
+	_facesRS.Close();
+	_sessionsRS.Close();
+	_propertiesRS.Close();
+}
+
+
+void CLaboratoryWork01Dlg::OnSessionRestore()
+{
+	int sessionID = 1;
+	_figuresRS.m_strFilter.Format(_T("[SESSION_ID] = %d"), sessionID);
+	_figuresRS.Open();
+	//_figuresRS.Update();
+	if (!_figuresRS.IsBOF())
+		_figuresRS.MoveFirst();
+	_propertiesRS.Open();
+	while (!_figuresRS.IsEOF())
+	{
+		_propertiesRS.m_strFilter.Format(_T("[FIGURE_ID] = %d"), _figuresRS.m_ID);
+		_propertiesRS.Requery();
+		//_facesRS.m_strFilter.Format(_T("[FIGURE_ID] = %d", _figuresRS.m_ID));
+		_oglWindow.loadFigure(_propertiesRS);
+		_figuresRS.MoveNext();
+	}
+	_figuresRS.m_strFilter = "";
+	_propertiesRS.m_strFilter = "";
+	_figuresRS.Close();
+	_propertiesRS.Close();
+	// TODO: Add your command handler code here
 }

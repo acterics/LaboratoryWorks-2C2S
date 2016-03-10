@@ -12,10 +12,10 @@
 #define COLOR_BLUE	glm::vec3(0.0f, 0.0f, 1.0f)
 
 #define TYPE_FRUSTUM	1
-#define TYPE_SIDE_FACE	2
+#define TYPE_SIDE_FACE	5
 #define TYPE_DISC		3
 #define TYPE_TRAPEZE	4
-#define TYPE_PRISM		5
+#define TYPE_PRISM		2
 #define PI 3.14159265359
 
 namespace GraphicElements

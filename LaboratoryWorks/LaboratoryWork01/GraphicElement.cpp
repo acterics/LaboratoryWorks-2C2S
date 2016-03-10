@@ -56,6 +56,9 @@ void GraphicElements::GraphicElement::saveProperties(CProperties & propertyRS, l
 	propertyRS.addRecord(_T("RotationX"), _rotation.x, figureID, faceID);
 	propertyRS.addRecord(_T("RotationY"), _rotation.y, figureID, faceID);
 	propertyRS.addRecord(_T("RotationZ"), _rotation.z, figureID, faceID);
+	propertyRS.addRecord(_T("ColorR"), _color.x, figureID, faceID);
+	propertyRS.addRecord(_T("ColorG"), _color.y, figureID, faceID);
+	propertyRS.addRecord(_T("ColorB"), _color.z, figureID, faceID);
 }
 
 void GraphicElements::GraphicElement::saveProperty(CProperties & propertyRS, CString name, float value, long figureID, long faceID)

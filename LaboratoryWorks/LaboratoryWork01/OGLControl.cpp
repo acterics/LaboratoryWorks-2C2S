@@ -25,6 +25,127 @@ void OGLControl::lightSwitch()
 	}
 }
 
+void OGLControl::loadFigure(CProperties &pRS)
+{
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 color;
+	int type;
+	pRS.MoveFirst();
+	while (!pRS.IsEOF())
+	{
+		if (pRS.m_NAME == "PositionX")
+			position.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "PositionY")
+			position.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "PositionZ")
+			position.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "ColorR")
+			color.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "ColorG")
+			color.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "ColorB")
+			color.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "RotationX")
+			rotation.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "RotationY")
+			rotation.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "RotationZ")
+			rotation.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "Type")
+			type = pRS.m_VALUE;
+
+		pRS.MoveNext();
+	}
+		
+	
+	switch (type)
+	{
+	case TYPE_FRUSTUM:
+		loadFrustum(position, color, rotation, pRS);
+		break;
+	case TYPE_PRISM:
+		loadPrism(position, color, rotation, pRS);
+		break;
+	default:
+		break;
+	}
+}
+
+void OGLControl::loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS)
+{
+
+	float smooth;
+	float height;
+	float topR;
+	float bottR;
+	pRS.MoveFirst();
+	while (!pRS.IsEOF())
+	{
+		if (pRS.m_NAME == "Smooth")
+			smooth = pRS.m_VALUE;
+		if (pRS.m_NAME == "Height")
+			height = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopRadius")
+			topR = pRS.m_VALUE;
+		if (pRS.m_NAME == "BottomRadius")
+			bottR = pRS.m_VALUE;
+		pRS.MoveNext();
+	}
+	_figures.push_back(new Frustum(pos, col, rot, height, topR, bottR, smooth));
+}
+
+void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties & pRS)
+{
+	float height;
+	glm::vec3 topFaceTrans;
+	glm::vec3 a, b, c, d;
+	pRS.MoveFirst();
+	while (!pRS.IsEOF())
+	{
+		if (pRS.m_NAME == "Height")
+			height = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopFaceTranslationX")
+			topFaceTrans.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopFaceTranslationY")
+			topFaceTrans.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopFaceTranslationZ")
+			topFaceTrans.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Ax")
+			a.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "Ay")
+			a.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Az")
+			a.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Bx")
+			b.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "By")
+			b.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Bz")
+			b.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Cx")
+			c.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "Cy")
+			c.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Cz")
+			c.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Dx")
+			d.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "Dy")
+			d.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Dz")
+			d.z = pRS.m_VALUE;
+		pRS.MoveNext();
+	}
+
+	_figures.push_back(new QuadrangularPrism(pos, col, rot, height, new Quadrangle(col, a, b, c, d)));
+}
+
+
 OGLControl::OGLControl() :
 	_xOGLPositionEcho(_T(""))
 	, _yOGLPositionEcho(_T(""))

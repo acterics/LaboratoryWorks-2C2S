@@ -4,6 +4,11 @@
 #include "Frustum.h"
 #include "QuadrangularPrism.h"
 
+#include "CFaces.h"
+#include "CProperties.h"
+
+  
+
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
@@ -12,17 +17,17 @@ using namespace GraphicElements;
 class OGLControl : public CWnd
 {
 public:
-	UINT_PTR _unpTimer;
-	bool _isMaximized;
-	float	 _fLastX;
-	float	 _fLastY;
-	float _fZoom;
-	float _fPosX;
-	float _fPosY;
-	float _fRotX;
-	float _fRotY;
+	UINT_PTR	_unpTimer;
+	bool		_isMaximized;
+	float		_fLastX;
+	float		_fLastY;
+	float		_fZoom;
+	float		_fPosX;
+	float		_fPosY;
+	float		_fRotX;
+	float		_fRotY;
 
-	BOOL _lightOn;
+	BOOL		_lightOn;
 
 	
 
@@ -30,6 +35,10 @@ public:
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
 	void lightSwitch();
 	std::vector<Figure *> figures() { return _figures; }
+	
+	void loadFigure(CProperties& pRS);
+	void loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
+	void loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
 private:
 
 

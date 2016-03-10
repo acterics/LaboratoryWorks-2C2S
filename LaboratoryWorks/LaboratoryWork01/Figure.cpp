@@ -7,7 +7,12 @@ Figure::Figure()
 }
 
 GraphicElements::Figure::Figure(glm::vec3 pos, glm::vec3 col) :
-	GraphicElement(pos, col)
+	GraphicElement(pos, col, glm::vec3(0, 0, 0))
+{
+}
+
+GraphicElements::Figure::Figure(glm::vec3 pos, glm::vec3 col, glm::vec3 rot) :
+	GraphicElement(pos, col, rot)
 {
 }
 

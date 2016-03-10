@@ -10,6 +10,7 @@ namespace GraphicElements
 	public:
 		Figure();
 		Figure(glm::vec3 pos, glm::vec3 col);
+		Figure(glm::vec3 pos, glm::vec3 col, glm::vec3 rot);
 		~Figure();
 		void draw();
 		void addFace(Face * face);

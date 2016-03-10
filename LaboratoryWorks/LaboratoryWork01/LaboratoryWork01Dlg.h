@@ -65,4 +65,5 @@ private:
 	CString _yGLPositionEcho;
 public:
 	afx_msg void OnSessionSave();
+	afx_msg void OnSessionRestore();
 };

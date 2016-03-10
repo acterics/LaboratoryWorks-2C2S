@@ -10,6 +10,7 @@ namespace GraphicElements
 	{
 		float _height;
 		Quadrangle * _facePointer;
+		glm::vec3 _topFaceTranslation;
 	public:
 		QuadrangularPrism();
 		QuadrangularPrism(glm::vec3 pos, glm::vec3 col, float h, Quadrangle * face);
