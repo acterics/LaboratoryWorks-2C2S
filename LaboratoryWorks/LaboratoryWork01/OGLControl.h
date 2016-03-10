@@ -16,8 +16,12 @@
 using namespace GraphicElements;
 class OGLControl : public CWnd
 {
-	enum Mode{SELECT, ROTATE};
+	
 public:
+
+	enum Mode { SELECT, ROTATE };
+
+
 	UINT_PTR	_unpTimer;
 	bool		_isMaximized;
 	float		_fLastX;
@@ -31,7 +35,7 @@ public:
 	BOOL		_lightOn;
 	Mode		_mode;
 
-
+	
 
 	void setXRotationSpeed(float a) { _xRotationSpeed = a; }
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
@@ -47,6 +51,7 @@ private:
 	//Frustum fr;
 
 	//std::vector<Figure *> _figures;
+	Figure * _selected;
 	std::vector<Figure *> _figures;
 
 	float _xRotationSpeed;

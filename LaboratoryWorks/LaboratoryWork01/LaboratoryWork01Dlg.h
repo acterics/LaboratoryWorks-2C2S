@@ -67,5 +67,7 @@ public:
 	void SaveScene();
 	void LoadScene(int sessionID);
 	afx_msg void OnClose();
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnBnClickedSelectModeRadio();
+	afx_msg void OnBnClickedRotateModeRadio();
+	CButton _selectModeRadio;
 };

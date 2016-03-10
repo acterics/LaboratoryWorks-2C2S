@@ -38,6 +38,7 @@ void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X_ROTATION_SPEED_ECHO, _xRotationEcho);
 	DDX_Control(pDX, IDC_Y_ROTATION_SPEED_SLIDER, _yRotationSlider);
 	DDX_Text(pDX, IDC_Y_ROTATION_SPEED_ECHO, _yRotationEcho);
+	DDX_Control(pDX, IDC_SELECT_MODE_RADIO, _selectModeRadio);
 }
 
 BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
@@ -53,6 +54,8 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_COMMAND(ID_TOOLS_LIGHT, &CLaboratoryWork01Dlg::OnToolsLight)
 	ON_WM_MOUSEMOVE()
 	ON_WM_CLOSE()
+	ON_BN_CLICKED(IDC_SELECT_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio)
+	ON_BN_CLICKED(IDC_ROTATE_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio)
 END_MESSAGE_MAP()
 
 
@@ -88,6 +91,8 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 
 	_xGLPositionEcho.Format(_T("0"));
 	_yGLPositionEcho.Format(_T("0"));
+
+	_selectModeRadio.SetCheck(BST_CHECKED);
 
 
 	// Setup the OpenGL Window's timer to render
@@ -334,3 +339,15 @@ void CLaboratoryWork01Dlg::OnClose()
 }
 
 
+
+
+void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
+{
+	_oglWindow.setMode(OGLControl::SELECT);
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio()
+{
+	_oglWindow.setMode(OGLControl::ROTATE);
+}

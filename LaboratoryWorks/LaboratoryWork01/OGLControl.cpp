@@ -211,28 +211,37 @@ void OGLControl::oglInitialize()
 
 	glEnable(GL_COLOR_MATERIAL);
 
-	//glEnable(GL_LIGHTING);
-	//glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-
-	//GLfloat light5_diffuse[] = { 1.0, 1.0, 1.0 };
-	//GLfloat light5_position[] = { 100, 100, 100, 1.0 };
-
-	//glEnable(GL_LIGHT5);
-	//glLightfv(GL_LIGHT5, GL_DIFFUSE, light5_diffuse);
-	//glLightfv(GL_LIGHT5, GL_POSITION, light5_position);
-	//glLightf(GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.0);
-	//glLightf(GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.001);
-	//glLightf(GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.002);
+	glEnable(GL_LIGHT0);
+	float light_ambient[] = { 0.0,0.0,0.0,1.0 };
+	float light_diffuse[] = { 0.5,0.5,0.5,1.0 };
+	float light_specular[] = { 1.0,1.0,1.0,1.0 };
+	float light_position[] = { 0.5, 0.0, 1.0 ,0.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	_lightOn = true;
-	// Turn on backface culling
+
+	// Basic Setup: 
+	// 
+	// Set color to use when clearing the background. 
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearDepth(1.0f);
+
+	// Turn on backface culling 
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 
-	// Turn on depth testing
+	// Turn on depth testing 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
-	// Send draw request
+	glEnable(GL_LIGHTING);
+	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glEnable(GL_NORMALIZE);
+
+
+
 	OnDraw(NULL);
 }
 
@@ -471,15 +480,23 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 
 void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 {
+	int diffX = (int)(point.x - _fLastX);
+	int diffY = (int)(point.y - _fLastY);
+	_fLastX = (float)point.x;
+	_fLastY = (float)point.y;
 	switch (_mode)
 	{
-	case SELECT: return;
+	case SELECT: 
+	{
+		if (_selected)
+		{
+			if (nFlags & MK_LBUTTON)
+				_selected->translate(glm::vec3(0.0025f * diffX * _fZoom, 0.0025f * (-diffY) * _fZoom, 0));
+		}
+		break;
+	};
 	case ROTATE:
-		int diffX = (int)(point.x - _fLastX);
-		int diffY = (int)(point.y - _fLastY);
-		_fLastX = (float)point.x;
-		_fLastY = (float)point.y;
-
+	{
 		if (nFlags & MK_LBUTTON)
 		{
 			_fRotX += (float)0.5f * diffY;
@@ -514,6 +531,7 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 
 		CWnd::OnMouseMove(nFlags, point);
 		break;
+	}
 	default:
 		break;
 	}
@@ -526,8 +544,9 @@ void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
 	switch (_mode)
 	{
 	case OGLControl::SELECT:
+	{
+		_selected = nullptr;
 		glm::vec2 p = projection(point);
-		Figure * selected = nullptr;
 		float maxZ = INT16_MIN;
 		float *current = nullptr;
 		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
@@ -538,13 +557,18 @@ void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
 				if (*current > maxZ)
 				{
 					maxZ = *current;
-					selected = *figure;
+					_selected = *figure;
 				}
 			}
 		}
-		if (selected)
-			selected->changeBorderVisible();
+		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
+			(*figure)->borderVisibleOff();
+		if (_selected)
+		{
+			_selected->changeBorderVisible();
+		}
 		break;
+	}
 	case OGLControl::ROTATE:
 		break;
 	default:
