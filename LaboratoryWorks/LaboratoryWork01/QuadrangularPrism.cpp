@@ -13,7 +13,7 @@ GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 c
 }
 
 GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 topFaceTrans, float h, Quadrangle * face) :
-	Figure(pos, col)
+	Figure(pos, col), _facePointer(face)
 {
 	Quadrangle * top = new Quadrangle(*face);
 	top->translate(glm::vec3(topFaceTrans.x, h / 2 + topFaceTrans.y, topFaceTrans.z));
@@ -29,6 +29,14 @@ GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 c
 	face->rotate(glm::vec3(PI / 2, 0, 0));
 	addFace(face)*/;
 	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), topFaceTrans, h, face));
+}
+
+void GraphicElements::QuadrangularPrism::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Figure::saveProperties(propertyRS, figureID);
+	saveProperty(propertyRS, _T("Type"), TYPE_PRISM, figureID);
+	saveProperty(propertyRS, _T("Height"), _height, figureID);
+	saveProperty(propertyRS, _T("FacePointer"), (int)_facePointer, figureID);
 }
 
 

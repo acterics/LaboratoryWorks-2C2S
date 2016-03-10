@@ -30,6 +30,12 @@ Disc::~Disc()
 {
 }
 
+void GraphicElements::Disc::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Circle::saveProperties(propertyRS, figureID, faceID);
+}
+
+
 void GraphicElements::Disc::draw(glm::vec3 figurePos)
 {
 	draw(figurePos, glm::vec3(0, 0, 0));

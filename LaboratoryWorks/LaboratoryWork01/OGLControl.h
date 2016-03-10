@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include "afxcmn.h"
 #include "Frustum.h"
 #include "QuadrangularPrism.h"
 
@@ -28,6 +29,7 @@ public:
 	void setXRotationSpeed(float a) { _xRotationSpeed = a; }
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
 	void lightSwitch();
+	std::vector<Figure *> figures() { return _figures; }
 private:
 
 
@@ -49,6 +51,10 @@ private:
 
 	CWnd * _hWnd;
 
+	CString _xOGLPositionEcho;
+	CString _yOGLPositionEcho;
+
+
 public:
 	OGLControl(void); 
 	virtual ~OGLControl(void);
@@ -64,12 +70,12 @@ public:
 	float getValue(CString var);
 	glm::vec3 getColor(CString var);
 
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_LAB01TRAINING01_DIALOG };
+	enum { IDD = DC_OGL_CONTROL};
 #endif
 
 protected:
+	//virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:

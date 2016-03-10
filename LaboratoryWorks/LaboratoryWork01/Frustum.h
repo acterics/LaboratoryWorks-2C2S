@@ -14,6 +14,7 @@ namespace GraphicElements
 		Frustum();
 		Frustum(glm::vec3 pos, glm::vec3 col, float h, float tR, float bR);
 		Frustum(glm::vec3 pos, glm::vec3 col, float h, float tR, float bR, unsigned int smooth);
+		void saveProperties(CProperties &propertyRS, long figureID, long faceID = -1) override;
 		~Frustum();
 	};
 }

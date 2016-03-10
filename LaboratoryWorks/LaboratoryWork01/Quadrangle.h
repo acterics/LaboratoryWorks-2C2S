@@ -20,6 +20,7 @@ namespace GraphicElements
 		float _topEdgeTranslation;
 	public:
 		Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr);
+		void saveProperties(CProperties & propertyRS, long figureID, long faceID) override;
 	};
 
 	class Parallelogram : public Trapeze

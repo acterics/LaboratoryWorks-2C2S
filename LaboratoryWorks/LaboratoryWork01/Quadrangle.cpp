@@ -30,6 +30,16 @@ GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, f
 {
 }
 
+void GraphicElements::Trapeze::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Face::saveProperties(propertyRS, figureID, faceID);
+	saveProperty(propertyRS, _T("Type"), TYPE_TRAPEZE, figureID, faceID);
+	saveProperty(propertyRS, _T("Height"), _height, figureID, faceID);
+	saveProperty(propertyRS, _T("TopEdgeLength"), _topEdge, figureID, faceID);
+	saveProperty(propertyRS, _T("BottomEdgeLength"), _bottomEdge, figureID, faceID);
+	saveProperty(propertyRS, _T("TopEdgeTranslation"), _topEdgeTranslation, figureID, faceID);
+}
+
 GraphicElements::Parallelogram::Parallelogram(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float edge, float tETr) :
 	Trapeze(pos, col, rot, h, edge, edge, tETr)
 {

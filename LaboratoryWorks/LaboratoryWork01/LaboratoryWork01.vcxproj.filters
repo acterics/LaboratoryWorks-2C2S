@@ -44,6 +44,10 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="CSessions.cpp" />
+    <ClCompile Include="CFigures.cpp" />
+    <ClCompile Include="CProperties.cpp" />
+    <ClCompile Include="CFaces.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LaboratoryWork01.h" />
@@ -93,6 +97,10 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Material.h" />
+    <ClInclude Include="CSessions.h" />
+    <ClInclude Include="CFigures.h" />
+    <ClInclude Include="CProperties.h" />
+    <ClInclude Include="CFaces.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\LaboratoryWork01.rc2">

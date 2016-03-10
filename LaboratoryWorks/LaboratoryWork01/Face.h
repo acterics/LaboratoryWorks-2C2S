@@ -23,6 +23,7 @@ namespace GraphicElements
 		virtual void draw(glm::vec3 figurePos, glm::vec3 figureRot);
 		
 		std::vector<glm::vec3> points();
+		virtual void saveProperties(CProperties & propertyRS, long figureID, long faceID) override;
 		~Face();
 	};
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "Face.h"
 #include "GraphicElement.h"
-
 namespace GraphicElements
 {
 	class Figure : public GraphicElement
@@ -14,6 +13,8 @@ namespace GraphicElements
 		~Figure();
 		void draw();
 		void addFace(Face * face);
+		std::vector<Face *> faces() { return _faces; }
+		float detectCollision(CPoint p);
 	};
 }
 

@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "OGLControl.h"
+#include "LaboratoryWork01.h"
+#include "afxdialogex.h"
 
 
 // OGLControl dialog
@@ -23,7 +25,9 @@ void OGLControl::lightSwitch()
 	}
 }
 
-OGLControl::OGLControl()
+OGLControl::OGLControl() :
+	_xOGLPositionEcho(_T(""))
+	, _yOGLPositionEcho(_T(""))
 {
 	_isMaximized = false;
 	_fZoom = 10.0f;
@@ -79,7 +83,7 @@ void OGLControl::oglInitialize()
 
 	glEnable(GL_COLOR_MATERIAL);
 
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 	glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
 	GLfloat light5_diffuse[] = { 1.0, 1.0, 1.0 };
@@ -203,6 +207,9 @@ END_MESSAGE_MAP()
 
 
 // OGLControl message handlers
+
+
+
 
 
 void OGLControl::OnTimer(UINT_PTR nIDEvent)
@@ -338,10 +345,17 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 
 void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 {
+
 	int diffX = (int)(point.x - _fLastX);
 	int diffY = (int)(point.y - _fLastY);
 	_fLastX = (float)point.x;
 	_fLastY = (float)point.y;
+	
+	//UpdateData(TRUE);
+	// TODO: Add your message handler code here and/or call default
+	//_xOGLPositionEcho.Format(_T("%d"), _fLastX);
+	//_yOGLPositionEcho.Format(_T("%d"), _fLastY);
+	//UpdateData(FALSE);
 
 	// Left mouse button
 	if (nFlags & MK_LBUTTON)

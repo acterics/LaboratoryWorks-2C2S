@@ -12,7 +12,7 @@ GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot,
 }
 
 GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 topFaceTrans, float h, Face * topFace, Face * bottomFace) :
-	Face(pos, col, rot), _height(h), _topFaceTranslation(topFaceTrans)
+	Face(pos, col, rot), _height(h), _topFaceTranslation(topFaceTrans), _topFacePointer(topFace), _bottomFacePointer(bottomFace)
 {
 	_drawingMode = GL_QUAD_STRIP;
 	init(topFace, bottomFace, topFaceTrans);
@@ -58,6 +58,19 @@ void GraphicElements::SideFace::init(Face * topFace, Face * bottomFace, glm::vec
 	currentPoint = bottomFace->points().front();
 	currentPoint.z -= _height / 2;
 	_points.push_back(currentPoint);
+
+}
+
+void GraphicElements::SideFace::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Face::saveProperties(propertyRS, figureID, faceID);
+	saveProperty(propertyRS, _T("Type"), TYPE_SIDE_FACE, figureID, faceID);
+	saveProperty(propertyRS, _T("Height"), _height, figureID, faceID);
+	saveProperty(propertyRS, _T("_TopFaceTranslationX"), _topFaceTranslation.x, figureID, faceID);
+	saveProperty(propertyRS, _T("_TopFaceTranslationY"), _topFaceTranslation.y, figureID, faceID);
+	saveProperty(propertyRS, _T("_TopFaceTranslationZ"), _topFaceTranslation.z, figureID, faceID);
+	saveProperty(propertyRS, _T("TopFacePointer"), (int)_topFacePointer, figureID, faceID);
+	saveProperty(propertyRS, _T("BottomFacePointer"), (int)_bottomFacePointer, figureID, faceID);
 
 }
 

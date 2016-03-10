@@ -26,3 +26,8 @@ void GraphicElements::Figure::addFace(Face * face)
 {
 	_faces.push_back(face);
 }
+
+float GraphicElements::Figure::detectCollision(CPoint p)
+{
+	return 0.0f;
+}

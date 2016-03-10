@@ -20,8 +20,18 @@ CLaboratoryWork01Dlg::CLaboratoryWork01Dlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_LABORATORYWORK01_DIALOG, pParent)
 	, _xRotationEcho(_T(""))
 	, _yRotationEcho(_T(""))
+	, _xGLPositionEcho(_T(""))
+	, _yGLPositionEcho(_T(""))
 {
+	_figuresRS.Open();
+	_facesRS.Open();
+	_sessionsRS.Open();
+	_propertiesRS.Open();
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	//_facesRS = CFaces();
+	//_sessionsRS = CSessions();
+	//_figuresRS = CFigures();
+	//_propertiesRS = CProperties();
 }
 
 void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
@@ -31,6 +41,8 @@ void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X_ROTATION_SPEED_ECHO, _xRotationEcho);
 	DDX_Control(pDX, IDC_Y_ROTATION_SPEED_SLIDER, _yRotationSlider);
 	DDX_Text(pDX, IDC_Y_ROTATION_SPEED_ECHO, _yRotationEcho);
+	DDX_Text(pDX, IDC_OGL_X_POSITION, _xGLPositionEcho);
+	DDX_Text(pDX, IDC_OGL_Y_POSITION, _yGLPositionEcho);
 }
 
 BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
@@ -44,6 +56,9 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_ADD_PRISM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddPrismButton)
 	ON_WM_HSCROLL()
 	ON_COMMAND(ID_TOOLS_LIGHT, &CLaboratoryWork01Dlg::OnToolsLight)
+	ON_WM_MOUSEMOVE()
+	ON_STN_CLICKED(IDC_OGL_CONTROL, &CLaboratoryWork01Dlg::OnStnClickedOglControl)
+	ON_COMMAND(ID_SESSION_SAVE, &CLaboratoryWork01Dlg::OnSessionSave)
 END_MESSAGE_MAP()
 
 
@@ -77,10 +92,16 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 	_yRotationSlider.SetPos(0);
 	_yRotationEcho.Format(_T("0"));
 
+	_xGLPositionEcho.Format(_T("0"));
+	_yGLPositionEcho.Format(_T("0"));
+
+
 	// Setup the OpenGL Window's timer to render
 	_oglWindow._unpTimer = _oglWindow.SetTimer(1, 1, 0);
+	SetTimer(0, 100, NULL);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE  unless you set the focus to a control
+
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -110,6 +131,7 @@ void CLaboratoryWork01Dlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 	}
+
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -123,9 +145,11 @@ HCURSOR CLaboratoryWork01Dlg::OnQueryDragIcon()
 
 void CLaboratoryWork01Dlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: Add your message handler code here and/or call default
-
-	CDialogEx::OnTimer(nIDEvent);
+	//UpdateData(TRUE);
+	//_xGLPositionEcho.Format(_T("%d"), _oglWindow._fLastX);
+	//_yGLPositionEcho.Format(_T("%d"), _oglWindow._fLastY);
+	//UpdateData(FALSE);
+	//CDialogEx::OnTimer(nIDEvent);
 }
 
 
@@ -222,4 +246,41 @@ void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 void CLaboratoryWork01Dlg::OnToolsLight()
 {
 	_oglWindow.lightSwitch();
+}
+
+
+
+void CLaboratoryWork01Dlg::OnStnClickedOglControl()
+{
+
+}
+
+
+
+
+
+void CLaboratoryWork01Dlg::OnSessionSave()
+{
+	_sessionsRS.AddNew();
+	_sessionsRS.m_ID = _sessionsRS.GetRecordCount();
+	_sessionsRS.m_NAME.Format(_T("Session%d"), _sessionsRS.m_ID);
+	_sessionsRS.Update();
+	for (auto figure : _oglWindow.figures())
+	{
+		_figuresRS.AddNew();
+		_figuresRS.m_ID = _figuresRS.GetRecordCount();;
+		_figuresRS.m_SESSION_ID = _sessionsRS.m_ID;
+		_figuresRS.m_NAME.Format(_T("%dFigure%d"), _sessionsRS.m_ID, _figuresRS.m_ID);
+		figure->saveProperties(_propertiesRS, _figuresRS.m_ID);
+		_figuresRS.Update();
+		for (std::vector<Face *>::iterator face = figure->faces().begin(); face != figure->faces().end(); face++)
+		{
+			_facesRS.AddNew();
+			_facesRS.m_ID = _facesRS.GetRecordCount();;
+			_facesRS.m_FIGURE_ID = _figuresRS.m_ID;
+			_figuresRS.m_NAME.Format(_T("%dFace%d"), _figuresRS.m_ID, _facesRS.m_ID);
+			(*face)->saveProperties(_propertiesRS, _figuresRS.m_ID, _facesRS.m_ID);
+			_facesRS.Update();
+		}
+	}
 }

@@ -20,6 +20,16 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, float h, float t
 	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), h, _faces.front(), _faces.back()));
 }
 
+void GraphicElements::Frustum::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	GraphicElement::saveProperties(propertyRS, figureID);
+	saveProperty(propertyRS, _T("Type"), TYPE_FRUSTUM, figureID);
+	saveProperty(propertyRS, _T("Height"), _height, figureID);
+	saveProperty(propertyRS, _T("TopRadius"), _topRadius, figureID);
+	saveProperty(propertyRS, _T("BottomRadius"), _bottomRadius, figureID);
+
+}
+
 
 Frustum::~Frustum()
 {
