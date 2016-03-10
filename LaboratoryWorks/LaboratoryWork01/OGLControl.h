@@ -8,7 +8,7 @@
 #include "CProperties.h"
 
   
-
+#define MATRIX_SIZE 20
 //#include "Frustum.h"
 //using namespace GraphicElements;
 // OGLControl dialog
@@ -16,6 +16,7 @@
 using namespace GraphicElements;
 class OGLControl : public CWnd
 {
+	enum Mode{SELECT, ROTATE};
 public:
 	UINT_PTR	_unpTimer;
 	bool		_isMaximized;
@@ -28,17 +29,18 @@ public:
 	float		_fRotY;
 
 	BOOL		_lightOn;
+	Mode		_mode;
 
-	
+
 
 	void setXRotationSpeed(float a) { _xRotationSpeed = a; }
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
 	void lightSwitch();
 	std::vector<Figure *> figures() { return _figures; }
-	
+
 	void loadFigure(CProperties& pRS);
-	void loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
-	void loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
+	
+
 private:
 
 
@@ -63,6 +65,11 @@ private:
 	CString _xOGLPositionEcho;
 	CString _yOGLPositionEcho;
 
+	void loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
+	void loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
+
+	glm::vec2 projection(CPoint point);
+
 
 public:
 	OGLControl(void); 
@@ -70,6 +77,8 @@ public:
 	void oglCreate(CRect rect, CWnd * parrent);
 	void oglInitialize(void);
 	void oglDrawScene(void);
+
+	void setMode(Mode mode) { _mode = mode; }
 
 	void addFigure(Figure * f);
 	void clearScene();
@@ -94,4 +103,5 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };

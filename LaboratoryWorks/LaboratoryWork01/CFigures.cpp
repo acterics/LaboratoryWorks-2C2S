@@ -62,6 +62,11 @@ int CFigures::addRecord(int sessionID)
 	Update();
 	return m_prevID;
 }
+void CFigures::clearRecords()
+{
+
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // CFigures diagnostics
 

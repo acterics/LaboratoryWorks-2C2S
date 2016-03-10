@@ -32,6 +32,7 @@ public:
 	virtual CString GetDefaultSQL(); 	// default SQL for Recordset
 	virtual void DoFieldExchange(CFieldExchange* pFX);	// RFX support
 	int addRecord();
+	void clearRecords();
 
 // Implementation
 #ifdef _DEBUG

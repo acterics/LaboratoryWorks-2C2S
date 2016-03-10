@@ -87,3 +87,17 @@ void GraphicElements::GraphicElement::rotate(glm::vec3 r)
 {
 	_rotation += r;
 }
+
+glm::mat3x3 GraphicElements::GraphicElement::xRotationMatrix(float angle)
+{
+	return glm::mat3x3(1, 0, 0,
+		0, cos(angle), sin(angle),
+		0, -sin(angle), cos(angle));
+}
+
+glm::mat3x3 GraphicElements::GraphicElement::yRotationMatrix(float angle)
+{
+	return glm::mat3x3(cos(angle), 0, sin(angle),
+		0, 1, 0,
+		-sin(angle), 0, cos(angle));
+}

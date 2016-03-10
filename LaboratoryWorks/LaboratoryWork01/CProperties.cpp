@@ -70,6 +70,10 @@ int CProperties::addRecord(CString name, float value, long figureID, long faceID
 	Update();
 	return m_prevID;
 }
+void CProperties::clearRecords()
+{
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // CProperties diagnostics
 

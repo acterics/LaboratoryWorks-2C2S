@@ -52,9 +52,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_HSCROLL()
 	ON_COMMAND(ID_TOOLS_LIGHT, &CLaboratoryWork01Dlg::OnToolsLight)
 	ON_WM_MOUSEMOVE()
-	ON_STN_CLICKED(IDC_OGL_CONTROL, &CLaboratoryWork01Dlg::OnStnClickedOglControl)
-	ON_COMMAND(ID_SESSION_SAVE, &CLaboratoryWork01Dlg::OnSessionSave)
-	ON_COMMAND(ID_SESSION_RESTORE, &CLaboratoryWork01Dlg::OnSessionRestore)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -255,14 +253,19 @@ void CLaboratoryWork01Dlg::OnStnClickedOglControl()
 
 
 
-void CLaboratoryWork01Dlg::OnSessionSave()
+void CLaboratoryWork01Dlg::SaveScene()
 {
+	
+
+	if (_oglWindow.figures().empty())
+	{
+		MessageBox(_T("Nothing to save!"));
+		return;
+	}
 	_figuresRS.Open();
 	_facesRS.Open();
 	_sessionsRS.Open();
 	_propertiesRS.Open();
-	if (_oglWindow.figures().empty())
-		return;
 	int sID, figID, faceID;
 	sID = _sessionsRS.addRecord();
 	for (auto figure : _oglWindow.figures())
@@ -281,12 +284,19 @@ void CLaboratoryWork01Dlg::OnSessionSave()
 	_propertiesRS.Close();
 }
 
-
-void CLaboratoryWork01Dlg::OnSessionRestore()
+void CLaboratoryWork01Dlg::LoadScene(int sessionID)
 {
-	int sessionID = 1;
+	
 	_figuresRS.m_strFilter.Format(_T("[SESSION_ID] = %d"), sessionID);
 	_figuresRS.Open();
+	if (_figuresRS.IsEOF() && _figuresRS.IsBOF())
+	{
+		MessageBox(_T("Invalid SESSION_ID"));
+		_figuresRS.m_strFilter = "";
+		_figuresRS.Close();
+		return;
+	}
+	_oglWindow.clearScene();
 	//_figuresRS.Update();
 	if (!_figuresRS.IsBOF())
 		_figuresRS.MoveFirst();
@@ -299,9 +309,28 @@ void CLaboratoryWork01Dlg::OnSessionRestore()
 		_oglWindow.loadFigure(_propertiesRS);
 		_figuresRS.MoveNext();
 	}
-	_figuresRS.m_strFilter = "";
+	
 	_propertiesRS.m_strFilter = "";
+	_figuresRS.m_strFilter = "";
 	_figuresRS.Close();
 	_propertiesRS.Close();
-	// TODO: Add your command handler code here
 }
+
+
+
+
+
+
+
+void CLaboratoryWork01Dlg::OnClose()
+{
+	// TODO: Add your message handler code here and/or call default
+	_propertiesRS.clearRecords();
+	_figuresRS.clearRecords();
+	_sessionsRS.clearRecords();
+	_facesRS.clearRecords();
+	SaveScene();
+	CDialogEx::OnClose();
+}
+
+

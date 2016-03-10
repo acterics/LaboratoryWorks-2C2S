@@ -18,6 +18,8 @@
 #define TYPE_PRISM		2
 #define PI 3.14159265359
 
+#define ACCURACY 100
+
 namespace GraphicElements
 {
 
@@ -45,6 +47,9 @@ namespace GraphicElements
 		void setColor(glm::vec3 color);
 		void translate(glm::vec3 translation);
 		void rotate(glm::vec3 r);
+
+		glm::mat3x3 xRotationMatrix(float angle);
+		glm::mat3x3 yRotationMatrix(float angle);
 
 		virtual void saveProperties(CProperties &propertyRS, long figureID, long faceID = -1);
 		virtual void saveProperty(CProperties &propertyRS, CString name, float value, long figureID, long faceID = -1);

@@ -59,6 +59,12 @@ int CSessions::addRecord()
 	Update();
 	return m_prevID;
 }
+
+void CSessions::clearRecords()
+{
+
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // CSessions diagnostics
 

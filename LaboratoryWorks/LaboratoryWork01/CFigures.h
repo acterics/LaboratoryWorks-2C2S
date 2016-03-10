@@ -34,6 +34,8 @@ public:
 	virtual void DoFieldExchange(CFieldExchange* pFX);	// RFX support
 	int addRecord(int sessionID);
 
+	void clearRecords();
+
 // Implementation
 #ifdef _DEBUG
 	virtual void AssertValid() const;

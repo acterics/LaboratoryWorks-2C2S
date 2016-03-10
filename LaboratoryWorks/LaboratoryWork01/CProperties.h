@@ -37,6 +37,8 @@ public:
 
 	int addRecord(CString name, float value, long figureID, long faceID = -1);
 
+	void clearRecords();
+
 // Implementation
 #ifdef _DEBUG
 	virtual void AssertValid() const;

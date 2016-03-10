@@ -64,6 +64,11 @@ int CFaces::addRecord(int figureID)
 	Update();
 	return m_prevID;
 }
+void CFaces::clearRecords()
+{
+
+
+}
 /////////////////////////////////////////////////////////////////////////////
 // CFaces diagnostics
 

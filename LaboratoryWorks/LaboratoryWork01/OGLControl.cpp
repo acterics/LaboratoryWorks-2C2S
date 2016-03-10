@@ -145,6 +145,13 @@ void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CPropert
 	_figures.push_back(new QuadrangularPrism(pos, col, rot, height, new Quadrangle(col, a, b, c, d)));
 }
 
+glm::vec2 OGLControl::projection(CPoint point)
+{
+	GetWindowRect(_rect);
+	return glm::vec2((((point.x - (float)(_rect.Width()) / 2) / (float)(_rect.Width()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10))
+		, (((float)(_rect.Height()) / 2 - point.y) / (float)(_rect.Height()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10));
+}
+
 
 OGLControl::OGLControl() :
 	_xOGLPositionEcho(_T(""))
@@ -205,14 +212,14 @@ void OGLControl::oglInitialize()
 	glEnable(GL_COLOR_MATERIAL);
 
 	//glEnable(GL_LIGHTING);
-	glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+	//glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-	GLfloat light5_diffuse[] = { 1.0, 1.0, 1.0 };
-	GLfloat light5_position[] = { 100, 100, 100, 1.0 };
+	//GLfloat light5_diffuse[] = { 1.0, 1.0, 1.0 };
+	//GLfloat light5_position[] = { 100, 100, 100, 1.0 };
 
-	glEnable(GL_LIGHT5);
-	glLightfv(GL_LIGHT5, GL_DIFFUSE, light5_diffuse);
-	glLightfv(GL_LIGHT5, GL_POSITION, light5_position);
+	//glEnable(GL_LIGHT5);
+	//glLightfv(GL_LIGHT5, GL_DIFFUSE, light5_diffuse);
+	//glLightfv(GL_LIGHT5, GL_POSITION, light5_position);
 	//glLightf(GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.0);
 	//glLightf(GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.001);
 	//glLightf(GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.002);
@@ -231,11 +238,8 @@ void OGLControl::oglInitialize()
 
 void OGLControl::oglDrawScene()
 {
-
-
-	glColor3f(1, 1, 1);
-
-
+	
+	glColor3d(1, 1, 1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);
 	glVertex3f(0, 0, 0);
@@ -247,10 +251,11 @@ void OGLControl::oglDrawScene()
 	glVertex3f(0, 0, 0);
 	glVertex3f(0, 0, 10);
 	glEnd();
-
-
 	for (auto figure : _figures)
 		figure->draw();
+
+
+	
 
 }
 
@@ -262,11 +267,6 @@ void OGLControl::addFigure(Figure * f)
 void OGLControl::clearScene()
 {
 	_figures.clear();
-	_fZoom = 10.0f;
-	_fPosX = 0.0f;
-	_fPosY = 0.0f;
-	_fRotX = 0.0f;
-	_fRotY = -0.0f;
 }
 
 void OGLControl::rotateX(float a)
@@ -324,6 +324,7 @@ BEGIN_MESSAGE_MAP(OGLControl, CWnd)
 	ON_WM_PAINT()
 	ON_WM_SIZE()
 	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 
@@ -382,6 +383,7 @@ void OGLControl::OnDraw(CDC * pDC)
 	glTranslatef(_fPosX, _fPosY, 0.0f);
 	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
 	glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
+
 }
 
 
@@ -416,6 +418,9 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 	glLoadIdentity();
 	gluPerspective(80, 1, 0.1, 2000);
 	glMatrixMode(GL_MODELVIEW);
+	glOrtho(-MATRIX_SIZE / 2, MATRIX_SIZE / 2,
+		-MATRIX_SIZE / 2, MATRIX_SIZE / 2,
+		MATRIX_SIZE / 2, -MATRIX_SIZE / 2);
 	glLoadIdentity();
 	//_____________NEW _________
 	gluLookAt(350, 350, 300, 150, 150, 0, 0, 1, 0);
@@ -466,50 +471,84 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 
 void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 {
+	switch (_mode)
+	{
+	case SELECT: return;
+	case ROTATE:
+		int diffX = (int)(point.x - _fLastX);
+		int diffY = (int)(point.y - _fLastY);
+		_fLastX = (float)point.x;
+		_fLastY = (float)point.y;
 
-	int diffX = (int)(point.x - _fLastX);
-	int diffY = (int)(point.y - _fLastY);
-	_fLastX = (float)point.x;
-	_fLastY = (float)point.y;
+		if (nFlags & MK_LBUTTON)
+		{
+			_fRotX += (float)0.5f * diffY;
+
+			if ((_fRotX > 360.0f) || (_fRotX < -360.0f))
+			{
+				_fRotX = 0.0f;
+			}
+
+			_fRotY += (float)0.5f * diffX;
+
+			if ((_fRotY > 360.0f) || (_fRotY < -360.0f))
+			{
+				_fRotY = 0.0f;
+			}
+		}
+
+		// Right mouse button
+		else if (nFlags & MK_RBUTTON)
+		{
+			_fZoom -= (float)0.1f * diffY;
+		}
+
+		// Middle mouse button
+		else if (nFlags & MK_MBUTTON)
+		{
+			_fPosX += (float)0.05f * diffX;
+			_fPosY -= (float)0.05f * diffY;
+		}
+
+		OnDraw(NULL);
+
+		CWnd::OnMouseMove(nFlags, point);
+		break;
+	default:
+		break;
+	}
 	
-	//UpdateData(TRUE);
-	// TODO: Add your message handler code here and/or call default
-	//_xOGLPositionEcho.Format(_T("%d"), _fLastX);
-	//_yOGLPositionEcho.Format(_T("%d"), _fLastY);
-	//UpdateData(FALSE);
+}
 
-	// Left mouse button
-	if (nFlags & MK_LBUTTON)
+
+void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	switch (_mode)
 	{
-		_fRotX += (float)0.5f * diffY;
-
-		if ((_fRotX > 360.0f) || (_fRotX < -360.0f))
+	case OGLControl::SELECT:
+		glm::vec2 p = projection(point);
+		Figure * selected = nullptr;
+		float maxZ = INT16_MIN;
+		float *current = nullptr;
+		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
 		{
-			_fRotX = 0.0f;
+			if ((*figure)->detectCollision(p))
+			{
+				current = (*figure)->detectCollision(p);
+				if (*current > maxZ)
+				{
+					maxZ = *current;
+					selected = *figure;
+				}
+			}
 		}
-
-		_fRotY += (float)0.5f * diffX;
-
-		if ((_fRotY > 360.0f) || (_fRotY < -360.0f))
-		{
-			_fRotY = 0.0f;
-		}
+		if (selected)
+			selected->changeBorderVisible();
+		break;
+	case OGLControl::ROTATE:
+		break;
+	default:
+		break;
 	}
-
-	// Right mouse button
-	else if (nFlags & MK_RBUTTON)
-	{
-		_fZoom -= (float)0.1f * diffY;
-	}
-
-	// Middle mouse button
-	else if (nFlags & MK_MBUTTON)
-	{
-		_fPosX += (float)0.05f * diffX;
-		_fPosY -= (float)0.05f * diffY;
-	}
-
-	OnDraw(NULL);
-
-	CWnd::OnMouseMove(nFlags, point);
+	
 }

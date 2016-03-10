@@ -64,6 +64,8 @@ private:
 	CString _xGLPositionEcho;
 	CString _yGLPositionEcho;
 public:
-	afx_msg void OnSessionSave();
-	afx_msg void OnSessionRestore();
+	void SaveScene();
+	void LoadScene(int sessionID);
+	afx_msg void OnClose();
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };
