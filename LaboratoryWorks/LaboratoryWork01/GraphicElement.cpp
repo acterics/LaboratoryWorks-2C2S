@@ -50,12 +50,12 @@ void GraphicElements::GraphicElement::translate(glm::vec3 translation)
 
 void GraphicElements::GraphicElement::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
-	saveProperty(propertyRS, _T("PositionX"), _position.x, figureID, faceID);
-	saveProperty(propertyRS, _T("PositionY"), _position.y, figureID, faceID);
-	saveProperty(propertyRS, _T("PositionZ"), _position.z, figureID, faceID);
-	saveProperty(propertyRS, _T("RotationX"), _rotation.x, figureID, faceID);
-	saveProperty(propertyRS, _T("RotationY"), _rotation.y, figureID, faceID);
-	saveProperty(propertyRS, _T("RotationZ"), _rotation.z, figureID, faceID);
+	propertyRS.addRecord(_T("PositionX"), _position.x, figureID, faceID);
+	propertyRS.addRecord(_T("PositionY"), _position.y, figureID, faceID);
+	propertyRS.addRecord(_T("PositionZ"), _position.z, figureID, faceID);
+	propertyRS.addRecord(_T("RotationX"), _rotation.x, figureID, faceID);
+	propertyRS.addRecord(_T("RotationY"), _rotation.y, figureID, faceID);
+	propertyRS.addRecord(_T("RotationZ"), _rotation.z, figureID, faceID);
 }
 
 void GraphicElements::GraphicElement::saveProperty(CProperties & propertyRS, CString name, float value, long figureID, long faceID)

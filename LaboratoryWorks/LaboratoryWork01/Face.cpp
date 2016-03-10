@@ -82,9 +82,9 @@ std::vector<glm::vec3> GraphicElements::Face::points()
 void GraphicElements::Face::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
 	GraphicElement::saveProperties(propertyRS, figureID, faceID);
-	saveProperty(propertyRS, _T("ColorR"),_color.x, figureID, faceID);
-	saveProperty(propertyRS, _T("ColorG"), _color.y, figureID, faceID);
-	saveProperty(propertyRS, _T("ColorB"), _color.z, figureID, faceID);
+	propertyRS.addRecord(_T("ColorR"),_color.x, figureID, faceID);
+	propertyRS.addRecord(_T("ColorG"), _color.y, figureID, faceID);
+	propertyRS.addRecord(_T("ColorB"), _color.z, figureID, faceID);
 }
 
 

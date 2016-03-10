@@ -23,10 +23,10 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, float h, float t
 void GraphicElements::Frustum::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
 	GraphicElement::saveProperties(propertyRS, figureID);
-	saveProperty(propertyRS, _T("Type"), TYPE_FRUSTUM, figureID);
-	saveProperty(propertyRS, _T("Height"), _height, figureID);
-	saveProperty(propertyRS, _T("TopRadius"), _topRadius, figureID);
-	saveProperty(propertyRS, _T("BottomRadius"), _bottomRadius, figureID);
+	propertyRS.addRecord(_T("Type"), TYPE_FRUSTUM, figureID);
+	propertyRS.addRecord(_T("Height"), _height, figureID);
+	propertyRS.addRecord(_T("TopRadius"), _topRadius, figureID);
+	propertyRS.addRecord(_T("BottomRadius"), _bottomRadius, figureID);
 
 }
 

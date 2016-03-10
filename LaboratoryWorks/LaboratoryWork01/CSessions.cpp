@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(CSessions, CRecordset)
 CSessions::CSessions(CDatabase* pdb)
 	: CRecordset(pdb)
 {
+	
 	m_ID = 0;
 	m_NAME = "";
 	m_nFields = 2;
@@ -43,12 +44,20 @@ void CSessions::DoFieldExchange(CFieldExchange* pFX)
 	RFX_Text(pFX, _T("[NAME]"), m_NAME);
 
 }
-void CSessions::addRecord()
+int CSessions::addRecord()
 {
+	if (!IsBOF() || !IsEOF())
+	{
+		MoveLast();
+		m_prevID = m_ID;
+	}
+	else
+		m_prevID = -1;
 	AddNew();
-	m_ID = GetRecordCount();
+	m_ID = ++m_prevID;
 	m_NAME.Format(_T("Session%d"), m_ID);
-	//Update();
+	Update();
+	return m_prevID;
 }
 /////////////////////////////////////////////////////////////////////////////
 // CSessions diagnostics

@@ -14,6 +14,7 @@ IMPLEMENT_DYNAMIC(CFaces, CRecordset)
 CFaces::CFaces(CDatabase* pdb)
 	: CRecordset(pdb)
 {
+	m_prevID = -1;
 	m_ID = 0;
 	m_FIGURE_ID = 0;
 	m_NAME = "";
@@ -47,14 +48,21 @@ void CFaces::DoFieldExchange(CFieldExchange* pFX)
 	RFX_Text(pFX, _T("[NAME]"), m_NAME);
 
 }
-void CFaces::addRecord(int figureID)
+int CFaces::addRecord(int figureID)
 {
+	if (!IsBOF() || !IsEOF())
+	{
+		MoveLast();
+		m_prevID = m_ID;
+	}
+	else
+		m_prevID = -1;
 	AddNew();
-	m_ID = this->GetRecordCount();
+	m_ID = ++m_prevID;
 	m_FIGURE_ID = figureID;
 	m_NAME.Format(_T("%dFace%d"), figureID, m_ID);
-
-	//Update();
+	Update();
+	return m_prevID;
 }
 /////////////////////////////////////////////////////////////////////////////
 // CFaces diagnostics

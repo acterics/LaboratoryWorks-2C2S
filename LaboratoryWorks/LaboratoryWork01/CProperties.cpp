@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(CProperties, CRecordset)
 CProperties::CProperties(CDatabase* pdb)
 	: CRecordset(pdb)
 {
+	m_prevID = -1;
 	m_ID = 0;
 	m_FIGURE_ID = 0;
 	m_FACE_ID = 0;
@@ -49,16 +50,25 @@ void CProperties::DoFieldExchange(CFieldExchange* pFX)
 	RFX_Single(pFX, _T("[VALUE]"), m_VALUE);
 
 }
-void CProperties::addRecord(CString name, float value, long figureID, long faceID)
+int CProperties::addRecord(CString name, float value, long figureID, long faceID)
 {
+	if (!IsBOF() || !IsEOF())
+	{
+		MoveLast();
+		m_prevID = m_ID;
+	}
+	else
+		m_prevID = -1;
 	AddNew();
-	m_ID = GetRecordCount();
-	m_FIGURE_ID = figureID;
+	m_ID = ++m_prevID;
+	if(figureID >= 0)
+		m_FIGURE_ID = figureID;
 	if (faceID >= 0)
 		m_FACE_ID = faceID;
 	m_NAME = name;
 	m_VALUE = value;
-	//Update();
+	Update();
+	return m_prevID;
 }
 /////////////////////////////////////////////////////////////////////////////
 // CProperties diagnostics

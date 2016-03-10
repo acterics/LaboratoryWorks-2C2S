@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(CFigures, CRecordset)
 CFigures::CFigures(CDatabase* pdb)
 	: CRecordset(pdb)
 {
+	m_prevID = -1;
 	m_ID = 0;
 	m_SESSION_ID = 0;
 	m_NAME = "";
@@ -45,13 +46,21 @@ void CFigures::DoFieldExchange(CFieldExchange* pFX)
 	RFX_Text(pFX, _T("[NAME]"), m_NAME);
 
 }
-void CFigures::addRecord(int sessionID)
+int CFigures::addRecord(int sessionID)
 {
+	if (!IsBOF() || !IsEOF())
+	{
+		MoveLast();
+		m_prevID = m_ID;
+	}
+	else
+		m_prevID = -1;
 	AddNew();
-	m_ID = GetRecordCount();;
+	m_ID = ++m_prevID;
 	m_SESSION_ID = sessionID;
 	m_NAME.Format(_T("%dFigure%d"), sessionID, m_ID);
-	//Update();
+	Update();
+	return m_prevID;
 }
 /////////////////////////////////////////////////////////////////////////////
 // CFigures diagnostics

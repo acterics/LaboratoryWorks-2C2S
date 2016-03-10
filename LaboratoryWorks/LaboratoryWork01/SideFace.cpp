@@ -64,14 +64,14 @@ void GraphicElements::SideFace::init(Face * topFace, Face * bottomFace, glm::vec
 void GraphicElements::SideFace::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
 	Face::saveProperties(propertyRS, figureID, faceID);
-	saveProperty(propertyRS, _T("Type"), TYPE_SIDE_FACE, figureID, faceID);
-	saveProperty(propertyRS, _T("Height"), _height, figureID, faceID);
-	saveProperty(propertyRS, _T("_TopFaceTranslationX"), _topFaceTranslation.x, figureID, faceID);
-	saveProperty(propertyRS, _T("_TopFaceTranslationY"), _topFaceTranslation.y, figureID, faceID);
-	saveProperty(propertyRS, _T("_TopFaceTranslationZ"), _topFaceTranslation.z, figureID, faceID);
-	saveProperty(propertyRS, _T("TopFacePointer"), (int)_topFacePointer, figureID, faceID);
-	saveProperty(propertyRS, _T("BottomFacePointer"), (int)_bottomFacePointer, figureID, faceID);
-
+	propertyRS.addRecord(_T("Type"), TYPE_SIDE_FACE, figureID, faceID);
+	propertyRS.addRecord(_T("Height"), _height, figureID, faceID);
+	propertyRS.addRecord(_T("_TopFaceTranslationX"), _topFaceTranslation.x, figureID, faceID);
+	propertyRS.addRecord(_T("_TopFaceTranslationY"), _topFaceTranslation.y, figureID, faceID);
+	propertyRS.addRecord(_T("_TopFaceTranslationZ"), _topFaceTranslation.z, figureID, faceID);
+	_topFacePointer->saveProperties(propertyRS, -1, faceID);
+	_bottomFacePointer->saveProperties(propertyRS, -1, faceID);
+	
 }
 
 

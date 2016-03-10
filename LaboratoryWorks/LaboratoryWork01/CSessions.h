@@ -20,6 +20,7 @@ public:
 // (Note: You must use an ODBC driver version that is version 3.5 or greater
 // to support both Unicode and these conversions).
 
+	long	m_prevID;
 	long	m_ID;
 	CString	m_NAME;
 
@@ -30,7 +31,7 @@ public:
 
 	virtual CString GetDefaultSQL(); 	// default SQL for Recordset
 	virtual void DoFieldExchange(CFieldExchange* pFX);	// RFX support
-	void addRecord();
+	int addRecord();
 
 // Implementation
 #ifdef _DEBUG

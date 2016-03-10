@@ -261,26 +261,16 @@ void CLaboratoryWork01Dlg::OnStnClickedOglControl()
 
 void CLaboratoryWork01Dlg::OnSessionSave()
 {
-	_sessionsRS.AddNew();
-	_sessionsRS.m_ID = _sessionsRS.GetRecordCount();
-	_sessionsRS.m_NAME.Format(_T("Session%d"), _sessionsRS.m_ID);
-	_sessionsRS.Update();
+	int sID, figID, faceID;
+	sID = _sessionsRS.addRecord();
 	for (auto figure : _oglWindow.figures())
 	{
-		_figuresRS.AddNew();
-		_figuresRS.m_ID = _figuresRS.GetRecordCount();;
-		_figuresRS.m_SESSION_ID = _sessionsRS.m_ID;
-		_figuresRS.m_NAME.Format(_T("%dFigure%d"), _sessionsRS.m_ID, _figuresRS.m_ID);
-		figure->saveProperties(_propertiesRS, _figuresRS.m_ID);
-		_figuresRS.Update();
-		for (std::vector<Face *>::iterator face = figure->faces().begin(); face != figure->faces().end(); face++)
+		figID = _figuresRS.addRecord(sID);
+		figure->saveProperties(_propertiesRS, figID);
+		for (unsigned int i = 0; i < figure->faces().size(); i++)
 		{
-			_facesRS.AddNew();
-			_facesRS.m_ID = _facesRS.GetRecordCount();;
-			_facesRS.m_FIGURE_ID = _figuresRS.m_ID;
-			_figuresRS.m_NAME.Format(_T("%dFace%d"), _figuresRS.m_ID, _facesRS.m_ID);
-			(*face)->saveProperties(_propertiesRS, _figuresRS.m_ID, _facesRS.m_ID);
-			_facesRS.Update();
+			faceID = _facesRS.addRecord(figID);
+			figure->faces()[i]->saveProperties(_propertiesRS, figID, faceID);
 		}
 	}
 }

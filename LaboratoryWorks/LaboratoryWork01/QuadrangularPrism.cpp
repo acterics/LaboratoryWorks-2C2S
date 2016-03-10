@@ -34,9 +34,10 @@ GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 c
 void GraphicElements::QuadrangularPrism::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
 	Figure::saveProperties(propertyRS, figureID);
-	saveProperty(propertyRS, _T("Type"), TYPE_PRISM, figureID);
-	saveProperty(propertyRS, _T("Height"), _height, figureID);
-	saveProperty(propertyRS, _T("FacePointer"), (int)_facePointer, figureID);
+	propertyRS.addRecord(_T("Type"), TYPE_PRISM, figureID);
+	propertyRS.addRecord(_T("Height"), _height, figureID);
+	_facePointer->saveProperties(propertyRS, figureID, -1);
+	//propertyRS.addRecord(_T("FacePointer"), (int)_facePointer, figureID);
 }
 
 

@@ -34,7 +34,7 @@ GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, flo
 void GraphicElements::Circle::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
 	Face::saveProperties(propertyRS, figureID, faceID);
-	saveProperty(propertyRS, _T("Radius"), _radius, figureID, faceID);
+	propertyRS.addRecord(_T("Radius"), _radius, figureID, faceID);
 }
 
 void GraphicElements::Circle::init(unsigned int smooth)
