@@ -56,6 +56,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(IDC_SELECT_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio)
 	ON_BN_CLICKED(IDC_ROTATE_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -97,7 +98,21 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 
 	// Setup the OpenGL Window's timer to render
 	_oglWindow._unpTimer = _oglWindow.SetTimer(1, 1, 0);
+	_sessionsRS.Open();
 
+	if (!_sessionsRS.IsBOF() || !_sessionsRS.IsEOF())
+	{
+		LoadScene(_sessionsRS.m_ID);
+		_figuresRS.Open();
+		_propertiesRS.Open();
+		_sessionsRS.clearRecords();
+		_figuresRS.clearRecords();
+		_propertiesRS.clearRecords();
+		_propertiesRS.Close();
+		_figuresRS.Close();
+	}
+	_sessionsRS.Close();
+	
 	//_sessionsRS.m_strSort = _T("[ID]")
 	//
 	//LoadScene(_sessionsRS.m_ID);
@@ -250,6 +265,7 @@ void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 void CLaboratoryWork01Dlg::OnToolsLight()
 {
 	_oglWindow.lightSwitch();
+
 }
 
 
@@ -334,12 +350,8 @@ void CLaboratoryWork01Dlg::LoadScene(int sessionID)
 
 void CLaboratoryWork01Dlg::OnClose()
 {
-	// TODO: Add your message handler code here and/or call default
-	//_propertiesRS.clearRecords();
-	//_figuresRS.clearRecords();
-	//_sessionsRS.clearRecords();
-	//_facesRS.clearRecords();
-	SaveScene();
+
+	//SaveScene();
 	CDialogEx::OnClose();
 }
 
@@ -355,4 +367,13 @@ void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
 void CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio()
 {
 	_oglWindow.setMode(OGLControl::ROTATE);
+}
+
+
+void CLaboratoryWork01Dlg::OnDestroy()
+{
+	SaveScene();
+	CDialogEx::OnDestroy();
+
+	// TODO: Add your message handler code here
 }

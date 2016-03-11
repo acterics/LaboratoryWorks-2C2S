@@ -15,12 +15,12 @@ void OGLControl::lightSwitch()
 {
 	if (_lightOn)
 	{
-		//glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHTING);
 		_lightOn = false;
 	}
 	else
 	{
-		//glEnable(GL_LIGHT0);
+		glEnable(GL_LIGHTING);
 		_lightOn = true;
 	}
 }
@@ -490,8 +490,23 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		if (_selected)
 		{
+
 			if (nFlags & MK_LBUTTON)
-				_selected->translate(glm::vec3(0.0025f * diffX * _fZoom, 0.0025f * (-diffY) * _fZoom, 0));
+			{
+				glm::vec3 translation(0.0025f * diffX * _fZoom, 0.0025f * (-diffY) * _fZoom, 0);
+
+				//translation = glm::mat3x3(1, 0, 0,
+				//	0, cos(_fRotX), sin(_fRotX),
+				//	0, -sin(_fRotX), cos(_fRotX)) * translation;
+
+				//translation = glm::mat3x3(cos(_fRotY), 0, sin(_fRotY),
+				//	0, 1, 0,
+				//	-sin(_fRotY), 0, cos(_fRotY)) * translation;
+
+
+				_selected->translate(translation);
+
+			}
 		}
 		break;
 	};

@@ -62,7 +62,14 @@ int CSessions::addRecord()
 
 void CSessions::clearRecords()
 {
-
+	if (!IsBOF() || !IsEOF())
+	{
+		while (!IsEOF())
+		{
+			Delete();
+			MoveNext();
+		}
+	}
 
 }
 /////////////////////////////////////////////////////////////////////////////
