@@ -97,7 +97,12 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 
 	// Setup the OpenGL Window's timer to render
 	_oglWindow._unpTimer = _oglWindow.SetTimer(1, 1, 0);
+
+	//_sessionsRS.m_strSort = _T("[ID]")
+	//
+	//LoadScene(_sessionsRS.m_ID);
 	SetTimer(0, 100, NULL);
+
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 
@@ -264,7 +269,7 @@ void CLaboratoryWork01Dlg::SaveScene()
 
 	if (_oglWindow.figures().empty())
 	{
-		MessageBox(_T("Nothing to save!"));
+		//MessageBox(_T("Nothing to save!"));
 		return;
 	}
 	_figuresRS.Open();
@@ -330,10 +335,10 @@ void CLaboratoryWork01Dlg::LoadScene(int sessionID)
 void CLaboratoryWork01Dlg::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
-	_propertiesRS.clearRecords();
-	_figuresRS.clearRecords();
-	_sessionsRS.clearRecords();
-	_facesRS.clearRecords();
+	//_propertiesRS.clearRecords();
+	//_figuresRS.clearRecords();
+	//_sessionsRS.clearRecords();
+	//_facesRS.clearRecords();
 	SaveScene();
 	CDialogEx::OnClose();
 }

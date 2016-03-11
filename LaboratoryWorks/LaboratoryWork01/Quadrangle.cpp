@@ -2,12 +2,20 @@
 #include "Quadrangle.h"
 using namespace GraphicElements;
 
-Quadrangle::Quadrangle()
+
+
+GraphicElements::Quadrangle::Quadrangle(Quadrangle & q) :
+	Quadrangle(q._position, q._color, q._rotation, q._points[0], q._points[1], q._points[2], q._points[3])
 {
 }
 
 GraphicElements::Quadrangle::Quadrangle(glm::vec3 col, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d) :
 	Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0), a, b, c, d)
+{
+}
+
+GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, Quadrangle * face) :
+	Quadrangle(pos, col, rot, face->_points[0], face->_points[1], face->_points[2], face->_points[3])
 {
 }
 
@@ -37,9 +45,9 @@ void GraphicElements::Quadrangle::init()
 GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr) :
 	Quadrangle(pos, col, rot,
 		glm::vec3(-tE / 2 + tETr, h / 2, 0),
+		glm::vec3(-bE / 2, -h / 2, 0),
 		glm::vec3(tE / 2 + tETr, h / 2, 0),
-		glm::vec3(bE / 2, -h / 2, 0),
-		glm::vec3(-bE / 2, -h / 2, 0)), _height(h), _topEdge(tE), _bottomEdge(bE), _topEdgeTranslation(tETr)
+		glm::vec3(bE / 2, -h / 2, 0)), _height(h), _topEdge(tE), _bottomEdge(bE), _topEdgeTranslation(tETr)
 {
 }
 

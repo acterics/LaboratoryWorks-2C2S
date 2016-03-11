@@ -6,8 +6,9 @@ namespace GraphicElements
 	class Quadrangle : public Face
 	{
 	public:
-		Quadrangle();
+		Quadrangle(Quadrangle &q);
 		Quadrangle(glm::vec3 col, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
+		Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, Quadrangle* face);
 		Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
 		~Quadrangle();
 		void init() override;
