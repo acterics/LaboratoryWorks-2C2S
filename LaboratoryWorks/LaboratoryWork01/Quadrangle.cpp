@@ -14,7 +14,7 @@ GraphicElements::Quadrangle::Quadrangle(glm::vec3 col, glm::vec3 a, glm::vec3 b,
 GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d) :
 	Face(pos, col, rot)
 {
-	_drawingMode = GL_QUADS;
+	_drawingMode = GL_QUAD_STRIP;
 	_points.push_back(a);
 	_points.push_back(b);
 	_points.push_back(c);

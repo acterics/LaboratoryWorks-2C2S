@@ -6,6 +6,11 @@ using namespace GraphicElements;
 void Face::init()
 {
 	_normal = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * _normal;
+	for (glm::vec3& point : _points)
+	{
+		point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * point;
+		point += _position;
+	}
 }
 
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos)
@@ -22,7 +27,6 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot, int pointIndex)
 {
 	
-
 	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * point;
 	point += figurePos;
 
@@ -64,12 +68,8 @@ GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot) :
 {
 
 	
-	for (auto point = _points.begin(); point != _points.end(); point++)
-	{
-		*point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * *point;
-		*point += _position;
+	//for (auto point = _points.begin(); point != _points.end(); point++)
 
-	}
 	
 }
 GraphicElements::Face::Face(glm::vec3 pos) :
@@ -90,11 +90,15 @@ void GraphicElements::Face::draw(glm::vec3 figurePos, glm::vec3 figureRot)
 	_minX = INT16_MAX;
 	_minY = INT16_MAX;
 	_maxZ = INT16_MIN;
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
-	applyColor();
 	glBegin(_drawingMode);
-	glNormal3f(_normal.x, _normal.y, _normal.z);
+	
+	glm::vec3 curNormal = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * _normal;
+
+	glNormal3f(curNormal.x, curNormal.y, curNormal.z);
+	applyColor();
 	for (unsigned int i = 0; i < _points.size(); i++)
 		drawPoint(_points[i], figurePos, figureRot, i);
 	glEnd();

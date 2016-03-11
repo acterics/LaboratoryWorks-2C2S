@@ -16,7 +16,6 @@ namespace GraphicElements
 		unsigned int _smooth;
 
 	public:
-		Circle();
 		Circle(glm::vec3 pos, glm::vec3 col, float r);
 		Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r);
 		Circle(glm::vec3 pos, glm::vec3 col, float r, unsigned int smooth);

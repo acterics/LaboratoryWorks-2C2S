@@ -3,10 +3,6 @@
 using namespace GraphicElements;
 
 
-Circle::Circle() :
-	Face(), _radius(DEFAULT_RADIUS)
-{
-}
 
 GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, float r) :
 	Circle(pos, col, glm::vec3(0, 0, 0), r)
@@ -26,10 +22,12 @@ GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, float r, unsigned 
 GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r, unsigned int smooth) :
 	Face(pos, col, rot), _radius(r), _smooth(smooth)
 {
+	_normal = glm::vec3(0, 0, 0);
 	_polygonMode = GL_LINE;
 	_drawingMode = GL_LINE_LOOP;
 	init();
 }
+
 
 
 void GraphicElements::Circle::saveProperties(CProperties & propertyRS, long figureID, long faceID)
