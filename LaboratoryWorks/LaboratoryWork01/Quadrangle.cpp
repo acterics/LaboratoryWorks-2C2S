@@ -19,6 +19,7 @@ GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 
 	_points.push_back(b);
 	_points.push_back(c);
 	_points.push_back(d);
+	init();
 }
 
 
@@ -26,12 +27,12 @@ Quadrangle::~Quadrangle()
 {
 }
 
-int GraphicElements::Quadrangle::getNormalIndex(int pointIndex)
+void GraphicElements::Quadrangle::init()
 {
-	if (!pointIndex)
-		return 0;
-	return -1;
+	_normal = glm::normalize(glm::cross(_points[0] - _points[1], _points[2] - _points[1]));
+	Face::init();
 }
+
 
 GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr) :
 	Quadrangle(pos, col, rot,

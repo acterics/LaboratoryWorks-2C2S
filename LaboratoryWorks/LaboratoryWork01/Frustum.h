@@ -1,6 +1,7 @@
 #pragma once
 #include "Figure.h"
 #include "SideFace.h"
+#include "Quadrangle.h"
 #include "Disc.h"
 
 namespace GraphicElements

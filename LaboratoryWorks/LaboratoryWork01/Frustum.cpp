@@ -24,9 +24,16 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, f
 	addFace(new Disc(glm::vec3(0, h / 2, 0), col, glm::vec3(PI / 2, 0, 0), tR, smooth));
 	
 	addFace(new Disc(glm::vec3(0, -h / 2, 0), col, glm::vec3(PI / 2, 0, 0), bR, smooth));
-	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), h, _faces.front(), _faces.back()));
-	_faces[0]->addNormal(glm::vec3(0, 0, 0));
-	_faces[1]->addNormal(glm::vec3(0, 0, 0));
+	for (unsigned int i = 0; i < _faces[0]->points().size() - 1; i++)
+	{
+		addFace(new Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0),
+			_faces[0]->points()[i], _faces[0]->points()[i + 1],
+			_faces[1]->points()[i + 1], _faces[1]->points()[i]));
+	}
+	addFace(new Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0),
+		_faces[0]->points().back(), _faces[0]->points().front(),
+		_faces[1]->points().front(), _faces[1]->points().back()));
+
 }
 
 void GraphicElements::Frustum::saveProperties(CProperties & propertyRS, long figureID, long faceID)

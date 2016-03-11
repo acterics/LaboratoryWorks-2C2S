@@ -10,8 +10,7 @@ namespace GraphicElements
 		Quadrangle(glm::vec3 col, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
 		Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
 		~Quadrangle();
-
-		int getNormalIndex(int pointIndex) override;
+		void init() override;
 	};
 
 	class Trapeze : public Quadrangle

@@ -30,12 +30,6 @@ Disc::~Disc()
 {
 }
 
-void GraphicElements::Disc::saveProperties(CProperties & propertyRS, long figureID, long faceID)
-{
-	Circle::saveProperties(propertyRS, figureID, faceID);
-}
-
-
 void GraphicElements::Disc::draw(glm::vec3 figurePos)
 {
 	draw(figurePos, glm::vec3(0, 0, 0));
@@ -46,15 +40,20 @@ void GraphicElements::Disc::draw(glm::vec3 figurePos, glm::vec3 figureRot)
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 	applyColor();
 	glBegin(_drawingMode);
+	glNormal3f(_normal.x, _normal.y, _normal.z);
 	for (unsigned int i = 1; i < _points.size(); i++)
 	{
 		drawPoint(_points[i - 1], figurePos, figureRot);
 		drawPoint(glm::vec3(0, 0, 0), figurePos, figureRot);
 		drawPoint(_points[i], figurePos, figureRot);
-
 	}
 	drawPoint(_points.back(), figurePos, figureRot);
 	drawPoint(glm::vec3(0, 0, 0), figurePos, figureRot);
 	drawPoint(_points.front(), figurePos, figureRot);
 	glEnd();
+}
+
+void GraphicElements::Disc::init()
+{
+	Circle::init();
 }
