@@ -13,6 +13,8 @@ namespace GraphicElements
 	{
 	protected:
 		float _radius;
+
+		int getNormalIndex(int pointIndex) override;
 	public:
 		Circle();
 		Circle(glm::vec3 pos, glm::vec3 col, float r);

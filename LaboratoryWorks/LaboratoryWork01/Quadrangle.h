@@ -10,6 +10,8 @@ namespace GraphicElements
 		Quadrangle(glm::vec3 col, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
 		Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
 		~Quadrangle();
+
+		int getNormalIndex(int pointIndex) override;
 	};
 
 	class Trapeze : public Quadrangle
@@ -19,6 +21,8 @@ namespace GraphicElements
 		float _topEdge;
 		float _bottomEdge;
 		float _topEdgeTranslation;
+
+		
 	public:
 		Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr);
 		void saveProperties(CProperties & propertyRS, long figureID, long faceID) override;

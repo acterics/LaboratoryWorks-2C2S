@@ -22,8 +22,11 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, f
 	Figure(pos, col, rot), _height(h), _topRadius(tR), _bottomRadius(bR), _smooth(smooth)
 {
 	addFace(new Disc(glm::vec3(0, h / 2, 0), col, glm::vec3(PI / 2, 0, 0), tR, smooth));
+	
 	addFace(new Disc(glm::vec3(0, -h / 2, 0), col, glm::vec3(PI / 2, 0, 0), bR, smooth));
 	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), h, _faces.front(), _faces.back()));
+	_faces[0]->addNormal(glm::vec3(0, 0, 0));
+	_faces[1]->addNormal(glm::vec3(0, 0, 0));
 }
 
 void GraphicElements::Frustum::saveProperties(CProperties & propertyRS, long figureID, long faceID)

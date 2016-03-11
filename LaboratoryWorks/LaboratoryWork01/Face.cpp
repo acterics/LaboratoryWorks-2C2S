@@ -10,9 +10,15 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos)
 
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot)
 {
+	drawPoint(point, figurePos, figureRot, -1);
+
+}
+
+void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot, int pointIndex)
+{
 	point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * point;
 	point += _position;
-	
+
 	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * point;
 	point += figurePos;
 
@@ -27,12 +33,25 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 		_minY = point.y;
 	if (point.z > _maxZ)
 		_maxZ = point.z;
+	int normalIndex = getNormalIndex(pointIndex);
+	if (normalIndex >= 0)
+	{
+		glm::vec3 normal = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * _normals[normalIndex];
+		normal = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * normal;// normal;
+		glNormal3f(normal.x, normal.y, normal.z);
+	}
+		
 
 	glVertex3f(point.x,
 		point.y,
 		point.z);
-
 }
+
+int GraphicElements::Face::getNormalIndex(int pointIndex)
+{
+	return -1;
+}
+
 
 
 
@@ -74,12 +93,14 @@ void GraphicElements::Face::draw(glm::vec3 figurePos, glm::vec3 figureRot)
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 	applyColor();
 	glBegin(_drawingMode);
-	for (auto point : _points)
-		drawPoint(point, figurePos, figureRot);
+	for (unsigned int i = 0; i < _points.size(); i++)
+		drawPoint(_points[i], figurePos, figureRot, i);
 	glEnd();
 	//_maxZ *= ACCURACY;
-	_border.SetRect(CPoint(_maxX * ACCURACY, _maxY* ACCURACY), CPoint(_minX * ACCURACY, _minY * ACCURACY));
+	_border.SetRect(CPoint(_maxX * ACCURACY, _maxY * ACCURACY), CPoint(_minX * ACCURACY, _minY * ACCURACY));
 }
+
+
 
 std::vector<glm::vec3> GraphicElements::Face::points()
 {
@@ -102,4 +123,9 @@ void GraphicElements::Face::saveProperties(CProperties & propertyRS, long figure
 
 Face::~Face()
 {
+}
+
+void GraphicElements::Face::addNormal(glm::vec3 normal)
+{
+	_normals.push_back(normal);
 }

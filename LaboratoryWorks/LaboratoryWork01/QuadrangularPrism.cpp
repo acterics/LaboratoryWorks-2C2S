@@ -29,6 +29,8 @@ GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 c
 	face->rotate(glm::vec3(PI / 2, 0, 0));
 	addFace(face)*/;
 	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), topFaceTrans, h, face));
+	_faces[0]->addNormal(glm::vec3(0, 1, 0));
+	_faces[1]->addNormal(glm::vec3(0, -1, 0));
 }
 
 void GraphicElements::QuadrangularPrism::saveProperties(CProperties & propertyRS, long figureID, long faceID)

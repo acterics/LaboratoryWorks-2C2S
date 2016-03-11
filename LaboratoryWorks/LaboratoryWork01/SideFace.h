@@ -10,6 +10,8 @@ namespace GraphicElements
 		glm::vec3 _topFaceTranslation;
 		Face *_topFacePointer;
 		Face *_bottomFacePointer;
+
+		int getNormalIndex(int pointIndex) override;
 	public:
 		SideFace();
 		SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 topFaceTrans, float h, Face * topFace, Face * bottomFace);

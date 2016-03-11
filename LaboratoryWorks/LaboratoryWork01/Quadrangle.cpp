@@ -26,6 +26,13 @@ Quadrangle::~Quadrangle()
 {
 }
 
+int GraphicElements::Quadrangle::getNormalIndex(int pointIndex)
+{
+	if (!pointIndex)
+		return 0;
+	return -1;
+}
+
 GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr) :
 	Quadrangle(pos, col, rot,
 		glm::vec3(-tE / 2 + tETr, h / 2, 0),

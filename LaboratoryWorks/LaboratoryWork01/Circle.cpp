@@ -2,6 +2,13 @@
 #include "Circle.h"
 using namespace GraphicElements;
 
+int GraphicElements::Circle::getNormalIndex(int pointIndex)
+{
+	if(!pointIndex)
+		return 0;
+	return -1;
+}
+
 Circle::Circle() :
 	Face(), _radius(DEFAULT_RADIUS)
 {
@@ -59,6 +66,8 @@ void GraphicElements::Circle::init(unsigned int smooth)
 	}
 	fin.close();
 }
+
+
 
 
 Circle::~Circle()

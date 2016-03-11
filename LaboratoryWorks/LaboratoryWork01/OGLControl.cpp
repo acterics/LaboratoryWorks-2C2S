@@ -211,22 +211,14 @@ void OGLControl::oglInitialize()
 
 	glEnable(GL_COLOR_MATERIAL);
 
-	glEnable(GL_LIGHT0);
-	float light_ambient[] = { 0.0,0.0,0.0,1.0 };
-	float light_diffuse[] = { 0.5,0.5,0.5,1.0 };
-	float light_specular[] = { 1.0,1.0,1.0,1.0 };
-	float light_position[] = { 0.5, 0.0, 1.0 ,0.0 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
 	_lightOn = true;
 
 	// Basic Setup: 
 	// 
 	// Set color to use when clearing the background. 
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClearDepth(1.0f);
+	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//glClearDepth(1.0f);
 
 	// Turn on backface culling 
 	glFrontFace(GL_CCW);
@@ -241,6 +233,15 @@ void OGLControl::oglInitialize()
 	glEnable(GL_NORMALIZE);
 
 
+	glEnable(GL_LIGHT0);
+	float light_ambient[] = { 0.0,0.0,0.0,1.0 };
+	float light_diffuse[] = { 0.5,0.5,0.5,1.0 };
+	float light_specular[] = { 1.0,1.0,1.0,1.0 };
+	float light_position[] = { 10, 0, 1.0 ,0.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
 	OnDraw(NULL);
 }
@@ -387,7 +388,6 @@ int OGLControl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void OGLControl::OnDraw(CDC * pDC)
 {
 	glLoadIdentity();
-
 	glTranslatef(0.0f, 0.0f, -_fZoom);
 	glTranslatef(_fPosX, _fPosY, 0.0f);
 	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
