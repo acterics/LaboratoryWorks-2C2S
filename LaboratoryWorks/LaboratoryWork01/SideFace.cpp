@@ -2,12 +2,10 @@
 #include "SideFace.h"
 using namespace GraphicElements;
 
-int GraphicElements::SideFace::getNormalIndex(int pointIndex)
+
+
+void GraphicElements::SideFace::init()
 {
-	if (!pointIndex % 2)
-		return pointIndex;
-	else
-		return -1;
 }
 
 SideFace::SideFace()
@@ -71,8 +69,6 @@ void GraphicElements::SideFace::init(Face * topFace, Face * bottomFace, glm::vec
 		_points.push_back(currentPoint);
 	
 
-
-		_normals.push_back(glm::normalize(glm::vec3(currentPoint.x, 0, currentPoint.z)));
 			//glm::normalize(
 			//glm::cross(_points[2 * i - 2] - _points[2 * i - 1], _points[2 * i] - _points[2 * i - 1])));
 

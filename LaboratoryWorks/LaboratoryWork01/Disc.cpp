@@ -4,9 +4,6 @@
 using namespace GraphicElements;
 
 
-Disc::Disc()
-{
-}
 
 GraphicElements::Disc::Disc(glm::vec3 pos, glm::vec3 col, float r) :
 	Disc(pos, col, glm::vec3(0, 0, 0), r)
@@ -25,36 +22,32 @@ GraphicElements::Disc::Disc(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r
 	_drawingMode = GL_TRIANGLES;
 }
 
+GraphicElements::Disc::Disc(Circle & circle) :
+	Circle(circle)
+{
+	_polygonMode = GL_FILL;
+	_drawingMode = GL_TRIANGLES;
+	init();
+}
+
 
 Disc::~Disc()
 {
 }
 
-void GraphicElements::Disc::saveProperties(CProperties & propertyRS, long figureID, long faceID)
-{
-	Circle::saveProperties(propertyRS, figureID, faceID);
-}
 
-
-void GraphicElements::Disc::draw(glm::vec3 figurePos)
+void GraphicElements::Disc::init()
 {
-	draw(figurePos, glm::vec3(0, 0, 0));
-}
-
-void GraphicElements::Disc::draw(glm::vec3 figurePos, glm::vec3 figureRot)
-{
-	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
-	applyColor();
-	glBegin(_drawingMode);
+	std::vector<glm::vec3> points;
 	for (unsigned int i = 1; i < _points.size(); i++)
 	{
-		drawPoint(_points[i - 1], figurePos, figureRot);
-		drawPoint(glm::vec3(0, 0, 0), figurePos, figureRot);
-		drawPoint(_points[i], figurePos, figureRot);
-
+		points.push_back(_points[i - 1]);
+		points.push_back(_position);
+		points.push_back(_points[i]);
 	}
-	drawPoint(_points.back(), figurePos, figureRot);
-	drawPoint(glm::vec3(0, 0, 0), figurePos, figureRot);
-	drawPoint(_points.front(), figurePos, figureRot);
-	glEnd();
+	points.push_back(_points.back());
+	points.push_back(_position);
+	points.push_back(_points.front());
+	_points = points;
+	
 }

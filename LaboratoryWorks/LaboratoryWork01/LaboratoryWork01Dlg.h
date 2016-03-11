@@ -70,4 +70,5 @@ public:
 	afx_msg void OnBnClickedSelectModeRadio();
 	afx_msg void OnBnClickedRotateModeRadio();
 	CButton _selectModeRadio;
+	afx_msg void OnDestroy();
 };

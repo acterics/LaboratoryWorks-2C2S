@@ -3,6 +3,16 @@
 using namespace GraphicElements;
 
 
+void Face::init()
+{
+	_normal = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * _normal;
+	for (glm::vec3& point : _points)
+	{
+		point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * point;
+		point += _position;
+	}
+}
+
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos)
 {
 	drawPoint(point, figurePos, glm::vec3(0, 0, 0));
@@ -16,9 +26,7 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot, int pointIndex)
 {
-	point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * point;
-	point += _position;
-
+	
 	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * point;
 	point += figurePos;
 
@@ -33,13 +41,7 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 		_minY = point.y;
 	if (point.z > _maxZ)
 		_maxZ = point.z;
-	int normalIndex = getNormalIndex(pointIndex);
-	if (normalIndex >= 0)
-	{
-		glm::vec3 normal = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * _normals[normalIndex];
-		normal = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * normal;// normal;
-		glNormal3f(normal.x, normal.y, normal.z);
-	}
+
 		
 
 	glVertex3f(point.x,
@@ -47,10 +49,6 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 		point.z);
 }
 
-int GraphicElements::Face::getNormalIndex(int pointIndex)
-{
-	return -1;
-}
 
 
 
@@ -69,8 +67,11 @@ GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot) :
 	GraphicElement(pos, col, rot)
 {
 
-}
+	
+	//for (auto point = _points.begin(); point != _points.end(); point++)
 
+	
+}
 GraphicElements::Face::Face(glm::vec3 pos) :
 	Face(pos, COLOR_WHITE)
 {
@@ -89,10 +90,15 @@ void GraphicElements::Face::draw(glm::vec3 figurePos, glm::vec3 figureRot)
 	_minX = INT16_MAX;
 	_minY = INT16_MAX;
 	_maxZ = INT16_MIN;
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
-	applyColor();
 	glBegin(_drawingMode);
+	
+	glm::vec3 curNormal = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * _normal;
+
+	glNormal3f(curNormal.x, curNormal.y, curNormal.z);
+	applyColor();
 	for (unsigned int i = 0; i < _points.size(); i++)
 		drawPoint(_points[i], figurePos, figureRot, i);
 	glEnd();
@@ -112,20 +118,14 @@ CRect GraphicElements::Face::faceRect()
 	return _border;
 }
 
-void GraphicElements::Face::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+void GraphicElements::Face::setNormal(glm::vec3 normal)
 {
-	GraphicElement::saveProperties(propertyRS, figureID, faceID);
-	propertyRS.addRecord(_T("ColorR"),_color.x, figureID, faceID);
-	propertyRS.addRecord(_T("ColorG"), _color.y, figureID, faceID);
-	propertyRS.addRecord(_T("ColorB"), _color.z, figureID, faceID);
+	_normal = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * normal;
 }
+
+
 
 
 Face::~Face()
 {
-}
-
-void GraphicElements::Face::addNormal(glm::vec3 normal)
-{
-	_normals.push_back(normal);
 }

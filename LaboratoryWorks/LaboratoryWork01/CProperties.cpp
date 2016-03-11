@@ -72,7 +72,14 @@ int CProperties::addRecord(CString name, float value, long figureID, long faceID
 }
 void CProperties::clearRecords()
 {
-
+	if (!IsBOF() || !IsEOF())
+	{
+		while (!IsEOF())
+		{
+			Delete();
+			MoveNext();
+		}
+	}
 }
 /////////////////////////////////////////////////////////////////////////////
 // CProperties diagnostics

@@ -64,7 +64,14 @@ int CFigures::addRecord(int sessionID)
 }
 void CFigures::clearRecords()
 {
-
+	if (!IsBOF() || !IsEOF())
+	{
+		while (!IsEOF())
+		{
+			Delete();
+			MoveNext();
+		}
+	}
 
 }
 /////////////////////////////////////////////////////////////////////////////

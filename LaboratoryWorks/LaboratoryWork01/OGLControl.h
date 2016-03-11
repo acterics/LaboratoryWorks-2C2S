@@ -6,6 +6,7 @@
 
 #include "CFaces.h"
 #include "CProperties.h"
+#include <glm\gtx\transform.hpp>
 
   
 #define MATRIX_SIZE 20

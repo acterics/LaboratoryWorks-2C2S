@@ -2,17 +2,7 @@
 #include "Circle.h"
 using namespace GraphicElements;
 
-int GraphicElements::Circle::getNormalIndex(int pointIndex)
-{
-	if(!pointIndex)
-		return 0;
-	return -1;
-}
 
-Circle::Circle() :
-	Face(), _radius(DEFAULT_RADIUS)
-{
-}
 
 GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, float r) :
 	Circle(pos, col, glm::vec3(0, 0, 0), r)
@@ -30,12 +20,14 @@ GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, float r, unsigned 
 }
 
 GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r, unsigned int smooth) :
-	Face(pos, col, rot), _radius(r)
+	Face(pos, col, rot), _radius(r), _smooth(smooth)
 {
+	_normal = glm::vec3(0, 0, 0);
 	_polygonMode = GL_LINE;
 	_drawingMode = GL_LINE_LOOP;
-	init(smooth);
+	init();
 }
+
 
 
 void GraphicElements::Circle::saveProperties(CProperties & propertyRS, long figureID, long faceID)
@@ -44,16 +36,16 @@ void GraphicElements::Circle::saveProperties(CProperties & propertyRS, long figu
 	propertyRS.addRecord(_T("Radius"), _radius, figureID, faceID);
 }
 
-void GraphicElements::Circle::init(unsigned int smooth)
+void GraphicElements::Circle::init()
 {
 	_points.clear();
-	std::ifstream fin(getFileName(smooth), std::ios::in, std::ios::binary);
+	std::ifstream fin(getFileName(_smooth), std::ios::in, std::ios::binary);
 
 	if (!fin)
 	{
 		fin.close();
-		generate(smooth);
-		init(smooth);
+		generate(_smooth);
+		init();
 		return;
 	}
 
@@ -65,7 +57,9 @@ void GraphicElements::Circle::init(unsigned int smooth)
 		_points.push_back(glm::vec3(point.x * _radius, point.y * _radius, 0));
 	}
 	fin.close();
+	Face::init();
 }
+
 
 
 

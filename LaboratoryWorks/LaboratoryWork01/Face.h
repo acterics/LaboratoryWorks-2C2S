@@ -7,7 +7,7 @@ namespace GraphicElements
 	{
 	protected:
 		std::vector<glm::vec3> _points;
-		std::vector<glm::vec3> _normals;
+		glm::vec3 _normal;
 		CRect _border;
 		float _maxX;
 		float _maxY;
@@ -20,7 +20,7 @@ namespace GraphicElements
 		void drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot);
 		void drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot, int pointIndex);
 
-		virtual int getNormalIndex(int pointIndex);
+		virtual void init();
 		
 
 	public:
@@ -35,9 +35,8 @@ namespace GraphicElements
 		
 		std::vector<glm::vec3> points();
 		CRect faceRect();
-		virtual void saveProperties(CProperties & propertyRS, long figureID, long faceID) override;
 
-		void addNormal(glm::vec3 normal);
+		void setNormal(glm::vec3 normal);
 
 
 		~Face();
