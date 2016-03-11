@@ -13,11 +13,31 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, float h, float t
 }
 
 GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, float h, float tR, float bR, unsigned int smooth) :
-	Figure(pos, col), _height(h), _topRadius(tR), _bottomRadius(bR)
+	Frustum(pos, col, glm::vec3(0, 0, 0), h, tR, bR, smooth)
+{
+
+}
+
+GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tR, float bR, unsigned int smooth) :
+	Figure(pos, col, rot), _height(h), _topRadius(tR), _bottomRadius(bR), _smooth(smooth)
 {
 	addFace(new Disc(glm::vec3(0, h / 2, 0), col, glm::vec3(PI / 2, 0, 0), tR, smooth));
+	
 	addFace(new Disc(glm::vec3(0, -h / 2, 0), col, glm::vec3(PI / 2, 0, 0), bR, smooth));
 	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), h, _faces.front(), _faces.back()));
+	_faces[0]->addNormal(glm::vec3(0, 0, 0));
+	_faces[1]->addNormal(glm::vec3(0, 0, 0));
+}
+
+void GraphicElements::Frustum::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	GraphicElement::saveProperties(propertyRS, figureID);
+	propertyRS.addRecord(_T("Type"), TYPE_FRUSTUM, figureID);
+	propertyRS.addRecord(_T("Smooth"), _smooth, figureID);
+	propertyRS.addRecord(_T("Height"), _height, figureID);
+	propertyRS.addRecord(_T("TopRadius"), _topRadius, figureID);
+	propertyRS.addRecord(_T("BottomRadius"), _bottomRadius, figureID);
+
 }
 
 

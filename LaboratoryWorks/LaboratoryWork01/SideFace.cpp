@@ -2,6 +2,14 @@
 #include "SideFace.h"
 using namespace GraphicElements;
 
+int GraphicElements::SideFace::getNormalIndex(int pointIndex)
+{
+	if (!pointIndex % 2)
+		return pointIndex;
+	else
+		return -1;
+}
+
 SideFace::SideFace()
 {
 }
@@ -12,7 +20,7 @@ GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot,
 }
 
 GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 topFaceTrans, float h, Face * topFace, Face * bottomFace) :
-	Face(pos, col, rot), _height(h), _topFaceTranslation(topFaceTrans)
+	Face(pos, col, rot), _height(h), _topFaceTranslation(topFaceTrans), _topFacePointer(topFace), _bottomFacePointer(bottomFace)
 {
 	_drawingMode = GL_QUAD_STRIP;
 	init(topFace, bottomFace, topFaceTrans);
@@ -41,24 +49,64 @@ GraphicElements::SideFace::SideFace(glm::vec3 pos, glm::vec3 col, float h, Face 
 void GraphicElements::SideFace::init(Face * topFace, Face * bottomFace, glm::vec3 topFaceTrans)
 {
 	glm::vec3 currentPoint;
+	glm::vec3 normal;
+	//currentPoint = topFace->points()[0];
+	//currentPoint += topFaceTrans;
+	//currentPoint.z += _height / 2;
+	//_points.push_back(currentPoint);
+	//currentPoint = bottomFace->points()[0];
+	//currentPoint.z -= _height / 2;
+	//_points.push_back(currentPoint);
+
 	for (unsigned int i = 0; i < topFace->points().size(); i++)
 	{
+
+		currentPoint = bottomFace->points()[i];
+		currentPoint.z -= _height / 2;
+		_points.push_back(currentPoint);
+		
 		currentPoint = topFace->points()[i];
 		currentPoint += topFaceTrans;
 		currentPoint.z += _height / 2;
 		_points.push_back(currentPoint);
-		currentPoint = bottomFace->points()[i];
-		currentPoint.z -= _height / 2;
-		_points.push_back(currentPoint);
+	
+
+
+		_normals.push_back(glm::normalize(glm::vec3(currentPoint.x, 0, currentPoint.z)));
+			//glm::normalize(
+			//glm::cross(_points[2 * i - 2] - _points[2 * i - 1], _points[2 * i] - _points[2 * i - 1])));
+
+
+
+
 	}
-	currentPoint = topFace->points().front();
-	currentPoint += topFaceTrans;
-	currentPoint.z += _height / 2;
-	_points.push_back(currentPoint);
+	//_normals.push_back(glm::normalize(
+	//	glm::cross(_points[_points.size() - 2] - _points.back(), _points[1] - _points.back())));
+
 	currentPoint = bottomFace->points().front();
 	currentPoint.z -= _height / 2;
 	_points.push_back(currentPoint);
 
+	currentPoint = topFace->points().front();
+	currentPoint += topFaceTrans;
+	currentPoint.z += _height / 2;
+	_points.push_back(currentPoint);
+
+	
+
+}
+
+void GraphicElements::SideFace::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Face::saveProperties(propertyRS, figureID, faceID);
+	propertyRS.addRecord(_T("Type"), TYPE_SIDE_FACE, figureID, faceID);
+	propertyRS.addRecord(_T("Height"), _height, figureID, faceID);
+	//propertyRS.addRecord(_T("_TopFaceTranslationX"), _topFaceTranslation.x, figureID, faceID);
+	//propertyRS.addRecord(_T("_TopFaceTranslationY"), _topFaceTranslation.y, figureID, faceID);
+	//propertyRS.addRecord(_T("_TopFaceTranslationZ"), _topFaceTranslation.z, figureID, faceID);
+	//_topFacePointer->saveProperties(propertyRS, -1, faceID);
+	//_bottomFacePointer->saveProperties(propertyRS, -1, faceID);
+	
 }
 
 

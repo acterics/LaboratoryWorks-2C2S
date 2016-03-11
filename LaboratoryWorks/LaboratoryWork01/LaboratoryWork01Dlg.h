@@ -6,6 +6,9 @@
 #include "OGLControl.h"
 #include "FrustumAddingDialog.h"
 #include "PrismAddingDialog.h"
+#include "CSessions.h"
+#include "CFaces.h"
+#include "CFigures.h"
 #include "afxwin.h"
 #include "afxcmn.h"
 //#include 
@@ -18,7 +21,10 @@ public:
 	CLaboratoryWork01Dlg(CWnd* pParent = NULL);	// standard constructor
 
 	OGLControl _oglWindow;
-
+	CSessions _sessionsRS;
+	CFigures  _figuresRS;
+	CFaces	  _facesRS;
+	CProperties _propertiesRS;
 	// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_LABORATORYWORK01_DIALOG};
@@ -53,4 +59,15 @@ private:
 
 public:
 	afx_msg void OnToolsLight();
+	afx_msg void OnStnClickedOglControl();
+private:
+	CString _xGLPositionEcho;
+	CString _yGLPositionEcho;
+public:
+	void SaveScene();
+	void LoadScene(int sessionID);
+	afx_msg void OnClose();
+	afx_msg void OnBnClickedSelectModeRadio();
+	afx_msg void OnBnClickedRotateModeRadio();
+	CButton _selectModeRadio;
 };

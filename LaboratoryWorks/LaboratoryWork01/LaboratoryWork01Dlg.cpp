@@ -20,8 +20,15 @@ CLaboratoryWork01Dlg::CLaboratoryWork01Dlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_LABORATORYWORK01_DIALOG, pParent)
 	, _xRotationEcho(_T(""))
 	, _yRotationEcho(_T(""))
+	, _xGLPositionEcho(_T(""))
+	, _yGLPositionEcho(_T(""))
 {
+
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	//_facesRS = CFaces();
+	//_sessionsRS = CSessions();
+	//_figuresRS = CFigures();
+	//_propertiesRS = CProperties();
 }
 
 void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
@@ -31,6 +38,7 @@ void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X_ROTATION_SPEED_ECHO, _xRotationEcho);
 	DDX_Control(pDX, IDC_Y_ROTATION_SPEED_SLIDER, _yRotationSlider);
 	DDX_Text(pDX, IDC_Y_ROTATION_SPEED_ECHO, _yRotationEcho);
+	DDX_Control(pDX, IDC_SELECT_MODE_RADIO, _selectModeRadio);
 }
 
 BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
@@ -44,6 +52,10 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_ADD_PRISM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddPrismButton)
 	ON_WM_HSCROLL()
 	ON_COMMAND(ID_TOOLS_LIGHT, &CLaboratoryWork01Dlg::OnToolsLight)
+	ON_WM_MOUSEMOVE()
+	ON_WM_CLOSE()
+	ON_BN_CLICKED(IDC_SELECT_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio)
+	ON_BN_CLICKED(IDC_ROTATE_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio)
 END_MESSAGE_MAP()
 
 
@@ -77,10 +89,18 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 	_yRotationSlider.SetPos(0);
 	_yRotationEcho.Format(_T("0"));
 
+	_xGLPositionEcho.Format(_T("0"));
+	_yGLPositionEcho.Format(_T("0"));
+
+	_selectModeRadio.SetCheck(BST_CHECKED);
+
+
 	// Setup the OpenGL Window's timer to render
 	_oglWindow._unpTimer = _oglWindow.SetTimer(1, 1, 0);
+	SetTimer(0, 100, NULL);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE  unless you set the focus to a control
+
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -110,6 +130,7 @@ void CLaboratoryWork01Dlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 	}
+
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -123,9 +144,11 @@ HCURSOR CLaboratoryWork01Dlg::OnQueryDragIcon()
 
 void CLaboratoryWork01Dlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: Add your message handler code here and/or call default
-
-	CDialogEx::OnTimer(nIDEvent);
+	//UpdateData(TRUE);
+	//_xGLPositionEcho.Format(_T("%d"), _oglWindow._fLastX);
+	//_yGLPositionEcho.Format(_T("%d"), _oglWindow._fLastY);
+	//UpdateData(FALSE);
+	//CDialogEx::OnTimer(nIDEvent);
 }
 
 
@@ -222,4 +245,109 @@ void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 void CLaboratoryWork01Dlg::OnToolsLight()
 {
 	_oglWindow.lightSwitch();
+}
+
+
+
+void CLaboratoryWork01Dlg::OnStnClickedOglControl()
+{
+
+}
+
+
+
+
+
+void CLaboratoryWork01Dlg::SaveScene()
+{
+	
+
+	if (_oglWindow.figures().empty())
+	{
+		MessageBox(_T("Nothing to save!"));
+		return;
+	}
+	_figuresRS.Open();
+	_facesRS.Open();
+	_sessionsRS.Open();
+	_propertiesRS.Open();
+	int sID, figID, faceID;
+	sID = _sessionsRS.addRecord();
+	for (auto figure : _oglWindow.figures())
+	{
+		figID = _figuresRS.addRecord(sID);
+		figure->saveProperties(_propertiesRS, figID);
+		//for (unsigned int i = 0; i < figure->faces().size(); i++)
+		//{
+		//	faceID = _facesRS.addRecord(figID);
+		//	figure->faces()[i]->saveProperties(_propertiesRS, figID, faceID);
+		//}
+	}
+	_figuresRS.Close();
+	_facesRS.Close();
+	_sessionsRS.Close();
+	_propertiesRS.Close();
+}
+
+void CLaboratoryWork01Dlg::LoadScene(int sessionID)
+{
+	
+	_figuresRS.m_strFilter.Format(_T("[SESSION_ID] = %d"), sessionID);
+	_figuresRS.Open();
+	if (_figuresRS.IsEOF() && _figuresRS.IsBOF())
+	{
+		MessageBox(_T("Invalid SESSION_ID"));
+		_figuresRS.m_strFilter = "";
+		_figuresRS.Close();
+		return;
+	}
+	_oglWindow.clearScene();
+	//_figuresRS.Update();
+	if (!_figuresRS.IsBOF())
+		_figuresRS.MoveFirst();
+	_propertiesRS.Open();
+	while (!_figuresRS.IsEOF())
+	{
+		_propertiesRS.m_strFilter.Format(_T("[FIGURE_ID] = %d"), _figuresRS.m_ID);
+		_propertiesRS.Requery();
+		//_facesRS.m_strFilter.Format(_T("[FIGURE_ID] = %d", _figuresRS.m_ID));
+		_oglWindow.loadFigure(_propertiesRS);
+		_figuresRS.MoveNext();
+	}
+	
+	_propertiesRS.m_strFilter = "";
+	_figuresRS.m_strFilter = "";
+	_figuresRS.Close();
+	_propertiesRS.Close();
+}
+
+
+
+
+
+
+
+void CLaboratoryWork01Dlg::OnClose()
+{
+	// TODO: Add your message handler code here and/or call default
+	_propertiesRS.clearRecords();
+	_figuresRS.clearRecords();
+	_sessionsRS.clearRecords();
+	_facesRS.clearRecords();
+	SaveScene();
+	CDialogEx::OnClose();
+}
+
+
+
+
+void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
+{
+	_oglWindow.setMode(OGLControl::SELECT);
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio()
+{
+	_oglWindow.setMode(OGLControl::ROTATE);
 }

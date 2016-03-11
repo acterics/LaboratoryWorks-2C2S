@@ -40,10 +40,18 @@
     <ClCompile Include="QuadrangularPrism.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>Graphics</Filter>
+    <ClCompile Include="CFaces.cpp">
+      <Filter>DatabaseItems</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="CFigures.cpp">
+      <Filter>DatabaseItems</Filter>
+    </ClCompile>
+    <ClCompile Include="CProperties.cpp">
+      <Filter>DatabaseItems</Filter>
+    </ClCompile>
+    <ClCompile Include="CSessions.cpp">
+      <Filter>DatabaseItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LaboratoryWork01.h" />
@@ -89,10 +97,18 @@
     <ClInclude Include="Resource.h">
       <Filter>Res</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="CFaces.h">
+      <Filter>DatabaseItems</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h" />
+    <ClInclude Include="CFigures.h">
+      <Filter>DatabaseItems</Filter>
+    </ClInclude>
+    <ClInclude Include="CProperties.h">
+      <Filter>DatabaseItems</Filter>
+    </ClInclude>
+    <ClInclude Include="CSessions.h">
+      <Filter>DatabaseItems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\LaboratoryWork01.rc2">
@@ -117,6 +133,9 @@
     </Filter>
     <Filter Include="Res">
       <UniqueIdentifier>{64796d6a-d86a-4ba9-b5ab-e48ddff2a66b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DatabaseItems">
+      <UniqueIdentifier>{bc2586e1-9a0f-45b3-840b-624d282d0a3c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

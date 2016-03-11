@@ -2,6 +2,13 @@
 #include "Circle.h"
 using namespace GraphicElements;
 
+int GraphicElements::Circle::getNormalIndex(int pointIndex)
+{
+	if(!pointIndex)
+		return 0;
+	return -1;
+}
+
 Circle::Circle() :
 	Face(), _radius(DEFAULT_RADIUS)
 {
@@ -30,6 +37,13 @@ GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, flo
 	init(smooth);
 }
 
+
+void GraphicElements::Circle::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Face::saveProperties(propertyRS, figureID, faceID);
+	propertyRS.addRecord(_T("Radius"), _radius, figureID, faceID);
+}
+
 void GraphicElements::Circle::init(unsigned int smooth)
 {
 	_points.clear();
@@ -52,6 +66,8 @@ void GraphicElements::Circle::init(unsigned int smooth)
 	}
 	fin.close();
 }
+
+
 
 
 Circle::~Circle()

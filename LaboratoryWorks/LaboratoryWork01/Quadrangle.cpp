@@ -6,6 +6,11 @@ Quadrangle::Quadrangle()
 {
 }
 
+GraphicElements::Quadrangle::Quadrangle(glm::vec3 col, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d) :
+	Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0), a, b, c, d)
+{
+}
+
 GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d) :
 	Face(pos, col, rot)
 {
@@ -21,6 +26,13 @@ Quadrangle::~Quadrangle()
 {
 }
 
+int GraphicElements::Quadrangle::getNormalIndex(int pointIndex)
+{
+	if (!pointIndex)
+		return 0;
+	return -1;
+}
+
 GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr) :
 	Quadrangle(pos, col, rot,
 		glm::vec3(-tE / 2 + tETr, h / 2, 0),
@@ -28,6 +40,16 @@ GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, f
 		glm::vec3(bE / 2, -h / 2, 0),
 		glm::vec3(-bE / 2, -h / 2, 0)), _height(h), _topEdge(tE), _bottomEdge(bE), _topEdgeTranslation(tETr)
 {
+}
+
+void GraphicElements::Trapeze::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	Face::saveProperties(propertyRS, figureID, faceID);
+	propertyRS.addRecord(_T("Type"), TYPE_TRAPEZE, figureID, faceID);
+	propertyRS.addRecord(_T("Height"), _height, figureID, faceID);
+	propertyRS.addRecord(_T("TopEdgeLength"), _topEdge, figureID, faceID);
+	propertyRS.addRecord(_T("BottomEdgeLength"), _bottomEdge, figureID, faceID);
+	propertyRS.addRecord(_T("TopEdgeTranslation"), _topEdgeTranslation, figureID, faceID);
 }
 
 GraphicElements::Parallelogram::Parallelogram(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float edge, float tETr) :

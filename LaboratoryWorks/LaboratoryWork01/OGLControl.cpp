@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "OGLControl.h"
+#include "LaboratoryWork01.h"
+#include "afxdialogex.h"
 
 
 // OGLControl dialog
@@ -23,7 +25,137 @@ void OGLControl::lightSwitch()
 	}
 }
 
-OGLControl::OGLControl()
+void OGLControl::loadFigure(CProperties &pRS)
+{
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 color;
+	int type;
+	pRS.MoveFirst();
+	while (!pRS.IsEOF())
+	{
+		if (pRS.m_NAME == "PositionX")
+			position.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "PositionY")
+			position.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "PositionZ")
+			position.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "ColorR")
+			color.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "ColorG")
+			color.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "ColorB")
+			color.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "RotationX")
+			rotation.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "RotationY")
+			rotation.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "RotationZ")
+			rotation.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "Type")
+			type = pRS.m_VALUE;
+
+		pRS.MoveNext();
+	}
+		
+	
+	switch (type)
+	{
+	case TYPE_FRUSTUM:
+		loadFrustum(position, color, rotation, pRS);
+		break;
+	case TYPE_PRISM:
+		loadPrism(position, color, rotation, pRS);
+		break;
+	default:
+		break;
+	}
+}
+
+void OGLControl::loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS)
+{
+
+	float smooth;
+	float height;
+	float topR;
+	float bottR;
+	pRS.MoveFirst();
+	while (!pRS.IsEOF())
+	{
+		if (pRS.m_NAME == "Smooth")
+			smooth = pRS.m_VALUE;
+		if (pRS.m_NAME == "Height")
+			height = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopRadius")
+			topR = pRS.m_VALUE;
+		if (pRS.m_NAME == "BottomRadius")
+			bottR = pRS.m_VALUE;
+		pRS.MoveNext();
+	}
+	_figures.push_back(new Frustum(pos, col, rot, height, topR, bottR, smooth));
+}
+
+void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties & pRS)
+{
+	float height;
+	glm::vec3 topFaceTrans;
+	glm::vec3 a, b, c, d;
+	pRS.MoveFirst();
+	while (!pRS.IsEOF())
+	{
+		if (pRS.m_NAME == "Height")
+			height = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopFaceTranslationX")
+			topFaceTrans.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopFaceTranslationY")
+			topFaceTrans.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "TopFaceTranslationZ")
+			topFaceTrans.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Ax")
+			a.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "Ay")
+			a.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Az")
+			a.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Bx")
+			b.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "By")
+			b.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Bz")
+			b.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Cx")
+			c.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "Cy")
+			c.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Cz")
+			c.z = pRS.m_VALUE;
+
+		if (pRS.m_NAME == "Dx")
+			d.x = pRS.m_VALUE;
+		if (pRS.m_NAME == "Dy")
+			d.y = pRS.m_VALUE;
+		if (pRS.m_NAME == "Dz")
+			d.z = pRS.m_VALUE;
+		pRS.MoveNext();
+	}
+
+	_figures.push_back(new QuadrangularPrism(pos, col, rot, height, new Quadrangle(col, a, b, c, d)));
+}
+
+glm::vec2 OGLControl::projection(CPoint point)
+{
+	GetWindowRect(_rect);
+	return glm::vec2((((point.x - (float)(_rect.Width()) / 2) / (float)(_rect.Width()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10))
+		, (((float)(_rect.Height()) / 2 - point.y) / (float)(_rect.Height()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10));
+}
+
+
+OGLControl::OGLControl() :
+	_xOGLPositionEcho(_T(""))
+	, _yOGLPositionEcho(_T(""))
 {
 	_isMaximized = false;
 	_fZoom = 10.0f;
@@ -79,38 +211,45 @@ void OGLControl::oglInitialize()
 
 	glEnable(GL_COLOR_MATERIAL);
 
-	glEnable(GL_LIGHTING);
-	glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-	GLfloat light5_diffuse[] = { 1.0, 1.0, 1.0 };
-	GLfloat light5_position[] = { 100, 100, 100, 1.0 };
-
-	glEnable(GL_LIGHT5);
-	glLightfv(GL_LIGHT5, GL_DIFFUSE, light5_diffuse);
-	glLightfv(GL_LIGHT5, GL_POSITION, light5_position);
-	//glLightf(GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.0);
-	//glLightf(GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.001);
-	//glLightf(GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.002);
 	_lightOn = true;
-	// Turn on backface culling
+
+	// Basic Setup: 
+	// 
+	// Set color to use when clearing the background. 
+	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//glClearDepth(1.0f);
+
+	// Turn on backface culling 
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 
-	// Turn on depth testing
+	// Turn on depth testing 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
-	// Send draw request
+	glEnable(GL_LIGHTING);
+	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glEnable(GL_NORMALIZE);
+
+
+	glEnable(GL_LIGHT0);
+	float light_ambient[] = { 0.0,0.0,0.0,1.0 };
+	float light_diffuse[] = { 0.5,0.5,0.5,1.0 };
+	float light_specular[] = { 1.0,1.0,1.0,1.0 };
+	float light_position[] = { 10, 0, 1.0 ,0.0 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
 	OnDraw(NULL);
 }
 
 void OGLControl::oglDrawScene()
 {
-
-
-	glColor3f(1, 1, 1);
-
-
+	
+	glColor3d(1, 1, 1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);
 	glVertex3f(0, 0, 0);
@@ -122,10 +261,11 @@ void OGLControl::oglDrawScene()
 	glVertex3f(0, 0, 0);
 	glVertex3f(0, 0, 10);
 	glEnd();
-
-
 	for (auto figure : _figures)
 		figure->draw();
+
+
+	
 
 }
 
@@ -137,11 +277,6 @@ void OGLControl::addFigure(Figure * f)
 void OGLControl::clearScene()
 {
 	_figures.clear();
-	_fZoom = 10.0f;
-	_fPosX = 0.0f;
-	_fPosY = 0.0f;
-	_fRotX = 0.0f;
-	_fRotY = -0.0f;
 }
 
 void OGLControl::rotateX(float a)
@@ -199,10 +334,14 @@ BEGIN_MESSAGE_MAP(OGLControl, CWnd)
 	ON_WM_PAINT()
 	ON_WM_SIZE()
 	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 
 // OGLControl message handlers
+
+
+
 
 
 void OGLControl::OnTimer(UINT_PTR nIDEvent)
@@ -249,11 +388,11 @@ int OGLControl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void OGLControl::OnDraw(CDC * pDC)
 {
 	glLoadIdentity();
-
 	glTranslatef(0.0f, 0.0f, -_fZoom);
 	glTranslatef(_fPosX, _fPosY, 0.0f);
 	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
 	glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
+
 }
 
 
@@ -288,6 +427,9 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 	glLoadIdentity();
 	gluPerspective(80, 1, 0.1, 2000);
 	glMatrixMode(GL_MODELVIEW);
+	glOrtho(-MATRIX_SIZE / 2, MATRIX_SIZE / 2,
+		-MATRIX_SIZE / 2, MATRIX_SIZE / 2,
+		MATRIX_SIZE / 2, -MATRIX_SIZE / 2);
 	glLoadIdentity();
 	//_____________NEW _________
 	gluLookAt(350, 350, 300, 150, 150, 0, 0, 1, 0);
@@ -342,39 +484,95 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 	int diffY = (int)(point.y - _fLastY);
 	_fLastX = (float)point.x;
 	_fLastY = (float)point.y;
-
-	// Left mouse button
-	if (nFlags & MK_LBUTTON)
+	switch (_mode)
 	{
-		_fRotX += (float)0.5f * diffY;
-
-		if ((_fRotX > 360.0f) || (_fRotX < -360.0f))
+	case SELECT: 
+	{
+		if (_selected)
 		{
-			_fRotX = 0.0f;
+			if (nFlags & MK_LBUTTON)
+				_selected->translate(glm::vec3(0.0025f * diffX * _fZoom, 0.0025f * (-diffY) * _fZoom, 0));
+		}
+		break;
+	};
+	case ROTATE:
+	{
+		if (nFlags & MK_LBUTTON)
+		{
+			_fRotX += (float)0.5f * diffY;
+
+			if ((_fRotX > 360.0f) || (_fRotX < -360.0f))
+			{
+				_fRotX = 0.0f;
+			}
+
+			_fRotY += (float)0.5f * diffX;
+
+			if ((_fRotY > 360.0f) || (_fRotY < -360.0f))
+			{
+				_fRotY = 0.0f;
+			}
 		}
 
-		_fRotY += (float)0.5f * diffX;
-
-		if ((_fRotY > 360.0f) || (_fRotY < -360.0f))
+		// Right mouse button
+		else if (nFlags & MK_RBUTTON)
 		{
-			_fRotY = 0.0f;
+			_fZoom -= (float)0.1f * diffY;
 		}
-	}
 
-	// Right mouse button
-	else if (nFlags & MK_RBUTTON)
+		// Middle mouse button
+		else if (nFlags & MK_MBUTTON)
+		{
+			_fPosX += (float)0.05f * diffX;
+			_fPosY -= (float)0.05f * diffY;
+		}
+
+		OnDraw(NULL);
+
+		CWnd::OnMouseMove(nFlags, point);
+		break;
+	}
+	default:
+		break;
+	}
+	
+}
+
+
+void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	switch (_mode)
 	{
-		_fZoom -= (float)0.1f * diffY;
-	}
-
-	// Middle mouse button
-	else if (nFlags & MK_MBUTTON)
+	case OGLControl::SELECT:
 	{
-		_fPosX += (float)0.05f * diffX;
-		_fPosY -= (float)0.05f * diffY;
+		_selected = nullptr;
+		glm::vec2 p = projection(point);
+		float maxZ = INT16_MIN;
+		float *current = nullptr;
+		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
+		{
+			if ((*figure)->detectCollision(p))
+			{
+				current = (*figure)->detectCollision(p);
+				if (*current > maxZ)
+				{
+					maxZ = *current;
+					_selected = *figure;
+				}
+			}
+		}
+		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
+			(*figure)->borderVisibleOff();
+		if (_selected)
+		{
+			_selected->changeBorderVisible();
+		}
+		break;
 	}
-
-	OnDraw(NULL);
-
-	CWnd::OnMouseMove(nFlags, point);
+	case OGLControl::ROTATE:
+		break;
+	default:
+		break;
+	}
+	
 }

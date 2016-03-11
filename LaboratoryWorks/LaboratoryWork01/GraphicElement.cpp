@@ -48,6 +48,32 @@ void GraphicElements::GraphicElement::translate(glm::vec3 translation)
 }
 
 
+void GraphicElements::GraphicElement::saveProperties(CProperties & propertyRS, long figureID, long faceID)
+{
+	propertyRS.addRecord(_T("PositionX"), _position.x, figureID, faceID);
+	propertyRS.addRecord(_T("PositionY"), _position.y, figureID, faceID);
+	propertyRS.addRecord(_T("PositionZ"), _position.z, figureID, faceID);
+	propertyRS.addRecord(_T("RotationX"), _rotation.x, figureID, faceID);
+	propertyRS.addRecord(_T("RotationY"), _rotation.y, figureID, faceID);
+	propertyRS.addRecord(_T("RotationZ"), _rotation.z, figureID, faceID);
+	propertyRS.addRecord(_T("ColorR"), _color.x, figureID, faceID);
+	propertyRS.addRecord(_T("ColorG"), _color.y, figureID, faceID);
+	propertyRS.addRecord(_T("ColorB"), _color.z, figureID, faceID);
+}
+
+void GraphicElements::GraphicElement::saveProperty(CProperties & propertyRS, CString name, float value, long figureID, long faceID)
+{
+	propertyRS.AddNew();
+	propertyRS.m_ID = propertyRS.GetRecordCount();
+	propertyRS.m_FIGURE_ID = figureID;
+	if (faceID >= 0)
+		propertyRS.m_FACE_ID = faceID;
+	propertyRS.m_NAME = name;
+	propertyRS.m_VALUE = value;
+	propertyRS.Update();
+
+}
+
 GraphicElement::~GraphicElement()
 {
 }
@@ -60,4 +86,18 @@ void GraphicElements::GraphicElement::applyColor()
 void GraphicElements::GraphicElement::rotate(glm::vec3 r)
 {
 	_rotation += r;
+}
+
+glm::mat3x3 GraphicElements::GraphicElement::xRotationMatrix(float angle)
+{
+	return glm::mat3x3(1, 0, 0,
+		0, cos(angle), sin(angle),
+		0, -sin(angle), cos(angle));
+}
+
+glm::mat3x3 GraphicElements::GraphicElement::yRotationMatrix(float angle)
+{
+	return glm::mat3x3(cos(angle), 0, sin(angle),
+		0, 1, 0,
+		-sin(angle), 0, cos(angle));
 }

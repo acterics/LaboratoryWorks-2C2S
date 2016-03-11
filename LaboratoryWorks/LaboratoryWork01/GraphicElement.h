@@ -1,5 +1,6 @@
 #pragma once
 #include "glm\glm.hpp"
+#include "CProperties.h"
 #include <gl/gl.h>
 #include <gl/glu.h>
 
@@ -10,7 +11,14 @@
 #define COLOR_GREEN glm::vec3(0.0f, 1.0f, 0.0f)
 #define COLOR_BLUE	glm::vec3(0.0f, 0.0f, 1.0f)
 
+#define TYPE_FRUSTUM	1
+#define TYPE_SIDE_FACE	5
+#define TYPE_DISC		3
+#define TYPE_TRAPEZE	4
+#define TYPE_PRISM		2
 #define PI 3.14159265359
+
+#define ACCURACY 100
 
 namespace GraphicElements
 {
@@ -39,6 +47,12 @@ namespace GraphicElements
 		void setColor(glm::vec3 color);
 		void translate(glm::vec3 translation);
 		void rotate(glm::vec3 r);
+
+		glm::mat3x3 xRotationMatrix(float angle);
+		glm::mat3x3 yRotationMatrix(float angle);
+
+		virtual void saveProperties(CProperties &propertyRS, long figureID, long faceID = -1);
+		virtual void saveProperty(CProperties &propertyRS, CString name, float value, long figureID, long faceID = -1);
 		~GraphicElement();
 
 	};
