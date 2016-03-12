@@ -31,11 +31,13 @@ void GraphicElements::Figure::initBorder()
 
 void GraphicElements::Figure::rotateBorder(glm::vec2 rotation)
 {
-	glm::vec3 topLeft(_border.left, _border.top, _maxZ);
-	glm::vec3 bottomRight(_border.right, _border.bottom, _maxZ);
+	glm::vec3 topLeft(_border.left, _border.top, _position.z * ACCURACY);
+	glm::vec3 bottomRight(_border.right, _border.bottom, _position.z * ACCURACY);
 
 	topLeft = xRotationMatrix(rotation.x) * yRotationMatrix(rotation.y) * topLeft;
 	bottomRight = xRotationMatrix(rotation.x) * yRotationMatrix(rotation.y) * bottomRight;
+	_border.SetRect(CPoint((int)topLeft.x, (int)topLeft.y),
+		CPoint((int)bottomRight.x, (int)bottomRight.y));
 }
 
 void GraphicElements::Figure::changeBorderVisible()
@@ -72,7 +74,13 @@ GraphicElements::Figure::Figure(glm::vec3 pos, glm::vec3 col) :
 }
 
 GraphicElements::Figure::Figure(glm::vec3 pos, glm::vec3 col, glm::vec3 rot) :
-	GraphicElement(pos, col, rot)
+	Figure(pos, col, rot, 1)
+{
+	
+}
+
+GraphicElements::Figure::Figure(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale) :
+	GraphicElement(pos, col, rot, scale)
 {
 	_borderVisible = false;
 }
@@ -94,6 +102,13 @@ void GraphicElements::Figure::draw()
 void GraphicElements::Figure::addFace(Face * face)
 {
 	_faces.push_back(face);
+}
+
+void GraphicElements::Figure::scale(float scaleFactor)
+{
+	_scale *= scaleFactor;
+	for (Face * face : _faces)
+		face->scale(scaleFactor);
 }
 
 float * GraphicElements::Figure::detectCollision(glm::vec2 p)

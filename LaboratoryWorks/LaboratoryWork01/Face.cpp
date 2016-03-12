@@ -8,6 +8,7 @@ void Face::init()
 	_normal = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * _normal;
 	for (glm::vec3& point : _points)
 	{
+
 		point = xRotationMatrix(_rotation.x) * yRotationMatrix(_rotation.y) * point;
 		point += _position;
 	}
@@ -27,7 +28,8 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot, int pointIndex)
 {
 	
-	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y) * point;
+	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y)  * point;
+	point *= _scale;
 	point += figurePos;
 
 
@@ -58,13 +60,18 @@ Face::Face() :
 {
 }
 
+GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale) :
+	GraphicElement(pos, col, rot, scale)
+{
+}
+
 GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col) :
 	Face(pos, col, glm::vec3(0, 0, 0))
 {
 }
 
 GraphicElements::Face::Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot) :
-	GraphicElement(pos, col, rot)
+	Face(pos, col, rot, 1)
 {
 
 	

@@ -255,7 +255,7 @@ void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrol
 		UpdateData(FALSE);
 	}
 	else
-		CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
+		CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
 
@@ -361,6 +361,7 @@ void CLaboratoryWork01Dlg::OnClose()
 void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
 {
 	_oglWindow.setMode(OGLControl::SELECT);
+	_oglWindow.setDefaultSceneState();
 }
 
 

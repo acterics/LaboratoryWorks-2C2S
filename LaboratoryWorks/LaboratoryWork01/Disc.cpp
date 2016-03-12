@@ -16,7 +16,12 @@ GraphicElements::Disc::Disc(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r
 }
 
 GraphicElements::Disc::Disc(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r, unsigned int smooth) : 
-	Circle(pos, col, rot, r, smooth)
+	Disc(pos, col, rot, 1, r, smooth)
+{
+}
+
+GraphicElements::Disc::Disc(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, float r, unsigned int smooth) :
+	Circle(pos, col, rot, scale, r, smooth)
 {
 	_polygonMode = GL_FILL;
 	_drawingMode = GL_TRIANGLES;

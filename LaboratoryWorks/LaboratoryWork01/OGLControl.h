@@ -41,6 +41,8 @@ public:
 	void setXRotationSpeed(float a) { _xRotationSpeed = a; }
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
 	void lightSwitch();
+	void setDefaultSceneState();
+
 	std::vector<Figure *> figures() { return _figures; }
 
 	void loadFigure(CProperties& pRS);
@@ -71,8 +73,10 @@ private:
 	CString _xOGLPositionEcho;
 	CString _yOGLPositionEcho;
 
-	void loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
-	void loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS);
+	void loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties& pRS);
+	void loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties& pRS);
+
+	
 
 	glm::vec2 projection(CPoint point);
 
@@ -109,5 +113,6 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };

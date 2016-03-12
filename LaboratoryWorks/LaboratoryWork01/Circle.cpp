@@ -20,7 +20,12 @@ GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, float r, unsigned 
 }
 
 GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float r, unsigned int smooth) :
-	Face(pos, col, rot), _radius(r), _smooth(smooth)
+	Circle(pos, col, rot, 1, r, smooth)
+{
+}
+
+GraphicElements::Circle::Circle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, float r, unsigned int smooth) :
+	Face(pos, col, rot, scale), _radius(r), _smooth(smooth)
 {
 	_normal = glm::vec3(0, 0, 0);
 	_polygonMode = GL_LINE;

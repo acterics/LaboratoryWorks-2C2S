@@ -13,23 +13,14 @@ GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 c
 }
 
 GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 topFaceTrans, float h, Quadrangle * face) :
-	Figure(pos, col), _facePointer(face), _topFaceTranslation(topFaceTrans), _height(h)
+	QuadrangularPrism(pos, col, glm::vec3(0, 0, 0), 1, topFaceTrans, h, face)
 {
-//	Quadrangle * top = new Quadrangle(*face);
-//	top->translate(glm::vec3(topFaceTrans.x, h / 2 + topFaceTrans.y, topFaceTrans.z));
-//	top->rotate(glm::vec3(-PI / 2, 0, 0));
-////	top->setColor(COLOR_GREEN);
-//	addFace(top);
-//	Quadrangle * bot = new Quadrangle(*face);
-//	bot->translate(glm::vec3(0, -h / 2, 0));
-//	bot->rotate(glm::vec3(-PI / 2, 0, 0));
-////	bot->setColor(COLOR_GREEN);
-//	addFace(bot);
-//	/*	face->translate(glm::vec3(0, -h, 0));
-//	face->rotate(glm::vec3(PI / 2, 0, 0));
-//	addFace(face)*/;
-//	addFace(new SideFace(glm::vec3(0, 0, 0), col, glm::vec3(-PI / 2, 0, 0), topFaceTrans, h, face));
 
+}
+
+GraphicElements::QuadrangularPrism::QuadrangularPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, glm::vec3 topFaceTrans, float h, Quadrangle * face) :
+	Figure(pos, col, rot, scale), _facePointer(face), _topFaceTranslation(topFaceTrans), _height(h)
+{
 
 	Quadrangle * top = new Quadrangle(glm::vec3(topFaceTrans.x, h / 2 + topFaceTrans.y, topFaceTrans.z),
 		col,
@@ -83,8 +74,6 @@ void GraphicElements::QuadrangularPrism::saveProperties(CProperties & propertyRS
 	propertyRS.addRecord(_T("Dy"), _facePointer->points()[3].y, figureID);
 	propertyRS.addRecord(_T("Dz"), _facePointer->points()[3].z, figureID);
 
-	//_facePointer->saveProperties(propertyRS, figureID, -1);
-	//propertyRS.addRecord(_T("FacePointer"), (int)_facePointer, figureID);
 }
 
 

@@ -19,11 +19,14 @@ namespace GraphicElements
 		Figure();
 		Figure(glm::vec3 pos, glm::vec3 col);
 		Figure(glm::vec3 pos, glm::vec3 col, glm::vec3 rot);
+		Figure(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale);
 		~Figure();
 
 		void draw();
 		void drawBorder();
 		void addFace(Face * face);
+
+		void scale(float scaleFactor);
 
 
 		float * detectCollision(glm::vec2 p);

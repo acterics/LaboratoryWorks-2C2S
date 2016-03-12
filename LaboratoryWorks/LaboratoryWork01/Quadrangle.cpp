@@ -20,7 +20,12 @@ GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 
 }
 
 GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d) :
-	Face(pos, col, rot)
+	Quadrangle(pos, col, rot, 1, a, b, c, d)
+{
+}
+
+GraphicElements::Quadrangle::Quadrangle(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d) :
+	Face(pos, col, rot, scale)
 {
 	_drawingMode = GL_QUAD_STRIP;
 	_points.push_back(a);
@@ -43,7 +48,12 @@ void GraphicElements::Quadrangle::init()
 
 
 GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tE, float bE, float tETr) :
-	Quadrangle(pos, col, rot,
+	Trapeze(pos, col, rot, 1, h, tE, bE, tETr)
+{
+}
+
+GraphicElements::Trapeze::Trapeze(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, float h, float tE, float bE, float tETr) :
+	Quadrangle(pos, col, rot, scale,
 		glm::vec3(-tE / 2 + tETr, h / 2, 0),
 		glm::vec3(-bE / 2, -h / 2, 0),
 		glm::vec3(tE / 2 + tETr, h / 2, 0),

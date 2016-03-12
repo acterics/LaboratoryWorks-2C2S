@@ -8,11 +8,18 @@ GraphicElement::GraphicElement() :
 {
 }
 
-GraphicElements::GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot) :
-	_position(pos), _color(color), _rotation(rot)
+GraphicElements::GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot, float scale) :
+	_position(pos), _color(color), _rotation(rot), _scale(scale)
 {
 	_polygonMode = GL_FILL;
 	_drawingMode = GL_LINE_LOOP;
+
+}
+
+GraphicElements::GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot) :
+	GraphicElement(pos, color, rot, 1)
+{
+
 }
 
 GraphicElement::GraphicElement(glm::vec3 pos, glm::vec3 color) :
@@ -47,6 +54,11 @@ void GraphicElements::GraphicElement::translate(glm::vec3 translation)
 	_position += translation;
 }
 
+void GraphicElements::GraphicElement::scale(float scaleFactor)
+{
+	_scale *= scaleFactor;
+}
+
 
 void GraphicElements::GraphicElement::saveProperties(CProperties & propertyRS, long figureID, long faceID)
 {
@@ -59,6 +71,7 @@ void GraphicElements::GraphicElement::saveProperties(CProperties & propertyRS, l
 	propertyRS.addRecord(_T("ColorR"), _color.x, figureID, faceID);
 	propertyRS.addRecord(_T("ColorG"), _color.y, figureID, faceID);
 	propertyRS.addRecord(_T("ColorB"), _color.z, figureID, faceID);
+	propertyRS.addRecord(_T("Scale"), _scale, figureID, faceID);
 }
 
 void GraphicElements::GraphicElement::saveProperty(CProperties & propertyRS, CString name, float value, long figureID, long faceID)
@@ -100,4 +113,11 @@ glm::mat3x3 GraphicElements::GraphicElement::yRotationMatrix(float angle)
 	return glm::mat3x3(cos(angle), 0, sin(angle),
 		0, 1, 0,
 		-sin(angle), 0, cos(angle));
+}
+
+glm::mat3x3 GraphicElements::GraphicElement::scaleMatrix(float scale)
+{
+	return glm::mat3x3(scale, 0, 0,
+						0, scale, 0,
+						0, 0,	scale);
 }

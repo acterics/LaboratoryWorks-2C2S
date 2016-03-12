@@ -31,6 +31,7 @@ void OGLControl::loadFigure(CProperties &pRS)
 	glm::vec3 rotation;
 	glm::vec3 color;
 	int type;
+	float scale;
 	pRS.MoveFirst();
 	while (!pRS.IsEOF())
 	{
@@ -52,6 +53,8 @@ void OGLControl::loadFigure(CProperties &pRS)
 			rotation.y = pRS.m_VALUE;
 		if (pRS.m_NAME == "RotationZ")
 			rotation.z = pRS.m_VALUE;
+		if (pRS.m_NAME == "Scale")
+			scale = pRS.m_VALUE;
 		if (pRS.m_NAME == "Type")
 			type = pRS.m_VALUE;
 
@@ -62,17 +65,17 @@ void OGLControl::loadFigure(CProperties &pRS)
 	switch (type)
 	{
 	case TYPE_FRUSTUM:
-		loadFrustum(position, color, rotation, pRS);
+		loadFrustum(position, color, rotation, scale, pRS);
 		break;
 	case TYPE_PRISM:
-		loadPrism(position, color, rotation, pRS);
+		loadPrism(position, color, rotation, scale, pRS);
 		break;
 	default:
 		break;
 	}
 }
 
-void OGLControl::loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties& pRS)
+void OGLControl::loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties& pRS)
 {
 
 	float smooth;
@@ -92,10 +95,10 @@ void OGLControl::loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CPrope
 			bottR = pRS.m_VALUE;
 		pRS.MoveNext();
 	}
-	_figures.push_back(new Frustum(pos, col, rot, height, topR, bottR, smooth));
+	_figures.push_back(new Frustum(pos, col, rot, scale, height, topR, bottR, smooth));
 }
 
-void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CProperties & pRS)
+void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties & pRS)
 {
 	float height;
 	glm::vec3 topFaceTrans;
@@ -142,7 +145,16 @@ void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, CPropert
 		pRS.MoveNext();
 	}
 
-	_figures.push_back(new QuadrangularPrism(pos, col, rot, height, new Quadrangle(col, a, b, c, d)));
+	_figures.push_back(new QuadrangularPrism(pos, col, rot, scale, topFaceTrans, height, new Quadrangle(col, a, b, c, d)));
+}
+
+void OGLControl::setDefaultSceneState()
+{
+	//_fZoom = 10.0f;
+	_fPosX = 0.0f;
+	_fPosY = 0.0f;
+	_fRotX = 0.0f;
+	_fRotY = 0.0f;
 }
 
 glm::vec2 OGLControl::projection(CPoint point)
@@ -161,8 +173,8 @@ OGLControl::OGLControl() :
 	_fZoom = 10.0f;
 	_fPosX = 0.0f;
 	_fPosY = 0.0f;
-	_fRotX =2.0f;
-	_fRotY = -20.0f;
+	_fRotX = 0.0f;
+	_fRotY = 0.0f;
 
 
 }
@@ -206,7 +218,7 @@ void OGLControl::oglInitialize()
 	// Basic Setup:
 	//
 	// Set color to use when clearing the background.
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClearDepth(1.0f);
 
 	glEnable(GL_COLOR_MATERIAL);
@@ -253,13 +265,13 @@ void OGLControl::oglDrawScene()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);
 	glVertex3f(0, 0, 0);
-	glVertex3f(10, 0, 0);
+	glVertex3f(MATRIX_SIZE * _fZoom / 10, 0, 0);
 
 	glVertex3f(0, 0, 0);
-	glVertex3f(0, 10, 0);
+	glVertex3f(0, MATRIX_SIZE * _fZoom / 10, 0);
 
 	glVertex3f(0, 0, 0);
-	glVertex3f(0, 0, 10);
+	glVertex3f(0, 0, MATRIX_SIZE * _fZoom / 10);
 	glEnd();
 	for (auto figure : _figures)
 		figure->draw();
@@ -334,7 +346,8 @@ BEGIN_MESSAGE_MAP(OGLControl, CWnd)
 	ON_WM_PAINT()
 	ON_WM_SIZE()
 	ON_WM_MOUSEMOVE()
-	ON_WM_LBUTTONUP()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 
@@ -392,6 +405,7 @@ void OGLControl::OnDraw(CDC * pDC)
 	glTranslatef(_fPosX, _fPosY, 0.0f);
 	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
 	glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
+
 
 }
 
@@ -493,19 +507,27 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 
 			if (nFlags & MK_LBUTTON)
 			{
-				glm::vec3 translation(0.0025f * diffX * _fZoom, 0.0025f * (-diffY) * _fZoom, 0);
+				glm::vec3 translation(0.0032f * diffX * _fZoom, 0.0032f * (-diffY) * _fZoom, 0);
 
-				//translation = glm::mat3x3(1, 0, 0,
-				//	0, cos(_fRotX), sin(_fRotX),
-				//	0, -sin(_fRotX), cos(_fRotX)) * translation;
 
-				//translation = glm::mat3x3(cos(_fRotY), 0, sin(_fRotY),
-				//	0, 1, 0,
-				//	-sin(_fRotY), 0, cos(_fRotY)) * translation;
 
 
 				_selected->translate(translation);
 
+			}
+			if (nFlags & MK_MBUTTON)
+			{
+				glm::vec3 translation(0, 0, 0.0032f * (-diffY) * _fZoom);
+
+
+
+
+				//_selected->translate(translation);
+
+			}
+			if (nFlags & MK_RBUTTON)
+			{
+				_selected->rotate(glm::vec3(PI * diffY / 180, PI * diffX / 180,  0));
 			}
 		}
 		break;
@@ -515,6 +537,7 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 		if (nFlags & MK_LBUTTON)
 		{
 			_fRotX += (float)0.5f * diffY;
+
 
 			if ((_fRotX > 360.0f) || (_fRotX < -360.0f))
 			{
@@ -554,7 +577,7 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 }
 
 
-void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
+void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	switch (_mode)
 	{
@@ -590,4 +613,18 @@ void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
 		break;
 	}
 	
+}
+
+
+BOOL OGLControl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: Add your message handler code here and/or call default
+	if (_selected)
+	{
+		if (zDelta > 0)
+			_selected->scale(1.1);
+		else _selected->scale(0.9);
+	}
+
+	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }

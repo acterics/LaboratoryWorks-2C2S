@@ -30,6 +30,7 @@ namespace GraphicElements
 		glm::vec3 _position;
 		glm::vec3 _color;
 		glm::vec3 _rotation;
+		float _scale;
 		UINT _polygonMode;
 		UINT _drawingMode;
 		
@@ -38,6 +39,7 @@ namespace GraphicElements
 
 	public:
 		GraphicElement();
+		GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot, float scale);
 		GraphicElement(glm::vec3 pos, glm::vec3 color, glm::vec3 rot);
 		GraphicElement(glm::vec3 pos, glm::vec3 color);
 		GraphicElement(glm::vec3 pos);
@@ -46,10 +48,12 @@ namespace GraphicElements
 		void setDrawingMode(UINT d);
 		void setColor(glm::vec3 color);
 		void translate(glm::vec3 translation);
+		void scale(float scaleFactor);
 		void rotate(glm::vec3 r);
 
 		glm::mat3x3 xRotationMatrix(float angle);
 		glm::mat3x3 yRotationMatrix(float angle);
+		glm::mat3x3 scaleMatrix(float scale);
 
 		virtual void saveProperties(CProperties &propertyRS, long figureID, long faceID = -1);
 		virtual void saveProperty(CProperties &propertyRS, CString name, float value, long figureID, long faceID = -1);

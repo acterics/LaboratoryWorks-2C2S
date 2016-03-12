@@ -25,6 +25,7 @@ namespace GraphicElements
 
 	public:
 		Face();
+		Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale);
 		Face(glm::vec3 pos, glm::vec3 col, glm::vec3 rot);
 		Face(glm::vec3 pos, glm::vec3 col);
 		Face(glm::vec3 pos);

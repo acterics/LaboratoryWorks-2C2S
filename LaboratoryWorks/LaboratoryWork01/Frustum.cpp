@@ -19,11 +19,18 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, float h, float t
 }
 
 GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float h, float tR, float bR, unsigned int smooth) :
-	Figure(pos, col, rot), _height(h), _topRadius(tR), _bottomRadius(bR), _smooth(smooth)
+	Frustum(pos, col, rot, 1, h, tR, bR, smooth)
 {
-	Circle top(glm::vec3(0, h / 2, 0), col, glm::vec3(PI / 2, 0, 0), tR, smooth);
-	
-	Circle bottom(glm::vec3(0, -h / 2, 0), col, glm::vec3(PI / 2, 0, 0), bR, smooth);
+
+
+}
+
+GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, float h, float tR, float bR, unsigned int smooth) :
+	Figure(pos, col, rot, scale), _height(h), _topRadius(tR), _bottomRadius(bR), _smooth(smooth)
+{
+	Circle top(glm::vec3(0, h / 2, 0), col, glm::vec3(PI / 2, 0, 0), scale, tR, smooth);
+
+	Circle bottom(glm::vec3(0, -h / 2, 0), col, glm::vec3(PI / 2, 0, 0), scale, bR, smooth);
 
 	top.setNormal(glm::vec3(0, 0, -1));
 	bottom.setNormal(glm::vec3(0, 0, -1));
@@ -32,14 +39,13 @@ GraphicElements::Frustum::Frustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, f
 	addFace(new Disc(bottom));
 	for (unsigned int i = 0; i < top.points().size() - 1; i++)
 	{
-		addFace(new Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0),
+		addFace(new Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0), scale,
 			top.points()[i], bottom.points()[i],
 			top.points()[i + 1], bottom.points()[i + 1]));
 	}
-	addFace(new Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0),
+	addFace(new Quadrangle(glm::vec3(0, 0, 0), col, glm::vec3(0, 0, 0), scale,
 		top.points().back(), bottom.points().back(),
 		top.points().front(), bottom.points().front()));
-
 }
 
 void GraphicElements::Frustum::saveProperties(CProperties & propertyRS, long figureID, long faceID)
