@@ -10,10 +10,7 @@
 
   
 #define MATRIX_SIZE 20
-//#include "Frustum.h"
-//using namespace GraphicElements;
-// OGLControl dialog
-//using namespace GraphicElements;
+
 using namespace GraphicElements;
 class OGLControl : public CWnd
 {
@@ -54,7 +51,7 @@ private:
 	//Frustum fr;
 
 	//std::vector<Figure *> _figures;
-	Figure * _selected;
+	std::vector<Figure *> _selected;
 	std::vector<Figure *> _figures;
 
 	float _xRotationSpeed;
@@ -64,14 +61,14 @@ private:
 	CRect _originalRect;
 	CRect _oldWindow;
 
+	CRect _selectRect;
+
 	int _pixelFormat;
 	HDC _hdc;
 	HGLRC _hrc;
 
 	CWnd * _hWnd;
 
-	CString _xOGLPositionEcho;
-	CString _yOGLPositionEcho;
 
 	void loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties& pRS);
 	void loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties& pRS);

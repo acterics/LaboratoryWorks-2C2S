@@ -50,6 +50,8 @@ void GraphicElements::Figure::changeBorderVisible()
 
 void GraphicElements::Figure::drawBorder()
 {
+	if (!_borderVisible)
+		return;
 	glEnable(GL_LINE_STIPPLE);
 	glLineWidth(2);
 	glLineStipple(5, GL_LINE_STIPPLE_PATTERN);
@@ -95,8 +97,7 @@ void GraphicElements::Figure::draw()
 	for (auto face : _faces)
 		face->draw(_position, _rotation);
 	initBorder();
-	if (_borderVisible)
-		drawBorder();
+	//drawBorder();
 }
 
 void GraphicElements::Figure::addFace(Face * face)

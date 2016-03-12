@@ -361,7 +361,7 @@ void CLaboratoryWork01Dlg::OnClose()
 void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
 {
 	_oglWindow.setMode(OGLControl::SELECT);
-	_oglWindow.setDefaultSceneState();
+	//_oglWindow.setDefaultSceneState();
 }
 
 

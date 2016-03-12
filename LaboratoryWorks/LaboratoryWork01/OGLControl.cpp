@@ -165,9 +165,7 @@ glm::vec2 OGLControl::projection(CPoint point)
 }
 
 
-OGLControl::OGLControl() :
-	_xOGLPositionEcho(_T(""))
-	, _yOGLPositionEcho(_T(""))
+OGLControl::OGLControl()
 {
 	_isMaximized = false;
 	_fZoom = 10.0f;
@@ -261,6 +259,14 @@ void OGLControl::oglInitialize()
 void OGLControl::oglDrawScene()
 {
 	
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -_fZoom);
+
+	glPushMatrix();
+
+	glTranslatef(_fPosX, _fPosY, 0.0f);
+	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
+	glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
 	glColor3d(1, 1, 1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);
@@ -273,9 +279,16 @@ void OGLControl::oglDrawScene()
 	glVertex3f(0, 0, 0);
 	glVertex3f(0, 0, MATRIX_SIZE * _fZoom / 10);
 	glEnd();
+
 	for (auto figure : _figures)
 		figure->draw();
 
+	glPopMatrix();
+
+	for (auto figure : _figures)
+		figure->drawBorder();
+	
+	glPopMatrix();
 
 	
 
@@ -400,11 +413,13 @@ int OGLControl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void OGLControl::OnDraw(CDC * pDC)
 {
-	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -_fZoom);
-	glTranslatef(_fPosX, _fPosY, 0.0f);
-	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
-	glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
+	//glLoadIdentity();
+	
+	//glPushMatrix();
+	//glTranslatef(_fPosX, _fPosY, 0.0f);
+	//glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
+	//glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
+	//glPopMatrix();
 
 
 }
@@ -446,7 +461,7 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 		MATRIX_SIZE / 2, -MATRIX_SIZE / 2);
 	glLoadIdentity();
 	//_____________NEW _________
-	gluLookAt(350, 350, 300, 150, 150, 0, 0, 1, 0);
+	//gluLookAt(350, 350, 300, 150, 150, 0, 0, 1, 0);
 	switch (nType)
 	{
 		// If window resize token is "maximize"
@@ -502,18 +517,25 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 	{
 	case SELECT: 
 	{
-		if (_selected)
+		if (!_selected.empty())
 		{
 
 			if (nFlags & MK_LBUTTON)
 			{
+				glPushMatrix();
 				glm::vec3 translation(0.0032f * diffX * _fZoom, 0.0032f * (-diffY) * _fZoom, 0);
-
-
-
-
-				_selected->translate(translation);
-
+				
+				glRotatef(-_fRotX, 1.0f, 0.0f, 0.0f);
+				glRotatef(-_fRotY, 0.0f, 1.0f, 0.0f);
+				glTranslatef(-translation.x, -translation.y, 0.0f);
+				for (Figure * s : _selected)
+				{
+					
+					s->translate(translation);
+					//s->rotate(glm::vec3(_fRotY, _fRotY, 0));
+				}
+					
+				glPopMatrix();
 			}
 			if (nFlags & MK_MBUTTON)
 			{
@@ -527,7 +549,8 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			if (nFlags & MK_RBUTTON)
 			{
-				_selected->rotate(glm::vec3(PI * diffY / 180, PI * diffX / 180,  0));
+				for (Figure * s : _selected)
+					s->rotate(glm::vec3(PI * diffY / 180, PI * diffX / 180,  0));
 			}
 		}
 		break;
@@ -583,7 +606,8 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 	case OGLControl::SELECT:
 	{
-		_selected = nullptr;
+		_selected.clear();
+		Figure *s = nullptr;
 		glm::vec2 p = projection(point);
 		float maxZ = INT16_MIN;
 		float *current = nullptr;
@@ -595,15 +619,22 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 				if (*current > maxZ)
 				{
 					maxZ = *current;
-					_selected = *figure;
+					s = *figure;
 				}
 			}
 		}
+
+		if(s)
+			_selected.push_back(s);
+
+
 		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
 			(*figure)->borderVisibleOff();
-		if (_selected)
+
+		if (!_selected.empty())
 		{
-			_selected->changeBorderVisible();
+			for(Figure *s : _figures)
+				s->changeBorderVisible();
 		}
 		break;
 	}
@@ -619,11 +650,16 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 BOOL OGLControl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	// TODO: Add your message handler code here and/or call default
-	if (_selected)
+	if (!_selected.empty())
 	{
+		float factor;
 		if (zDelta > 0)
-			_selected->scale(1.1);
-		else _selected->scale(0.9);
+			factor = 1.1;
+		else
+			factor = 0.9;
+
+		for (Figure * s : _figures)
+			s->scale(factor);
 	}
 
 	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
