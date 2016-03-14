@@ -80,4 +80,5 @@ public:
 	CButton _deleteFigureButton;
 	afx_msg void OnBnClickedDeleteFigureButton();
 	afx_msg void OnBnClickedSelectedColor();
+	afx_msg void OnBnClickedInterseptModeRadio();
 };

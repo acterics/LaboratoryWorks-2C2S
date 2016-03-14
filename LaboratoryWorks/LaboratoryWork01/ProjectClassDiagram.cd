@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="GraphicElements::Circle" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAAAAAAAgAAAAAAABAAAAAAAgAAAIAQAAABAAAAAA=</HashCode>
+      <FileName>Circle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Disc" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAQAAAAAA=</HashCode>
+      <FileName>Disc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Face" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEABCAAAAAAAAAoAKABAACAAAABAIABACAAEAQAAA=</HashCode>
+      <FileName>Face.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Figure" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBAgABAAIAAAAAACAAIAAIBGAAAEEAAAAACBAAAYgAI=</HashCode>
+      <FileName>Figure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Frustum" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAQAACAEAIAAAAAEAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Frustum.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::GraphicElement" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAIAQAAAGBAoACAQABAQAAACACAAACCAAAAAgAAIBCA=</HashCode>
+      <FileName>GraphicElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Quadrangle" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAQAAAAAAA=</HashCode>
+      <FileName>Quadrangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Trapeze" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQAAAAACEAAAACAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Quadrangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Parallelogram" Collapsed="true">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Quadrangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::Rectangle" Collapsed="true">
+    <Position X="2.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Quadrangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::QuadrangularPrism" Collapsed="true">
+    <Position X="9.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAQAAQAAEACAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QuadrangularPrism.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicElements::SideFace" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAEAKAAAACAAAAAAQAAAAAAAAAAAAIAAAAAAAABAAA=</HashCode>
+      <FileName>SideFace.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFaces" Collapsed="true">
+    <Position X="12.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAACCACAAACAAAkAAAAAQAAAAAQAAEBAAAAAA=</HashCode>
+      <FileName>CFaces.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFigures" Collapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAAACACAAACAAAkAAAAAQAAAAAQAAEAAAAACA=</HashCode>
+      <FileName>CFigures.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CProperties" Collapsed="true">
+    <Position X="12.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAAACACAAACAAAlAAAAAQAAAABQAAEBAAAAAQ=</HashCode>
+      <FileName>CProperties.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSessions" Collapsed="true">
+    <Position X="12.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAAACACAAACAAAkACAAAQAAAAAQAAEAAAAAAA=</HashCode>
+      <FileName>CSessions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OGLControl" Collapsed="true">
+    <Position X="13.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFCACCDQACUACTKGHoJCOAB1gDCIAUEAAIAAohIQAQA=</HashCode>
+      <FileName>OGLControl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PrismAddingDialog" Collapsed="true">
+    <Position X="15.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAEEBACCAQAABBQAAQAQBIgAIABACAAEFAAAAIA=</HashCode>
+      <FileName>PrismAddingDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FrustumAddingDialog" Collapsed="true">
+    <Position X="15.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEEhACAAAIAABQAEgAQAAAAoAAAAAAEBCAEAAA=</HashCode>
+      <FileName>FrustumAddingDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DialogControls" Collapsed="true">
+    <Position X="16.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAgAAAAAAAAAAAIAAAABAAAAIAgAAICAAA=</HashCode>
+      <FileName>DialogControls.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CLaboratoryWork01Dlg" Collapsed="true">
+    <Position X="14.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMCFAAWIAAGAEBAQAJAjCKAACwMkAAwACCIIAAAQEAI=</HashCode>
+      <FileName>LaboratoryWork01Dlg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CLaboratoryWork01App" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAA=</HashCode>
+      <FileName>LaboratoryWork01.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

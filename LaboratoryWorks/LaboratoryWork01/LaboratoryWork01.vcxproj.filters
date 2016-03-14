@@ -122,6 +122,7 @@
     <None Include="packages.config">
       <Filter>Res</Filter>
     </None>
+    <None Include="ProjectClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

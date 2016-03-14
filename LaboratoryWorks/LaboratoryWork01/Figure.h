@@ -28,6 +28,7 @@ namespace GraphicElements
 
 		void scale(float scaleFactor);
 		void setColor(glm::vec3 color);
+		void setPolygonMode(UINT mode);
 
 		float * detectCollision(glm::vec2 p);
 		float * detectCollision(CPoint p);

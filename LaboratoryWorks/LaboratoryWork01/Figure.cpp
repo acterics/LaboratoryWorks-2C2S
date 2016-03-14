@@ -120,6 +120,13 @@ void GraphicElements::Figure::setColor(glm::vec3 color)
 		face->setColor(color);
 }
 
+void GraphicElements::Figure::setPolygonMode(UINT mode)
+{
+	GraphicElement::setPolygonMode(mode);
+	for (Face * face : _faces)
+		face->setPolygonMode(mode);
+}
+
 float * GraphicElements::Figure::detectCollision(glm::vec2 p)
 {
 	p *= ACCURACY;

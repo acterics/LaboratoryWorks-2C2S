@@ -17,7 +17,7 @@ class OGLControl : public CWnd
 	
 public:
 	
-	enum Mode { SELECT, ROTATE };
+	enum Mode { SELECT, ROTATE, INTERSEPT };
 
 	DialogControls _controls;
 
@@ -45,6 +45,8 @@ public:
 	void lightSwitch();
 	void setDefaultSceneState();
 	void changeColor();
+	void enableInterseptMode();
+	void disableInterseptMode();
 	std::vector<Figure *> figures() { return _figures; }
 
 	void loadFigure(CProperties& pRS);

@@ -49,6 +49,7 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_WM_LBUTTONDOWN()
 	ON_BN_CLICKED(IDC_DELETE_FIGURE_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedDeleteFigureButton)
 	ON_BN_CLICKED(IDC_SELECTED_COLOR, &CLaboratoryWork01Dlg::OnBnClickedSelectedColor)
+	ON_BN_CLICKED(IDC_INTERSEPT_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedInterseptModeRadio)
 END_MESSAGE_MAP()
 
 
@@ -323,12 +324,14 @@ void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
 {
 	_oglWindow.setMode(OGLControl::SELECT);
 	_oglWindow.setDefaultSceneState();
+	_oglWindow.disableInterseptMode();
 }
 
 
 void CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio()
 {
 	_oglWindow.setMode(OGLControl::ROTATE);
+	_oglWindow.disableInterseptMode();
 }
 
 
@@ -349,22 +352,7 @@ void CLaboratoryWork01Dlg::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 
-void CLaboratoryWork01Dlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	// TODO: Add your message handler code here and/or call default
 
-	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
-}
-
-
-void CLaboratoryWork01Dlg::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	// TODO: Add your message handler code here and/or call default
-	MessageBox(_T("PRESSED"));
-	CDialogEx::OnKeyUp(nChar, nRepCnt, nFlags);
-	if (nChar == 'q')
-		_oglWindow.deleteFigure();
-}
 
 
 void CLaboratoryWork01Dlg::OnBnClickedDeleteFigureButton()
@@ -376,4 +364,11 @@ void CLaboratoryWork01Dlg::OnBnClickedDeleteFigureButton()
 void CLaboratoryWork01Dlg::OnBnClickedSelectedColor()
 {
 	_oglWindow.changeColor();
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedInterseptModeRadio()
+{
+	_oglWindow.setMode(OGLControl::INTERSEPT);
+	_oglWindow.enableInterseptMode();
 }

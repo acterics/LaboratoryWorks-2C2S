@@ -169,6 +169,18 @@ void OGLControl::changeColor()
 	}
 }
 
+void OGLControl::enableInterseptMode()
+{
+	for (Figure * figure : _figures)
+		figure->setPolygonMode(GL_LINE);
+}
+
+void OGLControl::disableInterseptMode()
+{
+	for (Figure * figure : _figures)
+		figure->setPolygonMode(GL_FILL);
+}
+
 glm::vec2 OGLControl::projection(CPoint point)
 {
 	GetWindowRect(_rect);
@@ -629,6 +641,8 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 		CWnd::OnMouseMove(nFlags, point);
 		break;
 	}
+	case OGLControl::INTERSEPT:
+		break;
 	default:
 		break;
 	}
@@ -693,6 +707,8 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	case OGLControl::ROTATE:
 		break;
+	case OGLControl::INTERSEPT:
+		break;
 	default:
 		break;
 	}
@@ -701,18 +717,33 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 
 BOOL OGLControl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
-	// TODO: Add your message handler code here and/or call default
-	if (!_selected.empty())
+	switch (_mode)
 	{
-		float factor;
-		if (zDelta > 0)
-			factor = 1.1f;
-		else
-			factor = 0.9f;
+	case OGLControl::SELECT:
+	{
+		if (!_selected.empty())
+		{
+			float factor;
+			if (zDelta > 0)
+				factor = 1.1f;
+			else
+				factor = 0.9f;
 
-		for (Figure * s : _selected)
-			s->scale(factor);
+			for (Figure * s : _selected)
+				s->scale(factor);
+		}
+		break;
 	}
+		
+	case OGLControl::ROTATE:
+		break;
+	case OGLControl::INTERSEPT:
+		break;
+	default:
+		break;
+	}
+	// TODO: Add your message handler code here and/or call default
+	
 
 	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }
@@ -720,36 +751,50 @@ BOOL OGLControl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	if (_selecting)
+	switch (_mode)
 	{
-		
-		_selected.clear();
-		for (Figure * figure : _figures)
-		{
-			if (isSelect(figure->border()))
-				_selected.push_back(figure);
-		}
-		if (!_selected.empty())
-		{
-			for (Figure *s : _selected)
-				s->borderVisibleOn();
-		}
-		_selecting = false;
-	}
-	else
+	case OGLControl::SELECT:
 	{
-		glm::vec2 p = projection(point);
-		for (Figure * figure : _selected)
+		if (_selecting)
 		{
-			if (figure->detectCollision(p))
+
+			_selected.clear();
+			for (Figure * figure : _figures)
 			{
-				return;
+				if (isSelect(figure->border()))
+					_selected.push_back(figure);
 			}
+			if (!_selected.empty())
+			{
+				for (Figure *s : _selected)
+					s->borderVisibleOn();
+			}
+			_selecting = false;
 		}
-		_selected.clear();
-		for (Figure *s : _figures)
-			s->borderVisibleOff();
+		else
+		{
+			glm::vec2 p = projection(point);
+			for (Figure * figure : _selected)
+			{
+				if (figure->detectCollision(p))
+				{
+					return;
+				}
+			}
+			_selected.clear();
+			for (Figure *s : _figures)
+				s->borderVisibleOff();
+		}
+		break;
 	}
+	case OGLControl::ROTATE:
+		break;
+	case OGLControl::INTERSEPT:
+		break;
+	default:
+		break;
+	}
+	
 		
 }
 

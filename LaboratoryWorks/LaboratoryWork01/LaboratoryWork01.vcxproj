@@ -248,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="circles\circle_smooth18.bin" />
+    <None Include="ProjectClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="res\LaboratoryWork01.rc2" />
   </ItemGroup>
