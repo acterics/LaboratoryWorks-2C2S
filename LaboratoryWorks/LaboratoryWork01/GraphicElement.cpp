@@ -34,6 +34,11 @@ GraphicElement::GraphicElement(glm::vec3 pos) :
 {
 }
 
+glm::vec3 GraphicElements::GraphicElement::color()
+{
+	return _color;
+}
+
 void GraphicElements::GraphicElement::setPolygonMode(UINT p)
 {
 	_polygonMode = p;

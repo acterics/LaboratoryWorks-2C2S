@@ -52,6 +52,7 @@
     <ClCompile Include="CSessions.cpp">
       <Filter>DatabaseItems</Filter>
     </ClCompile>
+    <ClCompile Include="DialogControls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LaboratoryWork01.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="CSessions.h">
       <Filter>DatabaseItems</Filter>
     </ClInclude>
+    <ClInclude Include="DialogControls.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\LaboratoryWork01.rc2">

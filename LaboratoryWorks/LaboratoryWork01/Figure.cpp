@@ -4,7 +4,7 @@ using namespace GraphicElements;
 
 void GraphicElements::Figure::initBorder()
 {
-	float	maxX = INT16_MIN,
+	long	maxX = INT16_MIN,
 			maxY = INT16_MIN,
 			minX = INT16_MAX,
 			minY = INT16_MAX;
@@ -94,10 +94,11 @@ Figure::~Figure()
 
 void GraphicElements::Figure::draw()
 {
+	applyColor();
 	for (auto face : _faces)
 		face->draw(_position, _rotation);
 	initBorder();
-	//drawBorder();
+	drawBorder();
 }
 
 void GraphicElements::Figure::addFace(Face * face)
@@ -110,6 +111,13 @@ void GraphicElements::Figure::scale(float scaleFactor)
 	_scale *= scaleFactor;
 	for (Face * face : _faces)
 		face->scale(scaleFactor);
+}
+
+void GraphicElements::Figure::setColor(glm::vec3 color)
+{
+	GraphicElement::setColor(color);
+	for (Face * face : _faces)
+		face->setColor(color);
 }
 
 float * GraphicElements::Figure::detectCollision(glm::vec2 p)
@@ -125,4 +133,15 @@ float * GraphicElements::Figure::detectCollision(glm::vec2 p)
 	return nullptr;
 	
 		
+}
+
+float * GraphicElements::Figure::detectCollision(CPoint p)
+{
+	p.x *= ACCURACY;
+	p.x *= ACCURACY;
+	if (_border.PtInRect(p))
+		return new float(_maxZ);
+	return nullptr;
+
+
 }

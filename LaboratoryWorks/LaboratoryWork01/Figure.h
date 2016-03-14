@@ -27,9 +27,11 @@ namespace GraphicElements
 		void addFace(Face * face);
 
 		void scale(float scaleFactor);
-
+		void setColor(glm::vec3 color);
 
 		float * detectCollision(glm::vec2 p);
+		float * detectCollision(CPoint p);
+		CRect border() { return _border; }
 
 
 		std::vector<Face *> faces() { return _faces; }

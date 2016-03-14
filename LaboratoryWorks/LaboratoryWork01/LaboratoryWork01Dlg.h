@@ -11,6 +11,8 @@
 #include "CFigures.h"
 #include "afxwin.h"
 #include "afxcmn.h"
+#include "afxcolorbutton.h"
+#include "DialogControls.h"
 //#include 
 
 // CLab01Training02Dlg dialog
@@ -20,6 +22,7 @@ class CLaboratoryWork01Dlg : public CDialogEx
 public:
 	CLaboratoryWork01Dlg(CWnd* pParent = NULL);	// standard constructor
 
+	DialogControls _controls;
 	OGLControl _oglWindow;
 	CSessions _sessionsRS;
 	CFigures  _figuresRS;
@@ -50,7 +53,6 @@ public:
 	afx_msg void OnBnClickedAddFrustumButton();
 	afx_msg void OnBnClickedClearButton();
 	afx_msg void OnBnClickedAddPrismButton();
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 private:
 	CSliderCtrl _xRotationSlider;
 	CString _xRotationEcho;
@@ -71,4 +73,11 @@ public:
 	afx_msg void OnBnClickedRotateModeRadio();
 	CButton _selectModeRadio;
 	afx_msg void OnDestroy();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
+	CMFCColorButton _selectedColorControl;
+	CButton _deleteFigureButton;
+	afx_msg void OnBnClickedDeleteFigureButton();
+	afx_msg void OnBnClickedSelectedColor();
 };

@@ -18,27 +18,17 @@
 
 CLaboratoryWork01Dlg::CLaboratoryWork01Dlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_LABORATORYWORK01_DIALOG, pParent)
-	, _xRotationEcho(_T(""))
-	, _yRotationEcho(_T(""))
-	, _xGLPositionEcho(_T(""))
-	, _yGLPositionEcho(_T(""))
 {
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	//_facesRS = CFaces();
-	//_sessionsRS = CSessions();
-	//_figuresRS = CFigures();
-	//_propertiesRS = CProperties();
 }
 
 void CLaboratoryWork01Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_X_ROTATION_SPEED_SLIDER, _xRotationSlider);
-	DDX_Text(pDX, IDC_X_ROTATION_SPEED_ECHO, _xRotationEcho);
-	DDX_Control(pDX, IDC_Y_ROTATION_SPEED_SLIDER, _yRotationSlider);
-	DDX_Text(pDX, IDC_Y_ROTATION_SPEED_ECHO, _yRotationEcho);
 	DDX_Control(pDX, IDC_SELECT_MODE_RADIO, _selectModeRadio);
+	DDX_Control(pDX, IDC_SELECTED_COLOR, _selectedColorControl);
+	DDX_Control(pDX, IDC_DELETE_FIGURE_BUTTON, _deleteFigureButton);
 }
 
 BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
@@ -50,13 +40,15 @@ BEGIN_MESSAGE_MAP(CLaboratoryWork01Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_ADD_FRUSTUM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedClearButton)
 	ON_BN_CLICKED(IDC_ADD_PRISM_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedAddPrismButton)
-	ON_WM_HSCROLL()
 	ON_COMMAND(ID_TOOLS_LIGHT, &CLaboratoryWork01Dlg::OnToolsLight)
 	ON_WM_MOUSEMOVE()
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(IDC_SELECT_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio)
 	ON_BN_CLICKED(IDC_ROTATE_MODE_RADIO, &CLaboratoryWork01Dlg::OnBnClickedRotateModeRadio)
 	ON_WM_DESTROY()
+	ON_WM_LBUTTONDOWN()
+	ON_BN_CLICKED(IDC_DELETE_FIGURE_BUTTON, &CLaboratoryWork01Dlg::OnBnClickedDeleteFigureButton)
+	ON_BN_CLICKED(IDC_SELECTED_COLOR, &CLaboratoryWork01Dlg::OnBnClickedSelectedColor)
 END_MESSAGE_MAP()
 
 
@@ -64,6 +56,8 @@ END_MESSAGE_MAP()
 
 BOOL CLaboratoryWork01Dlg::OnInitDialog()
 {
+
+
 	CDialogEx::OnInitDialog();
 	UpdateData(TRUE);
 	// Set the icon for this dialog.  The framework does this automatically
@@ -79,20 +73,14 @@ BOOL CLaboratoryWork01Dlg::OnInitDialog()
 
 	// Convert screen coordinates to client coordinates
 	ScreenToClient(rect);
-
+	_controls.m_deleteFigureButton =	&_deleteFigureButton;
+	_controls.m_openGLMode =			&_selectModeRadio;
+	_controls.m_selectedFigureColor =	&_selectedColorControl;
 	// Create OpenGL Control window
+
 	_oglWindow.oglCreate(rect, this);
-	_xRotationSlider.SetRange(0, 100, TRUE);
-	_xRotationSlider.SetPos(0);
-	_xRotationEcho.Format(_T("0"));
-
-	_yRotationSlider.SetRange(0, 100, TRUE);
-	_yRotationSlider.SetPos(0);
-	_yRotationEcho.Format(_T("0"));
-
-	_xGLPositionEcho.Format(_T("0"));
-	_yGLPositionEcho.Format(_T("0"));
-
+	_oglWindow._controls = _controls;
+	
 	_selectModeRadio.SetCheck(BST_CHECKED);
 
 
@@ -164,11 +152,7 @@ HCURSOR CLaboratoryWork01Dlg::OnQueryDragIcon()
 
 void CLaboratoryWork01Dlg::OnTimer(UINT_PTR nIDEvent)
 {
-	//UpdateData(TRUE);
-	//_xGLPositionEcho.Format(_T("%d"), _oglWindow._fLastX);
-	//_yGLPositionEcho.Format(_T("%d"), _oglWindow._fLastY);
-	//UpdateData(FALSE);
-	//CDialogEx::OnTimer(nIDEvent);
+
 }
 
 
@@ -205,7 +189,6 @@ void CLaboratoryWork01Dlg::OnHelpAbout()
 {
 	CDialog dlgAbout(IDD_ABOUT);
 	dlgAbout.DoModal();
-	//dlgAbout.
 
 }
 
@@ -220,7 +203,6 @@ void CLaboratoryWork01Dlg::OnBnClickedAddFrustumButton()
 {
 	FrustumAddingDialog dlg(&_oglWindow);
 	dlg.DoModal();
-	//dlgAbout.DoModal();
 }
 
 
@@ -234,29 +216,10 @@ void CLaboratoryWork01Dlg::OnBnClickedAddPrismButton()
 {
 	PrismAddingDialog dlg(&_oglWindow);
 	dlg.DoModal();
-	// TODO: Add your control notification handler code here
 }
 
 
-void CLaboratoryWork01Dlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
-{
-	if (pScrollBar == (CScrollBar *)&_xRotationSlider)
-	{
-		int value = _xRotationSlider.GetPos();
-		_xRotationEcho.Format(_T("%d"), value);
-		_oglWindow.setXRotationSpeed((float)value / 10);
-		UpdateData(FALSE);
-	}
-	if (pScrollBar == (CScrollBar *)&_yRotationSlider)
-	{
-		int value = _yRotationSlider.GetPos();
-		_yRotationEcho.Format(_T("%d"), value);
-		_oglWindow.setYRotationSpeed((float)value / 10);
-		UpdateData(FALSE);
-	}
-	else
-		CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
-}
+
 
 
 
@@ -285,14 +248,14 @@ void CLaboratoryWork01Dlg::SaveScene()
 
 	if (_oglWindow.figures().empty())
 	{
-		//MessageBox(_T("Nothing to save!"));
+		
 		return;
 	}
 	_figuresRS.Open();
 	_facesRS.Open();
 	_sessionsRS.Open();
 	_propertiesRS.Open();
-	int sID, figID, faceID;
+	int sID, figID;
 	sID = _sessionsRS.addRecord();
 	for (auto figure : _oglWindow.figures())
 	{
@@ -323,7 +286,6 @@ void CLaboratoryWork01Dlg::LoadScene(int sessionID)
 		return;
 	}
 	_oglWindow.clearScene();
-	//_figuresRS.Update();
 	if (!_figuresRS.IsBOF())
 		_figuresRS.MoveFirst();
 	_propertiesRS.Open();
@@ -331,7 +293,6 @@ void CLaboratoryWork01Dlg::LoadScene(int sessionID)
 	{
 		_propertiesRS.m_strFilter.Format(_T("[FIGURE_ID] = %d"), _figuresRS.m_ID);
 		_propertiesRS.Requery();
-		//_facesRS.m_strFilter.Format(_T("[FIGURE_ID] = %d", _figuresRS.m_ID));
 		_oglWindow.loadFigure(_propertiesRS);
 		_figuresRS.MoveNext();
 	}
@@ -361,7 +322,7 @@ void CLaboratoryWork01Dlg::OnClose()
 void CLaboratoryWork01Dlg::OnBnClickedSelectModeRadio()
 {
 	_oglWindow.setMode(OGLControl::SELECT);
-	//_oglWindow.setDefaultSceneState();
+	_oglWindow.setDefaultSceneState();
 }
 
 
@@ -377,4 +338,42 @@ void CLaboratoryWork01Dlg::OnDestroy()
 	CDialogEx::OnDestroy();
 
 	// TODO: Add your message handler code here
+}
+
+
+void CLaboratoryWork01Dlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+void CLaboratoryWork01Dlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+void CLaboratoryWork01Dlg::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: Add your message handler code here and/or call default
+	MessageBox(_T("PRESSED"));
+	CDialogEx::OnKeyUp(nChar, nRepCnt, nFlags);
+	if (nChar == 'q')
+		_oglWindow.deleteFigure();
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedDeleteFigureButton()
+{
+	_oglWindow.deleteFigure();
+}
+
+
+void CLaboratoryWork01Dlg::OnBnClickedSelectedColor()
+{
+	_oglWindow.changeColor();
 }

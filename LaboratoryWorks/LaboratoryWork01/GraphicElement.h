@@ -44,6 +44,10 @@ namespace GraphicElements
 		GraphicElement(glm::vec3 pos, glm::vec3 color);
 		GraphicElement(glm::vec3 pos);
 
+
+		glm::vec3 color();
+
+
 		void setPolygonMode(UINT p);
 		void setDrawingMode(UINT d);
 		void setColor(glm::vec3 color);

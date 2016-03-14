@@ -56,7 +56,7 @@ void OGLControl::loadFigure(CProperties &pRS)
 		if (pRS.m_NAME == "Scale")
 			scale = pRS.m_VALUE;
 		if (pRS.m_NAME == "Type")
-			type = pRS.m_VALUE;
+			type = (int)pRS.m_VALUE;
 
 		pRS.MoveNext();
 	}
@@ -95,7 +95,7 @@ void OGLControl::loadFrustum(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float 
 			bottR = pRS.m_VALUE;
 		pRS.MoveNext();
 	}
-	_figures.push_back(new Frustum(pos, col, rot, scale, height, topR, bottR, smooth));
+	_figures.push_back(new Frustum(pos, col, rot, scale, height, topR, bottR, (unsigned int)smooth));
 }
 
 void OGLControl::loadPrism(glm::vec3 pos, glm::vec3 col, glm::vec3 rot, float scale, CProperties & pRS)
@@ -157,24 +157,48 @@ void OGLControl::setDefaultSceneState()
 	_fRotY = 0.0f;
 }
 
+void OGLControl::changeColor()
+{
+	COLORREF color = _controls.m_selectedFigureColor->GetColor();
+	glm::vec3 colorVec(GetRValue(color), GetGValue(color), GetBValue(color));
+	colorVec /= 255;
+
+	for (Figure * figure : _selected)
+	{
+		figure->setColor(colorVec);
+	}
+}
+
 glm::vec2 OGLControl::projection(CPoint point)
 {
 	GetWindowRect(_rect);
-	return glm::vec2((((point.x - (float)(_rect.Width()) / 2) / (float)(_rect.Width()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10))
+	return glm::vec2(((point.x - (float)(_rect.Width()) / 2) / (float)(_rect.Width()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10)
 		, (((float)(_rect.Height()) / 2 - point.y) / (float)(_rect.Height()) / 2) * MATRIX_SIZE * 2 * (_fZoom / 10));
+}
+
+BOOL OGLControl::isSelect(CRect b)
+{
+	if (b.left < _selectRect.left)
+		return false;
+	if (b.bottom < _selectRect.bottom)
+		return false;
+	if (b.right > _selectRect.right)
+		return false;
+	if (b.top > _selectRect.top)
+		return false;
+	return true;
 }
 
 
 OGLControl::OGLControl()
 {
 	_isMaximized = false;
+	_selecting = false;
 	_fZoom = 10.0f;
 	_fPosX = 0.0f;
 	_fPosY = 0.0f;
 	_fRotX = 0.0f;
 	_fRotY = 0.0f;
-
-
 }
 
 void OGLControl::oglCreate(CRect rect, CWnd * parent)
@@ -183,6 +207,7 @@ void OGLControl::oglCreate(CRect rect, CWnd * parent)
 
 	CreateEx(0, className, _T("OpenGL"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, rect, parent, 0);
 	_oldWindow = rect;
+	
 	_originalRect = rect;
 
 	_hWnd = parent;
@@ -224,11 +249,7 @@ void OGLControl::oglInitialize()
 
 	_lightOn = true;
 
-	// Basic Setup: 
-	// 
-	// Set color to use when clearing the background. 
-	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	//glClearDepth(1.0f);
+
 
 	// Turn on backface culling 
 	glFrontFace(GL_CCW);
@@ -267,6 +288,9 @@ void OGLControl::oglDrawScene()
 	glTranslatef(_fPosX, _fPosY, 0.0f);
 	glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
 	glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
+
+
+
 	glColor3d(1, 1, 1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(GL_LINES);
@@ -280,13 +304,25 @@ void OGLControl::oglDrawScene()
 	glVertex3f(0, 0, MATRIX_SIZE * _fZoom / 10);
 	glEnd();
 
+	if (_selecting)
+	{
+		glEnable(GL_LINE_STIPPLE);
+		glLineWidth(2);
+		glLineStipple(5, GL_LINE_STIPPLE_PATTERN);
+		glColor3f(1, 1, 1);
+		glBegin(GL_LINE_LOOP);
+		glVertex3f((float)_selectRect.TopLeft().x / ACCURACY, (float)_selectRect.TopLeft().y / ACCURACY, 0);
+		glVertex3f((float)_selectRect.BottomRight().x / ACCURACY, (float)_selectRect.TopLeft().y / ACCURACY, 0);
+		glVertex3f((float)_selectRect.BottomRight().x / ACCURACY, (float)_selectRect.BottomRight().y / ACCURACY, 0);
+		glVertex3f((float)_selectRect.TopLeft().x / ACCURACY, (float)_selectRect.BottomRight().y / ACCURACY, 0);
+		glEnd();
+		glDisable(GL_LINE_STIPPLE);
+		glLineWidth(1);
+	}
+
 	for (auto figure : _figures)
 		figure->draw();
-
 	glPopMatrix();
-
-	for (auto figure : _figures)
-		figure->drawBorder();
 	
 	glPopMatrix();
 
@@ -324,11 +360,11 @@ float OGLControl::getValue(CString var)
 {
 	int resultNumber;
 	std::string input;
-	for (unsigned int i = 0; i < var.GetLength(); i++)
-		input.push_back(var[i]);
+	for (int i = 0; i < var.GetLength(); i++)
+		input.push_back((char)var[i]);
 	std::istringstream convertingStream(input);
 	convertingStream >> resultNumber;
-	return resultNumber;
+	return (float)resultNumber;
 }
 
 glm::vec3 OGLControl::getColor(CString var)
@@ -361,6 +397,8 @@ BEGIN_MESSAGE_MAP(OGLControl, CWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEWHEEL()
+	ON_WM_LBUTTONUP()
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -372,6 +410,20 @@ END_MESSAGE_MAP()
 
 void OGLControl::OnTimer(UINT_PTR nIDEvent)
 {
+	if (_selected.empty())
+	{
+		_controls.HideFigureControls();
+		
+	}
+	else
+	{
+		_controls.ShowFigureControls();
+
+		glm::vec3 colorVec = _selected.front()->color();
+		colorVec *= 255;
+		COLORREF color = RGB(colorVec.x, colorVec.y, colorVec.z);
+		_controls.m_selectedFigureColor->SetColor(color);
+	}
 	switch (nIDEvent)
 	{
 	case 1:
@@ -391,9 +443,6 @@ void OGLControl::OnTimer(UINT_PTR nIDEvent)
 	default:
 		break;
 	}
-	//fr.components()[0]->rotate(0, 0, PI / 300);
-	rotateX(_xRotationSpeed / 100);
-	rotateY(_yRotationSpeed / 100);
 	OnDraw(NULL);
 	CWnd::OnTimer(nIDEvent);
 }
@@ -413,13 +462,7 @@ int OGLControl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void OGLControl::OnDraw(CDC * pDC)
 {
-	//glLoadIdentity();
-	
-	//glPushMatrix();
-	//glTranslatef(_fPosX, _fPosY, 0.0f);
-	//glRotatef(_fRotX, 1.0f, 0.0f, 0.0f);
-	//glRotatef(_fRotY, 0.0f, 1.0f, 0.0f);
-	//glPopMatrix();
+
 
 
 }
@@ -438,30 +481,21 @@ void OGLControl::OnSize(UINT nType, int cx, int cy)
 
 	if (0 >= cx || 0 >= cy || nType == SIZE_MINIMIZED) return;
 
-	//// Map the OpenGL coordinates.
-	//glViewport(0, 0, cx , cy);
+
+	GetWindowRect(_rect);
+	_viewAngle = 60;
+	_cameraPos = glm::vec3(0, 0, 5);
+	double	 aspect = (cy == 0) ? cx : (double)cx / (double)cy;
 
 	glViewport(0, 0, cx, cy);
-	//// Projection view
-	//glMatrixMode(GL_PROJECTION);
-
-	//glLoadIdentity();
-
-	//// Set our current view perspective
-	//gluPerspective(45.0f, (float)cx / (float)cy, 0.1f, 2000.0f);
-
-	//// Model view  (float)cx / (float)cy
-	//glMatrixMode(GL_MODELVIEW);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(80, 1, 0.1, 2000);
+	gluPerspective(_viewAngle, aspect, 0.1, 170.0);
 	glMatrixMode(GL_MODELVIEW);
-	glOrtho(-MATRIX_SIZE / 2, MATRIX_SIZE / 2,
-		-MATRIX_SIZE / 2, MATRIX_SIZE / 2,
-		MATRIX_SIZE / 2, -MATRIX_SIZE / 2);
 	glLoadIdentity();
-	//_____________NEW _________
-	//gluLookAt(350, 350, 300, 150, 150, 0, 0, 1, 0);
+	gluLookAt(_cameraPos.x, _cameraPos.y, _cameraPos.z, 0, 0, 0, 0, 1, 0);
+	glDrawBuffer(GL_BACK);
+
 	switch (nType)
 	{
 		// If window resize token is "maximize"
@@ -522,12 +556,8 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 
 			if (nFlags & MK_LBUTTON)
 			{
-				glPushMatrix();
 				glm::vec3 translation(0.0032f * diffX * _fZoom, 0.0032f * (-diffY) * _fZoom, 0);
 				
-				glRotatef(-_fRotX, 1.0f, 0.0f, 0.0f);
-				glRotatef(-_fRotY, 0.0f, 1.0f, 0.0f);
-				glTranslatef(-translation.x, -translation.y, 0.0f);
 				for (Figure * s : _selected)
 				{
 					
@@ -541,9 +571,6 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 			{
 				glm::vec3 translation(0, 0, 0.0032f * (-diffY) * _fZoom);
 
-
-
-
 				//_selected->translate(translation);
 
 			}
@@ -551,6 +578,15 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 			{
 				for (Figure * s : _selected)
 					s->rotate(glm::vec3(PI * diffY / 180, PI * diffX / 180,  0));
+			}
+		}
+		else
+		{
+			glm::vec2 p = projection(point);
+			if (nFlags & MK_LBUTTON)
+			{
+				if(_selecting)
+					_selectRect.SetRect(_selectRect.TopLeft(), CPoint((int)(p.x * ACCURACY), (int)(p.y * ACCURACY)));
 			}
 		}
 		break;
@@ -602,11 +638,14 @@ void OGLControl::OnMouseMove(UINT nFlags, CPoint point)
 
 void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 {
+
+	
 	switch (_mode)
 	{
 	case OGLControl::SELECT:
 	{
-		_selected.clear();
+		if (!_selected.empty())
+			return;
 		Figure *s = nullptr;
 		glm::vec2 p = projection(point);
 		float maxZ = INT16_MIN;
@@ -624,18 +663,32 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 			}
 		}
 
-		if(s)
-			_selected.push_back(s);
-
-
-		for (auto figure = _figures.begin(); figure != _figures.end(); figure++)
-			(*figure)->borderVisibleOff();
-
-		if (!_selected.empty())
+		if (s)
 		{
-			for(Figure *s : _figures)
-				s->changeBorderVisible();
+			if (_selected.empty())
+				_selected.push_back(s);
+			else
+			{
+				for (Figure * f : _selected)
+					if (s == f)
+						return;
+				_selected.clear();
+				for (Figure *s : _figures)
+					s->borderVisibleOff();
+			}
+
+		}		
+		else
+		{
+			_selecting = true;
+			_selectRect.SetRect(CPoint((int)(p.x * ACCURACY), (int)(p.y * ACCURACY)), CPoint((int)(p.x * ACCURACY), (int)(p.y * ACCURACY)));
+			_selected.clear();
+			for (Figure *s : _figures)
+				s->borderVisibleOff();
+			return;
 		}
+		for (Figure *s : _selected)
+			s->borderVisibleOn();
 		break;
 	}
 	case OGLControl::ROTATE:
@@ -643,7 +696,6 @@ void OGLControl::OnLButtonDown(UINT nFlags, CPoint point)
 	default:
 		break;
 	}
-	
 }
 
 
@@ -654,13 +706,75 @@ BOOL OGLControl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	{
 		float factor;
 		if (zDelta > 0)
-			factor = 1.1;
+			factor = 1.1f;
 		else
-			factor = 0.9;
+			factor = 0.9f;
 
-		for (Figure * s : _figures)
+		for (Figure * s : _selected)
 			s->scale(factor);
 	}
 
 	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }
+
+
+void OGLControl::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	if (_selecting)
+	{
+		
+		_selected.clear();
+		for (Figure * figure : _figures)
+		{
+			if (isSelect(figure->border()))
+				_selected.push_back(figure);
+		}
+		if (!_selected.empty())
+		{
+			for (Figure *s : _selected)
+				s->borderVisibleOn();
+		}
+		_selecting = false;
+	}
+	else
+	{
+		glm::vec2 p = projection(point);
+		for (Figure * figure : _selected)
+		{
+			if (figure->detectCollision(p))
+			{
+				return;
+			}
+		}
+		_selected.clear();
+		for (Figure *s : _figures)
+			s->borderVisibleOff();
+	}
+		
+}
+
+
+void OGLControl::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+
+}
+
+
+void OGLControl::deleteFigure()
+{
+	for (Figure *s : _selected)
+	{
+		for (auto f = _figures.begin(); f != _figures.end(); f++)
+		{
+			if (s == (*f))
+			{
+				_figures.erase(f);
+				delete s;
+				break;
+			}
+					
+		}
+	}
+}
+
+

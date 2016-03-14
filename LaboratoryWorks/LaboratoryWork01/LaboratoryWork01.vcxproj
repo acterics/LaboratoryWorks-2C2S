@@ -197,6 +197,7 @@
     <ClInclude Include="CFigures.h" />
     <ClInclude Include="CProperties.h" />
     <ClInclude Include="CSessions.h" />
+    <ClInclude Include="DialogControls.h" />
     <ClInclude Include="PrismAddingDialog.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Disc.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="CFigures.cpp" />
     <ClCompile Include="CProperties.cpp" />
     <ClCompile Include="CSessions.cpp" />
+    <ClCompile Include="DialogControls.cpp" />
     <ClCompile Include="PrismAddingDialog.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Disc.cpp" />

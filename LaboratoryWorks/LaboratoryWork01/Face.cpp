@@ -27,7 +27,7 @@ void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm:
 
 void GraphicElements::Face::drawPoint(glm::vec3 point, glm::vec3 figurePos, glm::vec3 figureRot, int pointIndex)
 {
-	
+
 	point = xRotationMatrix(figureRot.x) * yRotationMatrix(figureRot.y)  * point;
 	point *= _scale;
 	point += figurePos;
@@ -97,7 +97,9 @@ void GraphicElements::Face::draw(glm::vec3 figurePos, glm::vec3 figureRot)
 	_minX = INT16_MAX;
 	_minY = INT16_MAX;
 	_maxZ = INT16_MIN;
-	
+
+
+
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 	glBegin(_drawingMode);

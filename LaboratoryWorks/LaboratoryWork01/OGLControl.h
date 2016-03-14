@@ -7,7 +7,7 @@
 #include "CFaces.h"
 #include "CProperties.h"
 #include <glm\gtx\transform.hpp>
-
+#include "DialogControls.h"
   
 #define MATRIX_SIZE 20
 
@@ -16,9 +16,10 @@ class OGLControl : public CWnd
 {
 	
 public:
-
+	
 	enum Mode { SELECT, ROTATE };
 
+	DialogControls _controls;
 
 	UINT_PTR	_unpTimer;
 	bool		_isMaximized;
@@ -31,7 +32,11 @@ public:
 	float		_fRotY;
 
 	BOOL		_lightOn;
+	BOOL		_selecting;
 	Mode		_mode;
+
+	float		_viewAngle;
+	glm::vec3	_cameraPos;
 
 	
 
@@ -39,7 +44,7 @@ public:
 	void setYRotationSpeed(float a) { _yRotationSpeed = a; }
 	void lightSwitch();
 	void setDefaultSceneState();
-
+	void changeColor();
 	std::vector<Figure *> figures() { return _figures; }
 
 	void loadFigure(CProperties& pRS);
@@ -77,6 +82,8 @@ private:
 
 	glm::vec2 projection(CPoint point);
 
+	BOOL isSelect(CRect b);
+
 
 public:
 	OGLControl(void); 
@@ -112,4 +119,9 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+
+	void deleteFigure();
+	afx_msg void OnBnClickedDeleteFigureButton();
 };
