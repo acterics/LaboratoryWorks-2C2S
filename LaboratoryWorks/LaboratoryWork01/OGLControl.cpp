@@ -820,6 +820,7 @@ void OGLControl::deleteFigure()
 					
 		}
 	}
+	_selected.clear();
 }
 
 
